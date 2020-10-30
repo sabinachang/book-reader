@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class User extends Component {
+class Example extends Component {
   // Initialize the state
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       list: []
@@ -18,10 +18,10 @@ class User extends Component {
   // Retrieves the list of items from the Express app
   getList = () => {
     axios.get('/api/users')
-    .then(res => {
+      .then(res => {
         const list = res.data
-        this.setState({list});
-    })
+        this.setState({ list });
+      })
   }
 
   render() {
@@ -33,7 +33,7 @@ class User extends Component {
         {list.length ? (
           <div>
             {list.map((item) => {
-              return(
+              return (
                 <div>
                   {item.name}
                 </div>
@@ -41,14 +41,14 @@ class User extends Component {
             })}
           </div>
         ) : (
-          <div>
-            <h2>No List Items Found</h2>
-          </div>
-        )
-      }
+            <div>
+              <h2>No List Items Found</h2>
+            </div>
+          )
+        }
       </div>
     );
   }
 }
 
-export default User;
+export default Example;
