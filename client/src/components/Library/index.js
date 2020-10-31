@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Book from './book/book'
+import './book/book.css'
 
 class Library extends Component {
     render() {

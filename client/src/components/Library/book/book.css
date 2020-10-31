@@ -1,5 +1,8 @@
+h1 {
+    text-align: center;
+}
 .book{
-    height: 50px;
-    width: 50px;
+    height: 100px;
+    width: 75px;
     background-color: #555;
 }
