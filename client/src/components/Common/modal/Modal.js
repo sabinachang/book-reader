@@ -4,7 +4,7 @@ import "./Modal.css"
 
 const ModalClass = props => {
     return <div >
-        <Modal show={props.visible} onHide={props.handleClose}>
+        <Modal size="lg" show={props.visible} onHide={props.handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {props.heading}

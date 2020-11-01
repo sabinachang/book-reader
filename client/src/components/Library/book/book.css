@@ -4,11 +4,13 @@ h1 {
 .book{
     width: 200px;
     height: 300px;
-   
+    margin: 0 auto;
     background-size: 200px 300px;
   
     /* Set up positioning */
     top: 0;
     left: 0;
     }
-
+.book-info {
+    text-align: center;
+}

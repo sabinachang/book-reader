@@ -9,18 +9,48 @@ class Book extends Component {
         this.state = {
             title: props.title,
             author: props.author,
-            img: img
+            description: props.description,
+            img: img,
+            bookshelfModal: false,
         }
     }
 
+    renderBookshelfModal = () => {
+        this.setState({ bookshelfModal: true })
+    }
+
+    unrenderBookshelfModal = () => {
+        this.setState({ bookshelfModal: false })
+    }
+
+    getBookInfo = () => {
+        return {
+            title: this.state.title,
+            author: this.state.author,
+        }
+    }
 
     render() {
         return (
-            <div >
+            <div>
+                <BookshelfModal
+                    bookInfo={this.getBookInfo()}
+                    visible={this.state.bookshelfModal}
+                    handleClose={this.unrenderBookshelfModal}
+                />
                 <Dropdown >
-                    <div className="d-flex">
-                        <div className="book" style={{ backgroundImage: this.state.img }}>
+                    <div className="d-flex book-info">
+                        <div class="card" style={{ width: "18rem" }}>
+                            <div class="card-body">
+                                <h5 class="card-title">{this.state.title}</h5>
+                                <p class="card-text">{this.state.description}</p>
+                            </div>
+                            <div class="card-body">
+                                <div className="book" style={{ backgroundImage: this.state.img }}></div>
+                            </div>
                         </div>
+
+
                         <Dropdown.Toggle split variant="" id="dropdown-split-basic" />
 
                     </div>
