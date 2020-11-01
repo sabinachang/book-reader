@@ -1,36 +1,32 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
-import $ from 'jquery';
-import "./book.css"
-
+import "./Book.css"
 
 class Book extends Component {
-    state = { dropdownOpen: false }
-
-
-    triggerBookshelfPopup = () => {
-        console.log("click")
-        $('#bookshelfModal').modal('show');
+    constructor(props) {
+        super(props)
+        const img = "url(" + props.img + ")"
+        this.state = {
+            title: props.title,
+            author: props.author,
+            img: img
+        }
     }
 
-    toggle = () => {
-        const opened = this.state.dropdownOpen;
-        this.setState({ dropdownOpen: !opened });
-    }
 
     render() {
         return (
-            <div>
+            <div >
                 <Dropdown >
                     <div className="d-flex">
-                        <div className="book">
+                        <div className="book" style={{ backgroundImage: this.state.img }}>
                         </div>
                         <Dropdown.Toggle split variant="" id="dropdown-split-basic" />
 
                     </div>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => console.log("click")} id="ok-status">Add To Bookshelf</Dropdown.Item>
-                        <Dropdown.Item id="help-status">Recommend To Friend</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.onClickAddBookshelf}>Add To Bookshelf</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.onClickRecommendFriend}>Recommend To Friend</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

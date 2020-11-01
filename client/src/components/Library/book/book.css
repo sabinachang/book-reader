@@ -2,8 +2,13 @@ h1 {
     text-align: center;
 }
 .book{
-    height: 100px;
-    width: 80px;
-    background-color: #555;
-}
+    width: 200px;
+    height: 300px;
+   
+    background-size: 200px 300px;
+  
+    /* Set up positioning */
+    top: 0;
+    left: 0;
+    }
 
