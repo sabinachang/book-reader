@@ -4,3 +4,7 @@
     background-color: aqua;
     margin: 0 auto;
 }
+
+.selected-border {
+    border: 3px solid blue;
+}

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
+import BookshelfModal from './bookshelfmodal/BookshelfModal'
+import RecommendModal from './recommendFriends/RecommendModal'
 import "./Book.css"
 
 class Book extends Component {
@@ -12,6 +14,7 @@ class Book extends Component {
             description: props.description,
             img: img,
             bookshelfModal: false,
+            recommendModal: false
         }
     }
 
@@ -19,8 +22,16 @@ class Book extends Component {
         this.setState({ bookshelfModal: true })
     }
 
+    renderRecommendModal = () => {
+        this.setState({ recommendModal: true })
+    }
+
     unrenderBookshelfModal = () => {
         this.setState({ bookshelfModal: false })
+    }
+
+    unrenderRecommendModal = () => {
+        this.setState({ recommendModal: false })
     }
 
     getBookInfo = () => {
@@ -32,22 +43,25 @@ class Book extends Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <BookshelfModal
                     bookInfo={this.getBookInfo()}
                     visible={this.state.bookshelfModal}
                     handleClose={this.unrenderBookshelfModal}
                 />
+                <RecommendModal
+                    visible={this.state.recommendModal}
+                    handleClose={this.unrenderRecommendModal}
+                />
                 <Dropdown >
                     <div className="d-flex book-info">
-                        <div class="card" style={{ width: "18rem" }}>
-                            <div class="card-body">
-                                <h5 class="card-title">{this.state.title}</h5>
-                                <p class="card-text">{this.state.description}</p>
+                        <div className="card" style={{ width: "18rem" }}>
+                            <div className="card-body">
+                                <h5 className="card-title">{this.state.title}</h5>
+                                <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
+                                <p className="card-text">{this.state.description}</p>
                             </div>
-                            <div class="card-body">
-                                <div className="book" style={{ backgroundImage: this.state.img }}></div>
-                            </div>
+
                         </div>
 
 
@@ -55,8 +69,8 @@ class Book extends Component {
 
                     </div>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={this.props.onClickAddBookshelf}>Add To Bookshelf</Dropdown.Item>
-                        <Dropdown.Item onClick={this.props.onClickRecommendFriend}>Recommend To Friend</Dropdown.Item>
+                        <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
+                        <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
