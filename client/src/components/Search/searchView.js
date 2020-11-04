@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
-import Book from '../Library/book/Book';
+import Book from '../Library/book/book';
 import SearchInputForm from './searchInputForm'
 
 

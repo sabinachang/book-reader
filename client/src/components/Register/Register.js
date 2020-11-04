@@ -28,7 +28,7 @@ function Register(props) {
     }
 
     const redirectToLogin = () => {
-        props.history.push('/login'); 
+        props.history.push('/'); 
     }
 
     const handleSubmitClick = (e) => {

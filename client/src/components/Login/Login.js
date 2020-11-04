@@ -28,7 +28,7 @@ function Login (props) {
     }
 
     const redirectToHome = () => {
-        props.history.push('/');
+        props.history.push('/home');
     }
     const redirectToRegister = () => { 
         props.history.push('/register');
