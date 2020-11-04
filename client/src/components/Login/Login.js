@@ -6,6 +6,7 @@ function Login (props) {
     const [state , setState] = useState({
         email : "",
         password : "",
+        errMsg : "",
         successMessage: null
     })
     const handleChange = (e) => {
@@ -24,10 +25,10 @@ function Login (props) {
         props.history.push('/');
     }
     const redirectToRegister = () => { 
-        props.updateTitle('Register');
+        props.history.push('/register');
     }
     return(
-        <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        <div className="card col-12 col-lg-4 mt-2 hv-center">
             <form>
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>

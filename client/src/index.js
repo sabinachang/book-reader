@@ -6,8 +6,8 @@ import Home from "./components/Home/Home";
 import Example from "./components/APIExample";
 import App from './components/App';
 import Library from './components/Library/';
-import Login from './components/Common/Login/Login';
-import Register from './components/Common/Register/Register';
+import Login from './components/Login/Login';
+import Register from './components/Register/Register';
 
 render((
     <App>

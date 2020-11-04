@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import './Register.css';
 
-function RegistrationForm(props) {
+function Register(props) {
     const [state , setState] = useState({
         email : "",
         password : "",
         confirmPassword: "",
+        errMsg : "",
         successMessage: null
     })
     
@@ -24,19 +25,27 @@ function RegistrationForm(props) {
     const redirectToHome = () => {
         props.history.push('/home');
     }
+
     const redirectToLogin = () => {
         props.history.push('/login'); 
     }
+
     const handleSubmitClick = (e) => {
         e.preventDefault();
         if(state.password === state.confirmPassword) {
             sendDetailsToServer()    
         } else {
-            props.showError('Passwords do not match');
+            setState(prevState => ({
+                ...prevState,
+                errMsg : "password not match"
+            }));
+            console.log("password not match");
         }
     }
+
     return(
-        <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        <div className="card col-12 col-lg-4 mt-2 hv-center">
+            <h6 className="error">{ state.errMsg }</h6>
             <form>
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
@@ -89,4 +98,4 @@ function RegistrationForm(props) {
     )
 }
 
-export default RegistrationForm;
+export default Register;
