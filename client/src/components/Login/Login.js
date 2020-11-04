@@ -19,6 +19,11 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
+        // TODO: check email and password
+        // wrong password (email correct)
+        // email does not exist
+
+        // pass
         redirectToHome();
     }
 
@@ -31,7 +36,8 @@ function Login (props) {
     return(
         <div className="col-12 col-lg-4 mt-2">
             <form className="custom-card">
-                <div className="form-group text-left">
+                <h4>Login</h4>
+                <div className="form-group text-left mt-4">
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input type="email" 
                        className="form-control" 

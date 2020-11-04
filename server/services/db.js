@@ -16,7 +16,7 @@ class db {
             useCreateIndex: true,
         })
         .then(() => {
-            console.log('successfully connect to db');
+            console.log('successfully connect to localDB');
         })
         .catch((e) => console.log(e));
     }

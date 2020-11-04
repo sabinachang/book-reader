@@ -5,6 +5,7 @@ import './Register.css';
 function Register(props) {
     const [state , setState] = useState({
         email : "",
+        username : "",
         password : "",
         confirmPassword: "",
         errMsg : "",
@@ -47,8 +48,9 @@ function Register(props) {
         <div className="col-12 col-lg-4 mt-2" >
             <h6 className="error">{ state.errMsg }</h6>
             <form className="custom-card">
-                <div className="form-group text-left">
-                <label htmlFor="exampleInputEmail1">Email address</label>
+                <h4>Register</h4>
+                <div className="form-group text-left mt-4">
+                <label>Email address</label>
                 <input type="email" 
                        className="form-control" 
                        id="email" 
@@ -59,7 +61,17 @@ function Register(props) {
                 />
                 </div>
                 <div className="form-group text-left">
-                    <label htmlFor="exampleInputPassword1">Password</label>
+                <label>Username</label>
+                <input type="username" 
+                       className="form-control" 
+                       id="username"  
+                       placeholder="Enter username" 
+                       value={state.username}
+                       onChange={handleChange}
+                />
+                </div>
+                <div className="form-group text-left">
+                    <label>Password</label>
                     <input type="password" 
                         className="form-control" 
                         id="password" 
@@ -69,7 +81,7 @@ function Register(props) {
                     />
                 </div>
                 <div className="form-group text-left">
-                    <label htmlFor="exampleInputPassword1">Confirm Password</label>
+                    <label>Confirm Password</label>
                     <input type="password" 
                         className="form-control" 
                         id="confirmPassword" 
