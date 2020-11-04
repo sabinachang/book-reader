@@ -1,4 +1,5 @@
 var express = require('express');
+const interactionController = require('../controllers/interactionController');
 
 module.exports = express
 .Router()
@@ -12,4 +13,5 @@ module.exports = express
        name: "User 2",
        password: 'pwd123'
      }]);
-});
+})
+.get('/friends', interactionController.getFriends);

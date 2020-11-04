@@ -52,7 +52,9 @@ class Book extends Component {
                 <RecommendModal
                     visible={this.state.recommendModal}
                     handleClose={this.unrenderRecommendModal}
+                    bookTitle={this.state.title}
                 />
+
                 <Dropdown >
                     <div className="d-flex book-info">
                         <div className="card" style={{ width: "18rem" }}>
