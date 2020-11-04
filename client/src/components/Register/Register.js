@@ -44,9 +44,9 @@ function Register(props) {
     }
 
     return(
-        <div className="card col-12 col-lg-4 mt-2 hv-center">
+        <div className="col-12 col-lg-4 mt-2" >
             <h6 className="error">{ state.errMsg }</h6>
-            <form>
+            <form className="custom-card">
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input type="email" 

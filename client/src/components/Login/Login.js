@@ -9,6 +9,7 @@ function Login (props) {
         errMsg : "",
         successMessage: null
     })
+
     const handleChange = (e) => {
         const {id , value} = e.target   
         setState(prevState => ({
@@ -28,8 +29,8 @@ function Login (props) {
         props.history.push('/register');
     }
     return(
-        <div className="card col-12 col-lg-4 mt-2 hv-center">
-            <form>
+        <div className="col-12 col-lg-4 mt-2">
+            <form className="custom-card">
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input type="email" 
@@ -62,7 +63,7 @@ function Login (props) {
             <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="registerMessage">
+            <div className="mt-2">
                 <span>Dont have an account? </span>
                 <span className="loginText" onClick={() => redirectToRegister()}>Register</span> 
             </div>
