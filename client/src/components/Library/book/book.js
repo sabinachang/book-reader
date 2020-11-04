@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
-import "./Book.css"
+import "./book.css"
 
 class Book extends Component {
     constructor(props) {
