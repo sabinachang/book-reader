@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const apis = require('./routers/apis')
 const bodyParser = require('body-parser');
@@ -7,12 +8,12 @@ const path = require('path');
 require('./services/db');
 
 const app = express()
-.use(bodyParser.json())
-.use(bodyParser.urlencoded({ extended: false }))
-.use(express.static(path.resolve(__dirname, 'client/build')))
-.use('/api', apis)
-.get('*', (req,res) =>{
-  res.sendFile(path.resolve(__dirname,'../client/build/index.html'));
+  .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: false }))
+  .use(express.static(path.resolve(__dirname, 'client/build')))
+  .use('/api', apis)
+  .get('*', (req,res) =>{
+    res.sendFile(path.resolve(__dirname,'../client/build/index.html'));
 });
   
 // start express server on port 5000
