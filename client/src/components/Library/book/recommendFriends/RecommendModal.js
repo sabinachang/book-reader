@@ -1,33 +1,54 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
+import FriendList from './friendList';
 
 class RecommendModal extends React.Component {
 
-    recommendToFriend = () => {
-        this.props.handleClose()
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            showResult: false,
+            result: {},
+        }
     }
+
     closeModal = () => {
-        this.props.handleClose()
+        this.setState ({
+            showResult: false,
+            result: {},
+        }, () => {
+            this.props.handleClose()
+
+        });
+    }
+
+    recommendBook = (data) => {
+        //TODO call recommend api 
+        console.log('recommend ' + data.title + ' to ' + data.friendId);
+
+        this.setState({
+            showResult: true, 
+            result: {
+                status: 'success',
+                message: 'ok! book has been recommended'
+            }
+        });
     }
 
     render() {
-        return (<Modal
+            const heading = (this.state.showResult) ? this.state.result.status: "Which friend are you sending this book to?"
+            return (<Modal
             visible={this.props.visible}
             handleClose={() => this.closeModal()}
-            heading="Which friend are you sending this book to?">
+            heading={heading}>
+            
+            {this.state.showResult === true ? ( 
+                <p>{this.state.result.message}</p>
+            ): ( <FriendList
+                bookTitle={this.props.bookTitle}
+                recommendBook={this.recommendBook}/>) }
+           
 
-            <div className="text-center">
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">Friend's Name or Email</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
-                </div>
-
-            </div>
-            <div className="d-flex justify-content-end">
-                <button onClick={() => this.recommendToFriend()} className="btn btn-primary">Submit</button>
-
-            </div>
         </Modal>)
     }
 }
