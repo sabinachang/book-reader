@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.displayRecommendShelf = async function displayRecommendShelf() {
+    // TODO use _id to findOne
     const { recommend } = await this.findOne({ username: 'sab4'}, 'recommend -_id')
                             .populate({ path: 'recommend'});
 
