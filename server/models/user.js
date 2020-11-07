@@ -13,7 +13,16 @@ const userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
+    recommend: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
 });
+
+userSchema.statics.displayRecommendShelf = async function displayRecommendShelf() {
+    const { recommend } = await this.findOne({ username: 'sab4'}, 'recommend -_id')
+                            .populate({ path: 'recommend'});
+
+    return await mongoose.model('Book').populate(recommend,
+        [{ path: 'flyweight'}, { path: 'owner', select: 'username'}]);
+}
 
 const User = mongoose.model('User', userSchema);
 
