@@ -28,6 +28,7 @@ class RecommendModal extends React.Component {
         axios.post('/api/request/recommendBook', {
             title: this.props.bookInfo.title,
             author: this.props.bookInfo.author,
+            // TODO remove url()
             thumbnail: this.props.bookInfo.thumbnail,
             description: this.props.bookInfo.description,
             isbn: this.props.bookInfo.isbn,
