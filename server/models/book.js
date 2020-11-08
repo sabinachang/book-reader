@@ -7,11 +7,10 @@ const schema = new mongoose.Schema({
     // TODO: decideds how to store progress & rating
     progress: Number,
     rating: Number,
-    isFavorite: Boolean,
     review: String,
 });
 
-schema.statics.createBook = async function createBook({ flyweight, owner}) {
+schema.statics.createBook = async function(flyweight, owner) {
     return await this.create({
         flyweight,
         owner,

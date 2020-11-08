@@ -1,14 +1,26 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
 import Bookshelf from './Bookshelf'
+import axios from 'axios';
 
 class BookshelfModal extends React.Component {
     state = { selected: null, favorites: false }
 
-    addToBookshelf = () => {
-        if (this.state.selected || this.state.favorites) {
+    addToBookshelf = async () => {
+        if (this.state.selected) {
+            await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo)
+                .then(() => { console.log('DONE SELECTED') })
+        }
+        if (this.state.favorites) {
+            await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo)
+                .then(() => { console.log('DONE FAVORITES') })
+        }
+
+        if (this.state.favorites || this.state.selected) {
+            this.setState({ selected: null, favorites: false })
             this.props.handleClose()
         }
+
 
     }
     selectBookshelf = bookshelf => {
@@ -19,8 +31,8 @@ class BookshelfModal extends React.Component {
                 } else {
                     this.setState({ selected: bookshelf });
                 } break;
-            case "Currently Reading":
-                if (this.state.selected === 'Currently Reading') {
+            case "Reading":
+                if (this.state.selected === 'Reading') {
                     this.setState({ selected: null })
                 } else {
                     this.setState({ selected: bookshelf });
@@ -36,7 +48,7 @@ class BookshelfModal extends React.Component {
                 this.setState({ favorites: !favorites })
                 break;
             default:
-                throw "Invalid Bookshelf"
+                throw new Error("Invalid Bookshelf")
         }
 
     }
@@ -56,7 +68,7 @@ class BookshelfModal extends React.Component {
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
                     <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Currently Reading" />
+                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
 
                 </div>
                 <div className="col">

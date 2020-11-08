@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
-import "./Book.css"
+import "./book.css"
 
 class Book extends Component {
     constructor(props) {
@@ -12,6 +12,7 @@ class Book extends Component {
             title: props.title,
             author: props.author,
             description: props.description,
+            isbn: props.isbn,
             img: img,
             bookshelfModal: false,
             recommendModal: false
@@ -38,6 +39,9 @@ class Book extends Component {
         return {
             title: this.state.title,
             author: this.state.author,
+            thumbnail: this.state.img,
+            description: this.state.description,
+            isbn: this.state.isbn
         }
     }
 
