@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import Book from './book/book'
+import axios from 'axios';
+
 
 class Library extends Component {
+    componentDidMount = () => {
+        axios.get('http://localhost:5000/api/library/wantToRead')
+		.then((res) => {
+			console.log(res);
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+    }
 
 
     render() {
