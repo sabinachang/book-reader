@@ -56,7 +56,7 @@ class Book extends Component {
                 <RecommendModal
                     visible={this.state.recommendModal}
                     handleClose={this.unrenderRecommendModal}
-                    bookTitle={this.state.title}
+                    bookInfo={this.getBookInfo()}
                 />
 
                 <Dropdown >

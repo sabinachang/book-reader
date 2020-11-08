@@ -22,10 +22,9 @@ class FriendList extends Component {
     }
 
     getFriendList() {
-        // TODO replace with real api
         axios.get('/api/friends')
         .then((res) => {
-            const friends = res.data;
+            const friends = res.data.list.friends;
             this.setState({friends});
         })
         .catch((err) => {
@@ -38,15 +37,15 @@ class FriendList extends Component {
     }
 
     handleClick() {
-        this.props.recommendBook({title: this.props.bookTitle, friendId: this.chosenId});
+        this.props.recommendBook({friendId: this.chosenId});
     }
 
     render() {
         let friends = this.state.friends.map((f, i)=> {
             if (i === 0) {
-                this.chosenId = f.id;
+                this.chosenId = f._id;
             }
-            return <option key= {i} value={f.id}>{f.name}</option>
+            return <option key= {i} value={f._id}>{f.username}</option>
         });
         return (
         <Form>

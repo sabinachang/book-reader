@@ -6,4 +6,5 @@ module.exports = express
 .Router()
 .get('/library/:bookshelf', bookshelfController.getBooks)
 .post('/library/:bookshelf', bookshelfController.addBookToBookshelf)
+.post('/request/:type', interactionController.requestFactory)
 .get('/friends', interactionController.getFriends);
