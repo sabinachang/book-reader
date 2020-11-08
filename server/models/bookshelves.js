@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
     wantToRead: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
     read: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
     favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
+    recommendations: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}]
 })
 
 schema.statics.getBooks = async function (username, bookshelf) {
@@ -27,6 +28,9 @@ schema.statics.getBooks = async function (username, bookshelf) {
             break;
         case "favorites":
             result = bookshelfObj.favorites
+            break;
+        case "recommendations":
+            result = bookshelfObj.recommendations
             break;
         default:
           throw "Non Existent Bookshelf"
@@ -57,7 +61,9 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
             this.removeFromBookshelf(bookshelfObj.reading, book)
             break;
         case "favorites":
+        case "recommendations":
             break;
+    
         default:
           throw "Non Existent Bookshelf"
     }
@@ -67,7 +73,7 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
 schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
     var bookshelfObj = await this.findOne({username: username}).exec()
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: []})
+        bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: [], recommendations: [],})
     }
     switch(bookshelf.toLowerCase()) {
         case "reading":
@@ -81,6 +87,9 @@ schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
             break;
         case "favorites":
             bookshelfObj.favorites.push(book);
+            break;
+        case "recommendations":
+            bookshelfObj.recommendations.push(book);
             break;
         default:
           throw "Non Existent Bookshelf"
