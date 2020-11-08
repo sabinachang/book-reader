@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
-import "./book.css"
+import "./Book.css"
 
 class Book extends Component {
     constructor(props) {
@@ -52,7 +52,9 @@ class Book extends Component {
                 <RecommendModal
                     visible={this.state.recommendModal}
                     handleClose={this.unrenderRecommendModal}
+                    bookTitle={this.state.title}
                 />
+
                 <Dropdown >
                     <div className="d-flex book-info">
                         <div className="card" style={{ width: "18rem" }}>
