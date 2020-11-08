@@ -1,5 +1,6 @@
 var express = require('express');
 const interactionController = require('../controllers/interactionController');
+const userLibraryController = require('../controllers/userLibraryController');
 
 module.exports = express
 .Router()
@@ -14,4 +15,5 @@ module.exports = express
        password: 'pwd123'
      }]);
 })
-.get('/friends', interactionController.getFriends);
+.get('/friends', interactionController.getFriends)
+.get('/search/:query', userLibraryController.getBookResult);
