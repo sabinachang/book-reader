@@ -26,3 +26,5 @@ yarn-debug.log*
 yarn-error.log*
 node_modules
 .env
+id_rsa_priv.pem
+id_rsa_pub.pem
