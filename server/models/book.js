@@ -7,7 +7,6 @@ const schema = new mongoose.Schema({
     // TODO: decideds how to store progress & rating
     progress: Number,
     rating: Number,
-    isFavorite: Boolean,
     review: String,
 });
 
