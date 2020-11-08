@@ -40,7 +40,7 @@ schema.statics.createFlyweight = async function createFlyweight({
 // Use ISBN to check if our db already contains this book
 // If so, return the flyweight part
 schema.statics.get = async function get(isbn){
-    return await this.find({ isbn: isbn });
+    return await this.findOne({ isbn: isbn });
 }
 
 module.exports = mongoose.model('BookFlyweight', schema);

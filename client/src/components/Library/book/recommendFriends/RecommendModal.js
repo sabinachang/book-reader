@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
 import FriendList from './friendList';
+import axios from 'axios';
 
 class RecommendModal extends React.Component {
 
@@ -23,15 +24,22 @@ class RecommendModal extends React.Component {
     }
 
     recommendBook = (data) => {
-        //TODO call recommend api 
-        console.log('recommend ' + data.title + ' to ' + data.friendId);
 
-        this.setState({
-            showResult: true, 
-            result: {
-                status: 'success',
-                message: 'ok! book has been recommended'
-            }
+        axios.post('/api/request/recommendBook', {
+            title: this.props.bookInfo.title,
+            author: this.props.bookInfo.author,
+            // TODO remove url()
+            thumbnail: this.props.bookInfo.thumbnail,
+            description: this.props.bookInfo.description,
+            isbn: this.props.bookInfo.isbn,
+            to: data.friendId,
+        }).then ((res) => {
+            this.setState({
+                showResult: true,
+                result: res.data,
+            })
+        }).catch ((err) => {
+            console.log(err);
         });
     }
 
@@ -45,7 +53,7 @@ class RecommendModal extends React.Component {
             {this.state.showResult === true ? ( 
                 <p>{this.state.result.message}</p>
             ): ( <FriendList
-                bookTitle={this.props.bookTitle}
+                bookTitle={this.props.bookInfo.title}
                 recommendBook={this.recommendBook}/>) }
            
 
