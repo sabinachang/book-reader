@@ -4,11 +4,13 @@ const apis = require('./routers/apis')
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const path = require('path');
+const cors = require('cors')
 
 require('./services/db');
 
 const app = express()
   .use(bodyParser.json())
+  .use(cors())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, 'client/build')))
   .use('/api', apis)
