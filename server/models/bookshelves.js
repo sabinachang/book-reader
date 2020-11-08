@@ -12,10 +12,8 @@ const schema = new mongoose.Schema({
 schema.statics.getBooks = async function (username, bookshelf) {
     var bookshelfObj = await this.findOne({username: username}).exec()
     if (!bookshelfObj) {
-        // console.log("create")
         bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: []})
     }
-    // console.log(bookshelfObj)
     var result = []
     switch(bookshelf.toLowerCase()) {
         case "reading":
@@ -33,13 +31,11 @@ schema.statics.getBooks = async function (username, bookshelf) {
         default:
           throw "Non Existent Bookshelf"
       }
-    return ["want to read"]
+    return result
 }
 
 schema.statics.removeFromBookshelf = function(bookshelf, book) {
-    console.log('Inner here')
     const found = bookshelf.indexOf(book)
-    console.log("found", found)
     if (found) {
         bookshelf.splice(found, 1)
     }
@@ -47,8 +43,6 @@ schema.statics.removeFromBookshelf = function(bookshelf, book) {
 
 
 schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelfObj) {
-    console.log('REMOVING!!!!!!!!!!!!!!')
-    console.log(bookshelfObj)
     switch (bookshelf.toLowerCase()) {
         case "reading":
             this.removeFromBookshelf(bookshelfObj.wantToRead, book)
@@ -67,17 +61,14 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
         default:
           throw "Non Existent Bookshelf"
     }
-    console.log("yay removed....")
    
 }
 
 schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
     var bookshelfObj = await this.findOne({username: username}).exec()
     if (!bookshelfObj) {
-        // console.log("create")
         bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: []})
     }
-    console.log(bookshelf)
     switch(bookshelf.toLowerCase()) {
         case "reading":
             bookshelfObj.reading.push(book);

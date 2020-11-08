@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     review: String,
 });
 
-schema.statics.createBook = async function createBook({ flyweight, owner}) {
+schema.statics.createBook = async function(flyweight, owner) {
     return await this.create({
         flyweight,
         owner,
