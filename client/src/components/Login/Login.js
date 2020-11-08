@@ -4,7 +4,7 @@ import './Login.css';
 
 function Login (props) {
     const [state , setState] = useState({
-        email : "",
+        username : "",
         password : "",
         errMsg : "",
         successMessage: null
@@ -19,17 +19,21 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        // TODO: check email and password
-        // wrong password (email correct)
-        // email does not exist
-
-        // pass
-        redirectToHome();
+        fetch('/api/users/', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: state.username,
+                password: state.password,
+            }),
+        })
+        .catch((e) => {
+            console.log(e)
+        })
     }
 
-    const redirectToHome = () => {
-        props.history.push('/');
-    }
     const redirectToRegister = () => { 
         props.history.push('/register');
     }
@@ -38,13 +42,13 @@ function Login (props) {
             <form className="custom-card">
                 <h4>Login</h4>
                 <div className="form-group text-left mt-4">
-                <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" 
+                <label htmlFor="usernameInput1">Username</label>
+                <input type="username" 
                        className="form-control" 
-                       id="email" 
-                       aria-describedby="emailHelp" 
-                       placeholder="Enter email" 
-                       value={state.email}
+                       id="username" 
+                       aria-describedby="usernameHelp" 
+                       placeholder="Enter username" 
+                       value={state.username}
                        onChange={handleChange}
                 />
                 </div>

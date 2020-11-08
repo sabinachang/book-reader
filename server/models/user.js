@@ -6,28 +6,27 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Username is required'],
         unique: true,
     },
-    email: {
-        type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-    },
     hash: String,
     salt: String,
 });
 
 const User = mongoose.model('User', userSchema);
 
-function createNewUser(username, email, hash, salt) {
+function createNewUser(username, hash, salt) {
     const newUser = new User({
         username: username,
-        email: email,
         hash,
         salt,
     });
     return newUser.save();
 }
 
+function findUserByUsername(username) {
+    return User.findOne({ username: username }, { _id: 0, __v: 0 });
+}
+
 module.exports = {
     User,
-    createNewUser
+    createNewUser,
+    findUserByUsername
 }

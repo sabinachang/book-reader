@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const path = require('path');
 
+const usersRouter = require('./routers/users');
+
 require('./services/db');
 
 const app = express()
@@ -12,6 +14,7 @@ const app = express()
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, 'client/build')))
   .use('/api', apis)
+  .use('/api/users', usersRouter)
   .get('*', (req,res) =>{
     res.sendFile(path.resolve(__dirname,'../client/build/index.html'));
 });

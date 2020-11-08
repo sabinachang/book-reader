@@ -4,7 +4,6 @@ import './Register.css';
 
 function Register(props) {
     const [state , setState] = useState({
-        email : "",
         username : "",
         password : "",
         confirmPassword: "",
@@ -21,6 +20,19 @@ function Register(props) {
     }
 
     const sendDetailsToServer = () => {
+        fetch('/api/users/register', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: state.username,
+                password: state.password,
+            }),
+        })
+        .catch((e) => {
+            console.log(e)
+        })
     }
 
     const redirectToHome = () => {
@@ -49,17 +61,7 @@ function Register(props) {
             <h6 className="error">{ state.errMsg }</h6>
             <form className="custom-card">
                 <h4>Register</h4>
-                <div className="form-group text-left mt-4">
-                <label>Email address</label>
-                <input type="email" 
-                       className="form-control" 
-                       id="email" 
-                       aria-describedby="emailHelp" 
-                       placeholder="Enter email" 
-                       value={state.email}
-                       onChange={handleChange}
-                />
-                </div>
+
                 <div className="form-group text-left">
                 <label>Username</label>
                 <input type="username" 

@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 const interactionController = require('../controllers/interactionController');
 
 module.exports = express
