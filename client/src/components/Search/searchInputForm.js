@@ -1,10 +1,12 @@
 import React from 'react';
+import "./searchInputForm.css"
 
 function searchInputForm(props) {
 	return (
-		<form class='form-inline' role='form'>
+		<form className='form' role='form'>
+			<h1 className='search_book'>Search books</h1>
 			<div className='form-group'>
-				<label htmlFor='search'>Search Books: </label>
+				<label htmlFor='search'></label>
 				<input 
 					id='search'
 					onChange={props.handleInputChange}
@@ -12,10 +14,10 @@ function searchInputForm(props) {
 					name='search'
 					type='text'
 					className='form-control'
-					placeholder='Please search books here'
+					placeholder='Please enter book name here...'
 					required
 				/>
-				<button onClick={props.handleFormSubmit} className='btn btn-primary'>Search</button>
+				<button onClick={props.handleFormSubmit} className='btn-search'>Search</button>
 			</div>
 		</form>
 	);

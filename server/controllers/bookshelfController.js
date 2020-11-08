@@ -24,18 +24,19 @@ const addBookToBookshelf = async (req, res) => {
     //     }
     // var book = Book.find({flyweight: flyweight, owner: owner})
     // if (!book) {book = Book.createBook(flyweight, owner)
-    
+
     try {
         await Bookshelves.addBookToBookshelf(req.body.username, req.params.bookshelf, book)
         res.sendStatus(201)
     }
-    catch {
+    catch (e) {
+        console.log("ERRORR", e)
         res.sendStatus(500)
     }
-   
+
 }
 
 module.exports = {
-    getBooks, 
+    getBooks,
     addBookToBookshelf
 }
