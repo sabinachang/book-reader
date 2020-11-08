@@ -30,10 +30,14 @@ class SearchView extends Component {
 
 	searchBook = query => {
 		console.log('query:',query);
-		axios.get('https://www.googleapis.com/books/v1/volumes?q=' + query)
+		axios.get('/api/search/' + query)
 		.then((res) => {
-			this.setState({result: res.data.items});
-			// console.log(this.state.result);
+			if (res.status === 200) {
+				this.setState({result: res.data.result});
+			}
+			else {
+				console.log(res.error);
+			}
 		})
 		.catch((err) => {
 			console.log(err);
@@ -46,19 +50,21 @@ class SearchView extends Component {
 
 	handleFormSubmit = e => {
 		e.preventDefault();
-		this.searchBook(this.state.search);
+		if(this.state.search) {
+			this.searchBook(this.state.search);
+		}
+		
 	}
 
 	render() {
 		return (
-			<div className='container-fluid'>
-				<Row>
-					<SearchInputForm 
-						search={this.state.search}
-						handleInputChange={this.handleInputChange}
-						handleFormSubmit={this.handleFormSubmit}
-					/>
-				</Row>
+			<div className='container'>
+				<SearchInputForm 
+					search={this.state.search}
+					handleInputChange={this.handleInputChange}
+					handleFormSubmit={this.handleFormSubmit}
+				/>
+				
 				<Row>
 					{this.state.result.map(book => (
 						<Book
