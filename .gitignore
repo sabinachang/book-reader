@@ -26,9 +26,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 node_modules
-<<<<<<< HEAD
 .env
 id_rsa_priv.pem
 id_rsa_pub.pem
-=======
->>>>>>> master
