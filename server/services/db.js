@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const cloudDB = process.env.DB_STRING;
-const localDB = 'mongodb://127.0.0.1:27017/bookreader';
+const localDB = 'mongodb://127.0.0.1:27017/Bookreader';
 
 
 class db {

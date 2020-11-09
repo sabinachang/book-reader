@@ -19,24 +19,33 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        fetch('/api/users/', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: state.username,
-                password: state.password,
-            }),
+        axios.post('http://localhost:5000/api/users/', {
+            username: state.username,
+            password: state.password
+        })
+        .then((res) => {
+            console.log(res.status)
+            if(res.status === 200) {
+                setState(prevState => ({
+                    ...prevState,
+                    'successMessage' : 'Login successful. Redirecting to home page..'
+                }))
+                redirectToHome();
+            }
         })
         .catch((e) => {
-            console.log(e)
+            console.log(e);
         })
     }
 
     const redirectToRegister = () => { 
         props.history.push('/register');
     }
+
+    const redirectToHome = () => { 
+        props.history.push('/home');
+    }
+
     return(
         <div className="col-12 col-lg-4 mt-2">
             <form className="custom-card">

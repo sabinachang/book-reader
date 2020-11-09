@@ -12,6 +12,7 @@ class Book extends Component {
             title: props.title,
             author: props.author,
             description: props.description,
+            isbn: props.isbn,
             img: img,
             bookshelfModal: false,
             recommendModal: false
@@ -38,6 +39,9 @@ class Book extends Component {
         return {
             title: this.state.title,
             author: this.state.author,
+            thumbnail: this.state.img,
+            description: this.state.description,
+            isbn: this.state.isbn
         }
     }
 

@@ -20,27 +20,32 @@ function Register(props) {
     }
 
     const sendDetailsToServer = () => {
-        fetch('/api/users/register', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: state.username,
-                password: state.password,
-            }),
+        const payload = {
+            username: state.username,
+            password: state.password
+        }
+
+        axios.post('http://localhost:5000/api/users/register', payload)
+        .then( (res) => {
+            if(res.status === 201) {
+                setState(prevState => ({
+                    ...prevState,
+                    'successMessage' : 'Registration successful. Redirecting to home page..'
+                }))
+                redirectToHome();
+            }
         })
         .catch((e) => {
             console.log(e)
         })
     }
 
-    const redirectToHome = () => {
-        props.history.push('/home');
+    const redirectToLogin = () => {
+        props.history.push('/'); 
     }
 
-    const redirectToLogin = () => {
-        props.history.push('/login'); 
+    const redirectToHome = () => {
+        props.history.push('/home'); 
     }
 
     const handleSubmitClick = (e) => {

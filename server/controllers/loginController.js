@@ -9,6 +9,7 @@ class LoginController {
     
         try {
           const user = await findUserByUsername(username);
+          console.log(user)
     
           // username does not exists
           if (!user) {
@@ -25,14 +26,17 @@ class LoginController {
             res.cookie('jwt', token, {
               maxAge: cookieMaxAge * 1000,
             });
-            res.location('/home').json({});
+            
+            res.status(200).send({ message: 'login successfully' });
 
           } else {
+            
             res.status(400).json({
               error: 'Password incorrect',
             });
           }
         } catch (err) {
+          console.log(err.message)
           res.status(400).json({ error: err.message });
         }
     }

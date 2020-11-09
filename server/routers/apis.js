@@ -1,17 +1,12 @@
 const express = require('express');
 const interactionController = require('../controllers/interactionController');
+const userLibraryController = require('../controllers/userLibraryController');
+const bookshelfController = require('../controllers/bookshelfController');
 
 module.exports = express
 .Router()
-.get('/users', function(req, res, next) {
-     res.json([{
-       id: 1,
-       name: "User1",
-       password: 'pwd123'
-     }, {
-       id: 2,
-       name: "User 2",
-       password: 'pwd123'
-     }]);
-})
-.get('/friends', interactionController.getFriends);
+.get('/library/:bookshelf', bookshelfController.getBooks)
+.post('/library/:bookshelf', bookshelfController.addBookToBookshelf)
+.get('/friends', interactionController.getFriends)
+.get('/search/:query', userLibraryController.getBookResult);
+
