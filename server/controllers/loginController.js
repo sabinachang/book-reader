@@ -9,34 +9,30 @@ class LoginController {
     
         try {
           const user = await findUserByUsername(username);
-          console.log(user)
     
           // username does not exists
           if (!user) {
             res.status(400).json({
                 error: 'Username does not exist',
             });
-          }
-    
-          // user exists, check if password is correct
-          if (validatePassword(password, user.hash, user.salt)) {
-            // generate jwt and return it in response
-            const token = createToken(user);
-            const cookieMaxAge = 3 * 24 * 60 * 60;
-            res.cookie('jwt', token, {
-              maxAge: cookieMaxAge * 1000,
-            });
-            
-            res.status(200).send({ message: 'login successfully' });
-
           } else {
-            
-            res.status(400).json({
-              error: 'Password incorrect',
-            });
+            // user exists, check if password is correct
+            if (validatePassword(password, user.hash, user.salt)) {
+              // generate jwt and return it in response
+              const token = createToken(user);
+              const cookieMaxAge = 3 * 24 * 60 * 60;
+              res.cookie('jwt', token, {
+                maxAge: cookieMaxAge * 1000,
+              });
+              res.status(200).send({ message: 'login successfully' });
+
+            } else {
+              res.status(400).json({
+                error: 'Password incorrect',
+              });
+            }
           }
         } catch (err) {
-          console.log(err.message)
           res.status(400).json({ error: err.message });
         }
     }

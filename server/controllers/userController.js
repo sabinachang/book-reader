@@ -12,12 +12,14 @@ class UserController {
         const { hash, salt } = genHashAndSalt(password);
         createNewUser(username, hash, salt)
           .then(() => {
+            console.log('create user successfully');
             res.status(201).send({ message: 'create user successfully' });
           })
           .catch((err) => {
             console.log(err)
             let message;
             if (err.code === 11000) {
+              console.log('Username already exists');
               message = 'Username already exists';
             } else {
               message = err;

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import './Login.css';
+import { stat } from 'fs';
 
 function Login (props) {
     const [state , setState] = useState({
@@ -11,7 +12,7 @@ function Login (props) {
     })
 
     const handleChange = (e) => {
-        const {id , value} = e.target   
+        const {id , value} = e.target;   
         setState(prevState => ({
             ...prevState,
             [id] : value
@@ -19,18 +20,23 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        axios.post('http://localhost:5000/api/users/', {
+        e.preventDefault();
+
+        const payload = {
             username: state.username,
             password: state.password
-        })
+        }
+
+        axios.post('http://localhost:5000/api/users/login', payload)
         .then((res) => {
-            console.log(res.status)
             if(res.status === 200) {
                 setState(prevState => ({
                     ...prevState,
                     'successMessage' : 'Login successful. Redirecting to home page..'
                 }))
                 redirectToHome();
+            } else {
+                console.log(res.error);
             }
         })
         .catch((e) => {
