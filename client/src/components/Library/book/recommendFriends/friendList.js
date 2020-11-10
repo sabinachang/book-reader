@@ -9,7 +9,8 @@ class FriendList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            friends: []
+            friends: [],
+            hasFriends: true
         };
         // friend's id
         this.chosenId = -1;
@@ -22,10 +23,17 @@ class FriendList extends Component {
     }
 
     getFriendList() {
-        axios.get('/api/friends')
+        axios.get('/api/friends', {
+            withCredentials: true,
+        })
         .then((res) => {
-            const friends = res.data.list.friends;
-            this.setState({friends});
+            if (res.data.list === null) {
+                this.setState({hasFriends: false});
+            } else {
+                const friends = res.data.list.friends;
+                this.setState({friends});
+            }
+           
         })
         .catch((err) => {
             console.log(err);
@@ -48,20 +56,28 @@ class FriendList extends Component {
             return <option key= {i} value={f._id}>{f.username}</option>
         });
         return (
-        <Form>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Label>Recommend <b>{this.props.bookTitle}</b> to</Form.Label>
-                <Form.Control as="select" 
-                    custom
-                    onChange={this.onFriendChosen}>
-                    {friends}
-                </Form.Control>
-            </Form.Group>
-            <Button variant="primary"
-                onClick={this.handleClick}>
-                Recommend
-            </Button>
-        </Form>
+        <div>
+            {this.state.hasFriends ? (
+                 <Form>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Recommend <b>{this.props.bookTitle}</b> to</Form.Label>
+                        <Form.Control as="select" 
+                         custom
+                         onChange={this.onFriendChosen}>
+                         {friends}
+                        </Form.Control>
+                    </Form.Group>
+                    <Button variant="primary"
+                     onClick={this.handleClick}>
+                     Recommend
+                    </Button>
+                    </Form>
+            ): (
+                <p> You don't have any friends yet</p>
+            )}
+           
+        </div>
+        
         )
     }
 }
