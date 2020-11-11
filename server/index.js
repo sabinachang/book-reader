@@ -2,16 +2,23 @@ require('dotenv').config();
 const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
+<<<<<<< HEAD
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
+=======
+const cors = require('cors');
+// const cookieParser = require('cookie-parser');
+>>>>>>> update_library
 
 const apis = require('./routers/apis');
 const usersRouter = require('./routers/users');
 
 require('./services/db');
 
+
 const app = express()
   .use(bodyParser.json())
+<<<<<<< HEAD
   .use(cookieParser())
   .use(cors({
     origin: [
@@ -21,7 +28,12 @@ const app = express()
     exposedHeaders: ['set-cookie'],
   }))
   .use(bodyParser.urlencoded({ extended: false }))
+=======
+  .use(cors())
+  .use(bodyParser.urlencoded({ extended: true }))
+>>>>>>> update_library
   .use(express.static(path.resolve(__dirname, 'client/build')))
+  // .use(cookieParser())
   .use('/api', apis)
   .use('/api/users', usersRouter)
   .get('*', (req,res) =>{

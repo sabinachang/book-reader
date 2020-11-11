@@ -1,35 +1,55 @@
 import React, { Component } from 'react';
-import Book from './book/book'
+import BookshelfLibrary from './bookshelfLibrary'
 import axios from 'axios';
 
 
 class Library extends Component {
-    componentDidMount = () => {
-        axios.get('http://localhost:5000/api/library/wantToRead')
+    state = {
+        wantToRead: [],
+        reading: [],
+        read: [],
+        favorites: [],
+        recommendations: []
+    }
+
+    getBookInBookshelf = (bookshelf_name, callback) => {
+        axios.get(`http://localhost:5000/api/library/${bookshelf_name}`)
             .then((res) => {
-                console.log(res);
+                callback(res.data)
             })
             .catch((err) => {
                 console.log(err);
             })
     }
 
+    componentDidMount = () => {
+        this.getBookInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
+        this.getBookInBookshelf("favorites", (data) => this.setState({ favorires: data }))
+        this.getBookInBookshelf("reading", (data) => this.setState({ reading: data }))
+        this.getBookInBookshelf("read", (data) => this.setState({ read: data }))
+        this.getBookInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
+    }
+
 
     render() {
-        return (
-            <div>
-                <h1 className="mb-4">(Google Books API Search Results)</h1>
-                <div className="d-flex row justify-content-center">
-                    <div className="col-9">
 
-                        <Book
-                            title="Harry Potter And The Chamber Of Secrets"
-                            author="J.K. Rowling"
-                            description="Aenean posuere posuere nisi. Nunc sollicitudin condimentum nunc quis placerat. Donec sagittis nibh eget diam dictum"
-                            img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
-                            isbn="IDK"
-                        />
+        return (
+            <div className='fluid-container'>
+                <h1 className="mb-4">Library</h1>
+                <div className="row text-align-center">
+                    <div className="col-12 col-lg-6">
+                        <BookshelfLibrary name="Reading" books={this.state.reading} />
+                        <BookshelfLibrary name="Want to Read" books={this.state.wantToRead} />
+                        <BookshelfLibrary name="Read" books={this.state.read} />
                     </div>
+                    <div className="col-12 col-md-5">
+                        <BookshelfLibrary name="Recommendations" books={this.state.recommendations} />
+                        <BookshelfLibrary name="Favorites" books={this.state.favorites} />
+                    </div>
+
+
+
+
                     <div className="col-9 my-3">
 
                     </div>

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./user.js');
+const Book = require('./book.js');
+const BookFlyweight = require('./bookFlyweight.js');
 
 const schema = new mongoose.Schema({
     username: String,
@@ -12,6 +14,7 @@ const schema = new mongoose.Schema({
 
 schema.statics.getBooks = async function (username, bookshelf) {
     var bookshelfObj = await this.findOne({username: username}).exec()
+
     if (!bookshelfObj) {
         bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: []})
     }
@@ -35,6 +38,7 @@ schema.statics.getBooks = async function (username, bookshelf) {
         default:
           throw "Non Existent Bookshelf"
       }
+ 
     return result
 }
 
@@ -61,6 +65,7 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
             this.removeFromBookshelf(bookshelfObj.reading, book)
             break;
         case "favorites":
+            break
         case "recommendations":
             break;
     
@@ -70,31 +75,45 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
    
 }
 
+schema.statics.addBook = function (bookshelf,book, bookshelfObj) {
+    switch(bookshelf.toLowerCase()) {
+        case "reading":
+            this.addBookHelper(bookshelfObj.reading, book)
+            break
+        case "wanttoread":
+            this.addBookHelper(bookshelfObj.wantToRead, book)
+           break
+        case "read":
+            this.addBookHelper(bookshelfObj.read, book)
+            break
+        case "favorites":
+            this.addBookHelper(bookshelfObj.favorites, book)
+            break
+        case "recommendations":
+            this.addBookHelper(bookshelfObj.recommendations, book)
+            break;
+        default:
+          throw "Non Existent Bookshelf"
+      }
+}
+
+schema.statics.addBookHelper = function(bookshelfArr, book) {
+    if (!bookshelfArr.includes(book._id)) {
+        bookshelfArr.push(book._id);
+    } else{
+        return
+    }
+}
+
 schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
     var bookshelfObj = await this.findOne({username: username}).exec()
     if (!bookshelfObj) {
         bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: [], recommendations: [],})
     }
-    switch(bookshelf.toLowerCase()) {
-        case "reading":
-            bookshelfObj.reading.push(book);
-            break;
-        case "wanttoread":
-            bookshelfObj.wantToRead.push(book);
-            break;
-        case "read":
-            bookshelfObj.read.push(book);
-            break;
-        case "favorites":
-            bookshelfObj.favorites.push(book);
-            break;
-        case "recommendations":
-            bookshelfObj.recommendations.push(book);
-            break;
-        default:
-          throw "Non Existent Bookshelf"
-      }
+    // console.log('before add bookshelf', bookshelfObj)
+    this.addBook(bookshelf, book, bookshelfObj)
     this.removeFromOtherBookshelves(bookshelf, book, bookshelfObj)
+    console.log(bookshelfObj)
     await bookshelfObj.save()
 
 }
