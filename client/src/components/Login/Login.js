@@ -11,7 +11,7 @@ function Login (props) {
     })
 
     const handleChange = (e) => {
-        const {id , value} = e.target;   
+        const {id , value} = e.target   
         setState(prevState => ({
             ...prevState,
             [id] : value
@@ -19,8 +19,6 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        e.preventDefault();
-
         const payload = {
             username: state.username,
             password: state.password
@@ -30,7 +28,6 @@ function Login (props) {
             withCredentials: true,
         })
         .then((res) => {
-            console.log('resss',res);
             if(res.status === 200) {
                 setState(prevState => ({
                     ...prevState,
@@ -51,14 +48,12 @@ function Login (props) {
         })
     }
 
+    const redirectToHome = () => {
+        props.history.push('/home');
+    }
     const redirectToRegister = () => { 
         props.history.push('/register');
     }
-
-    const redirectToHome = () => { 
-        props.history.push('/home');
-    }
-
     return(
         <div className="col-12 col-lg-4 mt-2">
             <form className="custom-card">
@@ -70,10 +65,10 @@ function Login (props) {
                     {state.errMsg}
                 </div>
                 <div className="form-group text-left mt-4">
-                <label htmlFor="usernameInput1">Username</label>
+                <label htmlFor="usernameInputEmail1">Username</label>
                 <input type="username" 
                        className="form-control" 
-                       id="username" 
+                       id="usernameHelp" 
                        aria-describedby="usernameHelp" 
                        placeholder="Enter username" 
                        value={state.username}
