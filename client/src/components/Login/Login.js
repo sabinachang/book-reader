@@ -78,6 +78,7 @@ function Login (props) {
                        placeholder="Enter username" 
                        value={state.username}
                        onChange={handleChange}
+                       required
                 />
                 </div>
                 <div className="form-group text-left">
@@ -88,6 +89,7 @@ function Login (props) {
                        placeholder="Password"
                        value={state.password}
                        onChange={handleChange} 
+                       required
                 />
                 </div>
                 <div className="form-check">

@@ -14,6 +14,7 @@ class Book extends Component {
             description: props.description,
             isbn: props.isbn,
             img: img,
+            defaultImg: 'https://www.freepik.com/free-icon/book_942279.htm',
             bookshelfModal: false,
             recommendModal: false
         }
@@ -64,7 +65,7 @@ class Book extends Component {
                         <div className="card" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title">{this.state.title}</h5>
-                                <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
+                                <div className="book my-4" style={{ backgroundImage: this.state.img ? this.state.img: this.state.defaultImg}}></div>
                                 <p className="card-text">{this.state.description}</p>
                             </div>
 
