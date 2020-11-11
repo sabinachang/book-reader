@@ -11,7 +11,7 @@ function Login (props) {
     })
 
     const handleChange = (e) => {
-        const {id , value} = e.target;   
+        const {id , value} = e.target   
         setState(prevState => ({
             ...prevState,
             [id] : value
@@ -19,49 +19,29 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        e.preventDefault();
+        // TODO: check email and password
+        // wrong password (email correct)
+        // email does not exist
 
-        const payload = {
-            username: state.username,
-            password: state.password
-        }
-
-        axios.post('http://localhost:5000/api/users/login', payload, {
-            withCredentials: true,
-        })
-        .then((res) => {
-            if(res.status === 200) {
-                setState(prevState => ({
-                    ...prevState,
-                    'successMessage' : 'Login successful. Redirecting to home page..'
-                }))
-                redirectToHome();
-            } else {
-                console.log(res.error);
-            }
-        })
-        .catch((e) => {
-            console.log(e);
-        })
+        // pass
+        redirectToHome();
     }
 
+    const redirectToHome = () => {
+        props.history.push('/home');
+    }
     const redirectToRegister = () => { 
         props.history.push('/register');
     }
-
-    const redirectToHome = () => { 
-        props.history.push('/home');
-    }
-
     return(
         <div className="col-12 col-lg-4 mt-2">
             <form className="custom-card">
                 <h4>Login</h4>
                 <div className="form-group text-left mt-4">
-                <label htmlFor="usernameInput1">Username</label>
+                <label htmlFor="usernameInputEmail1">Username</label>
                 <input type="username" 
                        className="form-control" 
-                       id="username" 
+                       id="usernameHelp" 
                        aria-describedby="usernameHelp" 
                        placeholder="Enter username" 
                        value={state.username}
