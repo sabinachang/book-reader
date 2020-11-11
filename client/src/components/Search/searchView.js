@@ -12,7 +12,8 @@ class SearchView extends Component {
 		this.state = {
 			search: '',
 			result: [],
-			searchOption: ''
+			searchOption: '',
+			errMsg:''
 		};
 	}
 
@@ -26,7 +27,16 @@ class SearchView extends Component {
 		axios.get('/api/search/' + query)
 		.then((res) => {
 			if (res.status === 200) {
-				this.setState({result: res.data.result});
+				console.log(res.data.result);
+				if (res.data.result.totalItems > 0) {
+					this.setState({result: res.data.result.items,
+						errMsg:''});
+				}
+				else {
+					this.redirectToSearchBook();
+					this.setState({errMsg: 'No book found!'});
+					console.log('No book found!');
+				}
 			}
 			else {
 				console.log(res.error);
@@ -37,6 +47,11 @@ class SearchView extends Component {
 		})
 	}
 
+	redirectToSearchBook = () => {
+		this.setState({search:'',result:[]});
+		this.props.history.push('/search');
+	}
+
 	handleInputChange = e => {
 		this.setState({[e.target.name]:e.target.value});
 	}
@@ -45,6 +60,8 @@ class SearchView extends Component {
 		e.preventDefault();
 		if(this.state.search) {
 			this.searchBook(this.state.search + this.state.searchOption);
+		} else {
+			this.setState({errMsg: 'Please enter book name or author name to search!'})
 		}
 		
 	}
@@ -64,12 +81,16 @@ class SearchView extends Component {
 					<input type='radio' value=' ' className='option' /> All
 				</div>
 
+		
 				<SearchInputForm
 					search={this.state.search}
 					handleInputChange={this.handleInputChange}
 					handleFormSubmit={this.handleFormSubmit}
 				/>
-
+	
+				<div className="alert alert-warning mt-2" style={{display: this.state.errMsg ? 'block' : 'none' }} role="alert">
+               		{this.state.errMsg}
+            	</div>
 				<Row>
 					{this.state.result.map(book => (
 						<Book
@@ -78,6 +99,7 @@ class SearchView extends Component {
 							author={book.volumeInfo.authors}
 							description={book.volumeInfo.description}
 							img={book.volumeInfo.imageLinks.thumbnail}
+							isbn={book.volumeInfo.industryIdentifiers[0].identifier}
 						/>
 					))}
 				</Row>

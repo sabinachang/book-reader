@@ -12,7 +12,7 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 		console.log('search query: ', query)
 		await axios.get(baseurl + query + keyurl)
 		.then((res) => {
-			bookResult = res.data.items;
+			bookResult = res.data;
 		})
 		.catch((err) => {
 			console.log(err);
