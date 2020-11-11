@@ -5,6 +5,7 @@ const BookFlyweight = require('../models/bookFlyweight');
 
 const getBooks = async (req, res) => {
     const username = 'justin-starks'
+
     const books = await Bookshelves.getBooks(username, req.params.bookshelf)
     var result = []
     for (i = 0; i < books.length; i++) {
@@ -12,6 +13,7 @@ const getBooks = async (req, res) => {
         var foundFlyweight = await BookFlyweight.findById(foundBook.flyweight)
         result.push(foundFlyweight)
     }
+    // console.log(req.params.bookshelf, result)
     res.send(result)
 }
 
