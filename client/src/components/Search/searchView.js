@@ -3,7 +3,9 @@ import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Book from '../Library/book/book';
 import SearchInputForm from './searchInputForm'
+import defaultBookImg from './defaultBook.png'
 import "./searchView.css"
+
 
 
 class SearchView extends Component {
@@ -16,9 +18,13 @@ class SearchView extends Component {
 		};
 	}
 
-
 	componentDisMount() {
 		this.searchBook(this.state.search);
+	}
+
+	getImageLink = imglink => {
+		let url = imglink && imglink.thumbnail;
+		return url ? url.replace(/^http:\/\//i, 'https://') : '';
 	}
 
 	searchBook = query => {
@@ -26,6 +32,7 @@ class SearchView extends Component {
 		axios.get('/api/search/' + query)
 		.then((res) => {
 			if (res.status === 200) {
+				console.log(res.data.result);
 				this.setState({result: res.data.result});
 			}
 			else {
@@ -77,7 +84,9 @@ class SearchView extends Component {
 							title={book.volumeInfo.title}
 							author={book.volumeInfo.authors}
 							description={book.volumeInfo.description}
-							img={book.volumeInfo.imageLinks.thumbnail}
+							img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
+							// isbn={book.volumnInfo.industryIdentifiers[0].identifier}
+							isbn={book.id}
 						/>
 					))}
 				</Row>
