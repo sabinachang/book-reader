@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/Row';
 import Book from '../Library/book/book';
 import SearchInputForm from './searchInputForm'
 import defaultBookImg from './defaultBook.png'
+import "./searchView.css"
+
 
 
 class SearchView extends Component {
@@ -12,6 +14,7 @@ class SearchView extends Component {
 		this.state = {
 			search: '',
 			result: [],
+			searchOption: ''
 		};
 	}
 
@@ -48,20 +51,32 @@ class SearchView extends Component {
 	handleFormSubmit = e => {
 		e.preventDefault();
 		if(this.state.search) {
-			this.searchBook(this.state.search);
+			this.searchBook(this.state.search + this.state.searchOption);
 		}
 		
+	}
+
+	handleValueChange = e => {
+		this.setState({searchOption: e.target.value});
 	}
 
 	render() {
 		return (
 			<div className='container'>
-				<SearchInputForm 
+				<h1 className='search_book'>Search books</h1>
+				<div onChange={this.handleValueChange} className='option-line'>
+					<label htmlFor='option' className='search-option'>Search option: </label>
+					<input type='radio' value=' inauthor' className='option' /> Author
+					<input type='radio' value=' intitle' className='option' /> Title
+					<input type='radio' value=' ' className='option' /> All
+				</div>
+
+				<SearchInputForm
 					search={this.state.search}
 					handleInputChange={this.handleInputChange}
 					handleFormSubmit={this.handleFormSubmit}
 				/>
-				
+
 				<Row>
 					{this.state.result.map(book => (
 						<Book
