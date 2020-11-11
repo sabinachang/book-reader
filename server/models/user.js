@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
+    bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' }
 });
 
 const User = mongoose.model('User', userSchema);
@@ -17,8 +18,9 @@ function createNewUser(username, hash, salt) {
         username: username,
         hash: hash,
         salt: salt,
-        recommend: [],
     });
+
+
     return newUser.save();
 }
 

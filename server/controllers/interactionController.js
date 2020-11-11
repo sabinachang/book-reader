@@ -2,10 +2,8 @@ const recommendationCreator = require('../lib/recommendationCreator');
 const Friendship = require('../models/friendship');
 
 exports.getFriends = async function getFriends(req, res, next) {
-  // TODO use real username from req
     try {
-      const list =  await Friendship.list('mary');
-      console.log(list);
+      const list =  await Friendship.list(req.cookies.username);
       res.json({
         list: list,
       })

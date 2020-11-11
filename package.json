@@ -6,6 +6,7 @@
     "server": "cd server && yarn install --pure-lockfile && yarn start"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
