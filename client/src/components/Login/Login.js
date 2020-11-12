@@ -19,6 +19,8 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
+        e.preventDefault();	
+
         const payload = {
             username: state.username,
             password: state.password
@@ -68,7 +70,7 @@ function Login (props) {
                 <label htmlFor="usernameInputEmail1">Username</label>
                 <input type="username" 
                        className="form-control" 
-                       id="usernameHelp" 
+                       id="username" 
                        aria-describedby="usernameHelp" 
                        placeholder="Enter username" 
                        value={state.username}
