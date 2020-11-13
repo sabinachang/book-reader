@@ -1,7 +1,10 @@
 .bookshelf-library {
-    background-color: blue;
-    margin: 0 auto;
     height: 450px;
     width: 350px;
+    background-size: 350px 450px;
+}
+
+.book-results {
     overflow-y: scroll;
+
 }

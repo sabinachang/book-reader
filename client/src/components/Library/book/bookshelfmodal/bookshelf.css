@@ -1,7 +1,7 @@
 .bookshelf {
     width: 170px;
     height: 200px;
-    background-color: aqua;
+    background-size: 170px 200px;
     margin: 0 auto;
 }
 

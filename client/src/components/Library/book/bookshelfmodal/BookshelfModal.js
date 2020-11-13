@@ -1,25 +1,29 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
+import Utils from '../../../Common/lib/utils.js'
 import Bookshelf from './Bookshelf'
 import axios from 'axios';
+
 
 class BookshelfModal extends React.Component {
     state = { selected: null, favorites: false }
 
     addToBookshelf = async () => {
         if (this.state.selected) {
-            await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo)
+            await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo, { withCredentials: true })
                 .then(() => { console.log('DONE SELECTED') })
         }
         if (this.state.favorites) {
-            await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo)
+            await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo, { withCredentials: true })
                 .then(() => { console.log('DONE FAVORITES') })
         }
 
         if (this.state.favorites || this.state.selected) {
-            this.setState({ selected: null, favorites: false })
-            this.props.handleClose()
+            this.setState({ selected: null, favorites: false });
+            this.props.handleClose();
+            window.location.reload();
         }
+
 
 
     }

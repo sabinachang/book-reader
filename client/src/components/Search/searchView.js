@@ -15,7 +15,7 @@ class SearchView extends Component {
 			search: '',
 			result: [],
 			searchOption: '',
-			errMsg:''
+			errMsg: ''
 		};
 	}
 
@@ -29,50 +29,62 @@ class SearchView extends Component {
 	}
 
 	searchBook = query => {
-		console.log('query:',query);
+		console.log('query:', query);
 		axios.get('/api/search/' + query)
-		.then((res) => {
-			if (res.status === 200) {
-				if (res.data.result.totalItems > 0) {
-					this.setState({result: res.data.result.items,
-						errMsg:''});
+			.then((res) => {
+				if (res.status === 200) {
+					if (res.data.result.totalItems > 0) {
+						this.setState({
+							result: res.data.result.items,
+							errMsg: ''
+						});
+					}
+					else {
+						this.redirectToSearchBook();
+						this.setState({ errMsg: 'No book found!' });
+						console.log('No book found!');
+					}
 				}
 				else {
-					this.redirectToSearchBook();
-					this.setState({errMsg: 'No book found!'});
-					console.log('No book found!');
+					console.log(res.error);
 				}
-			}
-			else {
-				console.log(res.error);
-			}
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+			})
+			.catch((err) => {
+				console.log(err);
+			})
 	}
 
 	redirectToSearchBook = () => {
-		this.setState({search:'',result:[]});
+		this.setState({ search: '', result: [] });
 		this.props.history.push('/search');
 	}
 
 	handleInputChange = e => {
-		this.setState({[e.target.name]:e.target.value});
+		this.setState({ [e.target.name]: e.target.value });
 	}
 
 	handleFormSubmit = e => {
 		e.preventDefault();
-		if(this.state.search) {
+		if (this.state.search) {
 			this.searchBook(this.state.search + this.state.searchOption);
 		} else {
-			this.setState({errMsg: 'Please enter book name or author name to search!'})
+			this.setState({ errMsg: 'Please enter book name or author name to search!' })
 		}
-		
+
 	}
 
 	handleValueChange = e => {
-		this.setState({searchOption: e.target.value});
+		this.setState({ searchOption: e.target.value });
+	}
+
+	getIsbn = (book) => {
+		if (book.volumeInfo.industryIdentifiers) {
+			return book.volumeInfo.industryIdentifiers[0].identifier
+
+		}
+		else {
+			return book.volumeInfo.title + ", " + book.volumeInfo.authors
+		}
 	}
 
 	render() {
@@ -86,16 +98,16 @@ class SearchView extends Component {
 					<input type='radio' value=' ' className='option' /> All
 				</div>
 
-		
+
 				<SearchInputForm
 					search={this.state.search}
 					handleInputChange={this.handleInputChange}
 					handleFormSubmit={this.handleFormSubmit}
 				/>
-	
-				<div className="alert alert-warning mt-2" style={{display: this.state.errMsg ? 'block' : 'none' }} role="alert">
-               		{this.state.errMsg}
-            	</div>
+
+				<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
+					{this.state.errMsg}
+				</div>
 				<Row>
 					{this.state.result.map(book => (
 						<Book
@@ -104,7 +116,7 @@ class SearchView extends Component {
 							author={book.volumeInfo.authors}
 							description={book.volumeInfo.description}
 							img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
-							isbn={book.volumeInfo.industryIdentifiers[0].identifier}
+							isbn={this.getIsbn(book)}
 						/>
 					))}
 				</Row>
