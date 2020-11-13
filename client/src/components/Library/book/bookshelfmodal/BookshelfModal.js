@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
-import Utils from '../../../Common/lib/utils.js'
 import Bookshelf from './Bookshelf'
 import axios from 'axios';
 
