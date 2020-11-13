@@ -6,30 +6,27 @@ const BookFlyweight = require('../models/bookFlyweight');
 const getBooks = async (req, res) => {
 
     const username = req.cookies.username
+    const user = await User.findOne({ username: username })
 
-    const books = await Bookshelves.getBooks(username, req.params.bookshelf)
+    const books = await Bookshelves.getBooks(user, req.params.bookshelf)
     var result = []
     for (i = 0; i < books.length; i++) {
         var foundBook = await Book.findById(books[i])
         var foundFlyweight = await BookFlyweight.findById(foundBook.flyweight)
         result.push(foundFlyweight)
     }
-    // console.log(req.params.bookshelf, result)
     res.send(result)
 }
 
 const addBookToBookshelf = async (req, res) => {
-    // console.log(req.body, 'body')
-    // console.log(req.params,'params')
     const username = req.cookies.username
     const owner = await User.findOne({ username: username })
     var flyweight = await BookFlyweight.get(req.body.isbn)
-    var author = req.body.author ? req.body.author[0] : "Unknown"
     if (!flyweight) {
         flyweight = await BookFlyweight.create({
             title: req.body.title,
             thumbnail: req.body.thumbnail,
-            author: author,
+            author: req.body.authors,
             isbn: req.body.isbn,
             description: req.body.description
         })
@@ -37,7 +34,7 @@ const addBookToBookshelf = async (req, res) => {
     var book = await Book.findOne({ flyweight: flyweight, owner: owner })
     if (!book) { book = await Book.createBook(flyweight, owner) }
     try {
-        await Bookshelves.addBookToBookshelf(username, req.params.bookshelf, book)
+        await Bookshelves.addBookToBookshelf(owner, req.params.bookshelf, book)
         res.sendStatus(201)
     }
     catch (e) {

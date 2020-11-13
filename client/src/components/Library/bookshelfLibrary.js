@@ -42,7 +42,7 @@ class BookshelfLibrary extends React.Component {
                             title={book.title}
                             author={book.author}
                             description={book.description}
-                            img={book.img}
+                            img={book.thumbnail}
                             key={book.isbn}
                         />
                     ))}

@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
-const User = require('./user.js');
-const Book = require('./book.js');
-const BookFlyweight = require('./bookFlyweight.js');
+
 
 const schema = new mongoose.Schema({
-    username: String,
     reading: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
     wantToRead: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
     read: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
@@ -12,11 +9,14 @@ const schema = new mongoose.Schema({
     recommendations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
-schema.statics.getBooks = async function (username, bookshelf) {
-    var bookshelfObj = await this.findOne({ username: username }).exec()
+schema.statics.getBooks = async function (user, bookshelf) {
+    const bookshelfId = user.bookshelves;
+    const bookshelfObj = await this.findOne({ _id: bookshelfId })
 
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({ username: username, reading: [], wantToRead: [], read: [], favorites: [] })
+        bookshelfObj = await this.create({ username: username, reading: [], wantToRead: [], read: [], favorites: [] });
+        user.bookshelves = bookshelfObj;
+        await user.save()
     }
     var result = []
     switch (bookshelf.toLowerCase()) {
@@ -44,7 +44,7 @@ schema.statics.getBooks = async function (username, bookshelf) {
 
 schema.statics.removeFromBookshelf = function (bookshelf, book) {
     const found = bookshelf.indexOf(book)
-    if (found) {
+    if (found !== -1) {
         bookshelf.splice(found, 1)
     }
 }
@@ -105,16 +105,21 @@ schema.statics.addBookHelper = function (bookshelfArr, book) {
     }
 }
 
-schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
-    var bookshelfObj = await this.findOne({ username: username }).exec()
+schema.statics.addBookToBookshelf = async function (user, bookshelf, book) {
+    const bookshelfId = user.bookshelves;
+    var bookshelfObj = await this.findOne({ _id: bookshelfId })
+
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({ username: username, reading: [], wantToRead: [], read: [], favorites: [], recommendations: [], })
+        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [], recommendations: [], })
+        user.bookshelves = bookshelfObj
+        await user.save()
     }
-    // console.log('before add bookshelf', bookshelfObj)
     this.addBook(bookshelf, book, bookshelfObj)
     this.removeFromOtherBookshelves(bookshelf, book, bookshelfObj)
-    // console.log(bookshelfObj)
     await bookshelfObj.save()
+
+
+
 
 }
 

@@ -10,7 +10,7 @@ class Book extends Component {
         const img = "url('" + props.img + "')"
         this.state = {
             title: props.title,
-            author: props.author,
+            authors: props.authors,
             description: props.description,
             isbn: props.isbn,
             img: img,
@@ -38,8 +38,8 @@ class Book extends Component {
     getBookInfo = () => {
         return {
             title: this.state.title,
-            author: this.state.author,
-            thumbnail: this.state.img,
+            authors: this.state.authors,
+            thumbnail: this.props.img,
             description: this.state.description,
             isbn: this.state.isbn
         }
