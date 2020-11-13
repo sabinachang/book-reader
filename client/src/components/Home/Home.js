@@ -11,6 +11,7 @@ class Home extends Component {
           <li><Link to="/example">Example of how to use API</Link></li>
           <li><Link to="/library">Library</Link></li>
           <li><Link to="/search">Search</Link></li>
+          <li><Link to="/friends">Manage my friendships</Link></li>
           <li><Link to="/">Login</Link></li>
         </ul>
       </div>
