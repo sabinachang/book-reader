@@ -7,7 +7,7 @@ import "./book.css"
 class Book extends Component {
     constructor(props) {
         super(props)
-        const img = "url(" + props.img + ")"
+        const img = "url('" + props.img + "')"
         this.state = {
             title: props.title,
             author: props.author,
@@ -64,7 +64,7 @@ class Book extends Component {
                         <div className="card" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title">{this.state.title}</h5>
-                                <div className="book my-4" style={{ backgroundImage: this.state.img}}></div>
+                                <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
                                 <p className="card-text">{this.state.description}</p>
                             </div>
 
