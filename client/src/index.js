@@ -8,7 +8,7 @@ import Library from './components/Library/';
 import Search from './components/Search/searchView';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
-
+import FriendHome from './components/Friend/';
 
 render((
     <App>
@@ -19,6 +19,7 @@ render((
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/library' component={Library} />
                 <Route exact path='/search' component={Search} />
+                <Route exact path='/friends' component={FriendHome}/>
             </Switch>
         </BrowserRouter>
     </App>
