@@ -20,7 +20,6 @@ class BookshelfModal extends React.Component {
         if (this.state.favorites || this.state.selected) {
             this.setState({ selected: null, favorites: false });
             this.props.handleClose();
-            window.location.reload();
         }
 
 
@@ -70,14 +69,15 @@ class BookshelfModal extends React.Component {
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
+                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
+                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
 
                 </div>
                 <div className="col">
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
-                    <Bookshelf selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
+                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
+                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
                 </div>
+                
             </div>
             <div className="d-flex justify-content-end">
                 <button onClick={() => this.addToBookshelf()} className="btn btn-primary">Submit</button>

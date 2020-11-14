@@ -44,6 +44,7 @@ class BookshelfLibrary extends React.Component {
                             description={book.description}
                             img={book.thumbnail}
                             key={book.isbn}
+                            excludeBookshelf={this.props.name}
                         />
                     ))}
                 </div>

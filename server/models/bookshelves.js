@@ -43,9 +43,9 @@ schema.statics.getBooks = async function (user, bookshelf) {
 }
 
 schema.statics.removeFromBookshelf = function (bookshelf, book) {
-    const found = bookshelf.indexOf(book)
+    const found = bookshelf.indexOf(book._id)
     if (found !== -1) {
-        bookshelf.splice(found, 1)
+         bookshelf.splice(found, 1)
     }
 }
 
@@ -100,9 +100,7 @@ schema.statics.addBook = function (bookshelf, book, bookshelfObj) {
 schema.statics.addBookHelper = function (bookshelfArr, book) {
     if (!bookshelfArr.includes(book._id)) {
         bookshelfArr.push(book._id);
-    } else {
-        return
-    }
+    } 
 }
 
 schema.statics.addBookToBookshelf = async function (user, bookshelf, book) {

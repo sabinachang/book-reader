@@ -8,3 +8,6 @@
 .selected-border {
     border: 3px solid blue;
 }
+.unselectable-bookshelf {
+    background-color: lightgrey
+}

@@ -52,6 +52,7 @@ class Book extends Component {
                     bookInfo={this.getBookInfo()}
                     visible={this.state.bookshelfModal}
                     handleClose={this.unrenderBookshelfModal}
+                    excludeBookshelf={this.props.excludeBookshelf}
                 />
                 <RecommendModal
                     visible={this.state.recommendModal}
