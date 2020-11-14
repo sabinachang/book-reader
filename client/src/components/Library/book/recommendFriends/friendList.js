@@ -10,7 +10,8 @@ class FriendList extends Component {
         super(props);
         this.state = {
             friends: [],
-            hasFriends: true
+            hasFriends: true,
+            loading: false,
         };
         // friend's id
         this.chosenId = -1;
@@ -23,15 +24,28 @@ class FriendList extends Component {
     }
 
     getFriendList() {
+        this.setState(prevState => ({
+            ...prevState,
+            loading: true,
+        }));
+
         axios.get('/api/friends', {
             withCredentials: true,
         })
         .then((res) => {
             if (res.data.list === null) {
-                this.setState({hasFriends: false});
+                this.setState({
+                    friends: [],
+                    hasFriends: false,
+                    loading: false,
+                });
             } else {
                 const friends = res.data.list.friends;
-                this.setState({friends});
+                this.setState({
+                    friends: friends,
+                    hasFriends: true,
+                    loading: false,
+                });
             }
            
         })
@@ -61,11 +75,15 @@ class FriendList extends Component {
                  <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Recommend <b>{this.props.bookTitle}</b> to</Form.Label>
-                        <Form.Control as="select" 
-                         custom
-                         onChange={this.onFriendChosen}>
-                         {friends}
-                        </Form.Control>
+                        { this.state.loading? (
+                            <p>Fetching friends...</p>
+                        ): (
+                            <Form.Control as="select" 
+                                custom
+                                onChange={this.onFriendChosen}>
+                                {friends}
+                             </Form.Control>
+                        )}
                     </Form.Group>
                     <Button variant="primary"
                      onClick={this.handleClick}>

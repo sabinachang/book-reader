@@ -24,14 +24,14 @@ const schema = new mongoose.Schema({
 schema.statics.createFlyweight = async function createFlyweight({
     title,
     thumbnail,
-    author,
+    authors,
     isbn,
     description = '',
 }) {
     return await this.create({
         title,
         thumbnail,
-        author,
+        authors,
         isbn,
         description
     });

@@ -113,7 +113,7 @@ class SearchView extends Component {
 						<Book
 							key={book.id}
 							title={book.volumeInfo.title}
-							author={book.volumeInfo.authors}
+							authors={book.volumeInfo.authors}
 							description={book.volumeInfo.description}
 							img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
 							isbn={this.getIsbn(book)}
