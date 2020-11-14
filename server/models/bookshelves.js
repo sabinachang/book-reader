@@ -9,12 +9,15 @@ const schema = new mongoose.Schema({
     recommendations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
-schema.statics.getBooks = async function (user, bookshelf) {
+schema.statics.getBooks = async function (u, bookshelf) {
+    // need to get make u an instance of User to be able to call save()
+    const user = await mongoose.model('User').findOne({ _id: u._id });
+
     const bookshelfId = user.bookshelves;
-    const bookshelfObj = await this.findOne({ _id: bookshelfId })
+    let bookshelfObj = await this.findOne({ _id: bookshelfId })
 
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({ username: username, reading: [], wantToRead: [], read: [], favorites: [] });
+        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [] });
         user.bookshelves = bookshelfObj;
         await user.save()
     }
@@ -103,7 +106,11 @@ schema.statics.addBookHelper = function (bookshelfArr, book) {
     } 
 }
 
-schema.statics.addBookToBookshelf = async function (user, bookshelf, book) {
+schema.statics.addBookToBookshelf = async function (u, bookshelf, book) {
+
+    // need to get make u an instance of User to be able to call save()
+    const user = await mongoose.model('User').findOne({ _id: u._id });
+    
     const bookshelfId = user.bookshelves;
     var bookshelfObj = await this.findOne({ _id: bookshelfId })
 
@@ -115,9 +122,6 @@ schema.statics.addBookToBookshelf = async function (user, bookshelf, book) {
     this.addBook(bookshelf, book, bookshelfObj)
     this.removeFromOtherBookshelves(bookshelf, book, bookshelfObj)
     await bookshelfObj.save()
-
-
-
 
 }
 
