@@ -1,17 +1,22 @@
 import axios from 'axios'
+import blueBookshelf from './blueBookshelves.png'
+import standardBookshelf from './standardBookshelf.jpg'
+import cartoonBookshelf from './cartoonBookshelf.jpg'
+import cartoonBookshelf2 from './cartoonBookshelf2.jpg'
+import fancyBookshelf from './fancyBookshelf.png'
 
 const mapBookshelfToImg = (bookshelfName) => {
     switch (bookshelfName.toLowerCase()) {
         case "reading":
-            return urlify("http://clipart-library.com/img1/680631.jpg")
+            return urlify(standardBookshelf)
         case "read":
-            return urlify("https://publicdomainvectors.org/photos/Bookshelves-Blue-Books.png")
+            return urlify(blueBookshelf)
         case "want to read":
-            return urlify("http://clipart-library.com/img/2099343.jpg")
+            return urlify(cartoonBookshelf)
         case "recommendations":
-            return urlify("http://clipart-library.com/image_gallery/53419.jpg")
+            return urlify(fancyBookshelf)
         case "favorites":
-            return urlify("http://clipart-library.com/img1/839924.png")
+            return urlify(cartoonBookshelf2)
         default:
             throw Error("Invalid Bookshelf")
     }
