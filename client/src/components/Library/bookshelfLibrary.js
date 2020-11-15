@@ -13,7 +13,6 @@ class BookshelfLibrary extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.books !== this.props.books) {
-            console.log(this.props.name, this.props.books)
             this.setState({ books: this.props.books });
         }
 
@@ -44,7 +43,6 @@ class BookshelfLibrary extends React.Component {
                             description={book.description}
                             img={book.thumbnail}
                             key={book.isbn}
-                            excludeBookshelf={this.props.name}
                         />
                     ))}
                 </div>

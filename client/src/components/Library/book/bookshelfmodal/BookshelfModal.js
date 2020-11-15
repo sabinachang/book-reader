@@ -69,15 +69,15 @@ class BookshelfModal extends React.Component {
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
-                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
-                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
 
                 </div>
                 <div className="col">
-                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
-                    <Bookshelf excludeBookshelf={this.props.excludeBookshelf} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
                 </div>
-                
+
             </div>
             <div className="d-flex justify-content-end">
                 <button onClick={() => this.addToBookshelf()} className="btn btn-primary">Submit</button>

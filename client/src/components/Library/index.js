@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import BookshelfLibrary from './bookshelfLibrary'
-import axios from 'axios';
-
+import { getBooksInBookshelf } from './helper/utils'
 
 class Library extends Component {
     state = {
@@ -12,22 +11,13 @@ class Library extends Component {
         recommendations: []
     }
 
-    getBookInBookshelf = (bookshelf_name, callback) => {
-        axios.get(`http://localhost:5000/api/library/${bookshelf_name}`, { withCredentials: true })
-            .then((res) => {
-                callback(res.data)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
 
     componentDidMount = () => {
-        this.getBookInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
-        this.getBookInBookshelf("favorites", (data) => this.setState({ favorites: data }))
-        this.getBookInBookshelf("reading", (data) => this.setState({ reading: data }))
-        this.getBookInBookshelf("read", (data) => this.setState({ read: data }))
-        this.getBookInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
+        getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
+        getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
+        getBooksInBookshelf("reading", (data) => this.setState({ reading: data }))
+        getBooksInBookshelf("read", (data) => this.setState({ read: data }))
+        getBooksInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
     }
 
 
