@@ -95,7 +95,7 @@ class SearchView extends Component {
 					<label htmlFor='option' className='search-option'>Search option: </label>
 					<input type='radio' value=' inauthor' className='option' /> Author
 					<input type='radio' value=' intitle' className='option' /> Title
-					<input type='radio' value=' ' className='option' /> All
+					<input type='radio' value=' ' className='option' defaultChecked /> All
 				</div>
 
 
