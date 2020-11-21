@@ -10,9 +10,21 @@ function getBookSearch() {
 let bookSearchInstance = null;
 
 class bookSearch {
+	getBaseUrl() {
+		const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+		return baseUrl;
+	}
+
 	getKey() {
-		const apiKey = 'AIzaSyCzt3rMLM1vtDOFRgwLO1dfIqT1o3HO7Tk';
-		return apiKey;
+		return '&key=' + process.env.API_KEY;
+	}
+
+	getLang(lang='en'){
+		return '&langRestrict=' + lang;
+	}
+
+	getURL(query, lang='en') {
+		return this.getBaseUrl() + query + this.getLang(lang) + this.getKey();
 	}
 }
 

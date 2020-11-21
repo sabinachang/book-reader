@@ -26,7 +26,7 @@ function Login (props) {
             password: state.password
         }
 
-        axios.post('/api/users/login', payload, {
+        axios.post('http://localhost:5000/api/users/login', payload, {
             withCredentials: true,
         })
         .then((res) => {

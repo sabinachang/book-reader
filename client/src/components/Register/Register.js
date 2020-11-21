@@ -25,7 +25,7 @@ function Register(props) {
             password: state.password
         }
 
-        axios.post('/api/users/register', payload)
+        axios.post('http://localhost:5000/api/users/register', payload)
         .then( (res) => {
             if(res.status === 201) {
                 setState(prevState => ({

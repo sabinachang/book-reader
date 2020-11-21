@@ -30,7 +30,7 @@ class SearchView extends Component {
 
 	searchBook = query => {
 		console.log('query:', query);
-		axios.get('/api/search/' + query)
+		axios.get('http://localhost:5000/api/search/' + query)
 			.then((res) => {
 				if (res.status === 200) {
 					if (res.data.result.totalItems > 0) {
