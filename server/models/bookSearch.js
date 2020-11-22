@@ -11,6 +11,7 @@ let bookSearchInstance = null;
 
 class bookSearch {
 	getBaseUrl() {
+		// &orderBy=relevance
 		const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
 		return baseUrl;
 	}

@@ -9,6 +9,7 @@ function searchInputForm(props) {
 					<input 
 						id='search'
 						onChange={props.handleInputChange}
+						onKeyPress={props.handleKeyPress}
 						value={props.search}
 						name='search'
 						type='text'

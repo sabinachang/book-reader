@@ -23,11 +23,6 @@ class SearchView extends Component {
 		this.searchBook(this.state.search);
 	}
 
-	getImageLink = imglink => {
-		let url = imglink && imglink.thumbnail;
-		return url ? url.replace(/^http:\/\//i, 'https://') : '';
-	}
-
 	searchBook = query => {
 		console.log('query:', query);
 		axios.get('http://localhost:5000/api/search/' + query)
@@ -59,6 +54,7 @@ class SearchView extends Component {
 		this.props.history.push('/search');
 	}
 
+
 	handleInputChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -66,16 +62,25 @@ class SearchView extends Component {
 	handleFormSubmit = e => {
 		e.preventDefault();
 		if (this.state.search) {
-			this.searchBook(this.state.search + this.state.searchOption);
+			this.searchBook(this.state.searchOption + this.state.search);
+			this.setState({ search: ''})
 		} else {
+			this.redirectToSearchBook();
 			this.setState({ errMsg: 'Please enter book name or author name to search!' })
 		}
 
 	}
 
+	handleKeyPress = e => {
+		if (e.key === 'Enter') {
+			this.handleFormSubmit(e);
+		}
+	}
+
 	handleValueChange = e => {
 		this.setState({ searchOption: e.target.value });
 	}
+
 
 	getIsbn = (book) => {
 		if (book.volumeInfo.industryIdentifiers) {
@@ -87,22 +92,27 @@ class SearchView extends Component {
 		}
 	}
 
+	getImageLink = imglink => {
+		let url = imglink && imglink.thumbnail;
+		return url ? url.replace(/^http:\/\//i, 'https://') : '';
+	}
+
 	render() {
 		return (
 			<div className='container'>
 				<h1 className='search_book'>Search books</h1>
 				<div onChange={this.handleValueChange} className='option-line'>
 					<label htmlFor='option' className='search-option'>Search option: </label>
-					<input type='radio' value=' inauthor' className='option' /> Author
-					<input type='radio' value=' intitle' className='option' /> Title
-					<input type='radio' value=' ' className='option' defaultChecked /> All
+					<input type='radio' value='inauthor:' name='soption' className='option' /> Author
+					<input type='radio' value='intitle:' name='soption' className='option' /> Title
+					<input type='radio' value=' ' name='soption' className='option' defaultChecked /> All
 				</div>
-
 
 				<SearchInputForm
 					search={this.state.search}
 					handleInputChange={this.handleInputChange}
 					handleFormSubmit={this.handleFormSubmit}
+					handleKeyPress={this.handleKeyPress}
 				/>
 
 				<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
