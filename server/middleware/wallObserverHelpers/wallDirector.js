@@ -18,11 +18,11 @@ class Director {
                 console.log('Creating a post about adding a book to bookshelf.');
                 break;
             default:
-                console.log(`We don't recognize that ${request_type}.`);
+                console.log(`${request_type} not registered.`);
         }
     }
 }
 
-const Director = new Director(wallBuilder)
+const director = new Director(wallBuilder)
 
-module.exports = Director
+module.exports = director
