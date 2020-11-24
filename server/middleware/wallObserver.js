@@ -1,4 +1,4 @@
-const wallDirector = require('./wallObserverHelpers/wallDirector')
+const wallDirector = require('../models/wallObserverHelpers/wallDirector')
 
 class WallObserver {
   constructor(wallDirector) {

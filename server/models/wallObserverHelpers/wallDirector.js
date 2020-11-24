@@ -1,12 +1,7 @@
-const wallBuilder = require('./wallBuilder');
+const AddToBookshelfBuilder = require("./wallBuilders/AddToBookshelfBuilder")
 
 class Director {
-    constructor(builder) {
-        this.builder = builder
-    }
-
     create = (request_type) => {
-        this.builder.reset()
         switch (request_type) {
             case 'rate_book':
                 console.log('Creating a post about rating a book.');
@@ -16,6 +11,9 @@ class Director {
                 break
             case 'add_book_to_bookshelf':
                 console.log('Creating a post about adding a book to bookshelf.');
+                const addToBookshelfBuilder = new AddToBookshelfBuilder()
+                addToBookshelfBuilder.make()
+                console.log('builder', addToBookshelfBuilder)
                 break;
             default:
                 console.log(`${request_type} not registered.`);
@@ -23,6 +21,6 @@ class Director {
     }
 }
 
-const director = new Director(wallBuilder)
+const director = new Director()
 
 module.exports = director
