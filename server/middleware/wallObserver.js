@@ -6,9 +6,8 @@ class WallObserver {
   }
 
   readRequest = (req, res, next) => {
-    const request_type = req.body.request_type
     // create a post on the public wall according to the request_type
-    this.wallDirector.create(request_type)
+    this.wallDirector.create(req)
     console.log("Finish reading request")
     next()
 
