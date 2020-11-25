@@ -8,7 +8,7 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 		const query = req.params.query;
 		let bookResult = null;
 		const url = bookSearch.getURL(query);
-		console.log('search url: ', url);
+		// console.log('search url: ', url);
 
 		await axios.get(url)
 		.then((res) => {

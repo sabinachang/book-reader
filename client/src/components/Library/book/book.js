@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap'
+import axios from 'axios';
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
 import "./Book.css"
@@ -14,8 +15,10 @@ class Book extends Component {
             description: props.description,
             isbn: props.isbn,
             img: img,
+            pageCount: props.pageCount,
             bookshelfModal: false,
-            recommendModal: false
+            recommendModal: false,
+            bookshelf: 'read', //TODO: how to get bookshelf in library page
         }
     }
 
@@ -41,8 +44,45 @@ class Book extends Component {
             authors: this.state.authors,
             thumbnail: this.props.img,
             description: this.state.description,
-            isbn: this.state.isbn
+            isbn: this.state.isbn,
+            pageCount: this.state.pageCount
         }
+    }
+
+    handleRemoveBook = () => {
+        axios.put(`/api/library/${this.state.bookshelf}`,
+            {
+            isbn: this.state.isbn
+            },
+            {withCredentials: true
+        }).then((res) => {
+            if (res.status === 200) {
+                console.log(res.data.message);
+            } else {
+                console.log('errrr');
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }
+    //TODO: checkProgressModal
+    handleCheckProgress = () => {
+        axios.put('/api/progress', {
+            isbn: this.state.isbn,
+            pageNum: 10  // TODO: input box from user
+            },
+            {withCredentials: true}
+        ).then ((res) => {
+            if (res.status === 200) {
+                console.log(res.data.message);
+            } else {
+                console.log(res.error);
+            }
+   
+        }).catch ((err) => {
+            console.log(err);
+        });
     }
 
     render() {
@@ -77,6 +117,8 @@ class Book extends Component {
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
                         <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
+                        <Dropdown.Item onClick={this.handleRemoveBook}>Remove From Bookshelf</Dropdown.Item>
+                        <Dropdown.Item onClick={this.handleCheckProgress}>Track Progress</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

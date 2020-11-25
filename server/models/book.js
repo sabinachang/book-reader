@@ -17,4 +17,17 @@ schema.statics.createBook = async function(flyweight, owner) {
     });
 }
 
+schema.statics.updateProgress = async function(flyweight, owner, progressNum) {
+    return await this.updateOne({
+        flyweight: flyweight,
+        owner: owner,
+    },{
+        progress: progressNum
+    });
+}
+
+schema.statics.calculateProgress = function(pageNum, totalPage) {
+    return Math.round(pageNum / totalPage * 100);
+}
+
 module.exports = mongoose.model('Book', schema);
