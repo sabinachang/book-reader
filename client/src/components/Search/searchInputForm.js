@@ -2,6 +2,11 @@ import React from 'react';
 
 
 function searchInputForm(props) {
+	const handleKeyUp = (e) => {
+		if (e.keyCode === 13) {
+			props.handleFormSubmit(e)
+		  }
+	}
 	return (
 		<div className='form' role='form'>
 			<div className='row'>
@@ -9,6 +14,7 @@ function searchInputForm(props) {
 					<input 
 						id='search'
 						onChange={props.handleInputChange}
+						onKeyUp={handleKeyUp}
 						value={props.search}
 						name='search'
 						type='text'
