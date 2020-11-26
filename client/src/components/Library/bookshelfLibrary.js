@@ -27,6 +27,9 @@ class BookshelfLibrary extends React.Component {
         this.setState({ bookshelfModal: false })
     }
 
+    toggleBookshelfModal = (visible) => {
+        this.setState({bookshelfModal: visible})
+    }
 
     render() {
         return (<div>
@@ -43,6 +46,7 @@ class BookshelfLibrary extends React.Component {
                             description={book.description}
                             img={book.thumbnail}
                             key={book.isbn}
+                            showUserFeedback={true}
                         />
                     ))}
                 </div>

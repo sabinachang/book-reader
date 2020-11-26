@@ -117,6 +117,7 @@ class SearchView extends Component {
 							description={book.volumeInfo.description}
 							img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
 							isbn={this.getIsbn(book)}
+							showUserFeedback={false}
 						/>
 					))}
 				</Row>
