@@ -2,6 +2,7 @@ const Bookshelves = require('../models/bookshelves');
 const Book = require('../models/book');
 const User = require('../models/user').User;
 const BookFlyweight = require('../models/bookFlyweight');
+const Message = require('../models/message');
 
 const getBooks = async (req, res) => {
 
@@ -44,7 +45,41 @@ const addBookToBookshelf = async (req, res) => {
 
 }
 
+const getFeedbacks = async (req, res) => {
+    const isbn = req.params.bookIsbn
+    try {
+        const flyweight = await BookFlyweight.get(isbn)
+        if (flyweight !== null ){
+            const filter = { bookFlyweight: flyweight._id }
+        
+            const reviews = await Message.getReviews(filter)
+            let like = flyweight.like
+            let dislike = flyweight.dislike
+
+            if (!like) {
+                like = 0
+            }
+            if (!dislike) {
+                dislike = 0
+            }
+            res.status(200).json({
+                likeCount: like,
+                dislikeCount: dislike,
+                reviews,
+            })
+        } else{
+            res.sendStatus(205)
+        }
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+    
+    
+}
+
 module.exports = {
     getBooks,
-    addBookToBookshelf
+    addBookToBookshelf,
+    getFeedbacks,
 }

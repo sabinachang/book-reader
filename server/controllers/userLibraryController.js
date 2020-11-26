@@ -1,5 +1,6 @@
 const getBookSearch = require('../models/bookSearch');
 const axios = require('axios');
+const {review, rating} = require('../lib/feedbackTemplate');
 
 const bookSearch = getBookSearch()
 
@@ -26,3 +27,67 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 	}
 }
 
+exports.createReview = async function (req, res, next) {
+	const isbn = req.params.bookIsbn
+	const username = req.cookies.username
+	const content = req.body.review
+	
+	const response = await review.generate({ isbn, username, content});
+	console.log(response)
+
+	if (response.result === 'ok') {
+		res.status(200).json({
+			review: response.review,
+		})
+	} else {
+		res.sendStatus(400)
+	}
+}
+
+exports.createRating = async function(req, res, next) {
+	const isbn = req.params.bookIsbn
+	const username = req.cookies.username
+	const content = req.body.rating
+	const response = await rating.generate({ isbn, username, content});
+	console.log(response)
+
+	if (response.result === 'ok') {
+		res.status(200).json({
+			rating: response.rating,
+		})
+	} else {
+		res.sendStatue(400)
+	}
+}
+
+exports.getReview = async function(req, res, next) {
+	const isbn = req.params.bookIsbn
+	const username = req.cookies.username
+
+	const response = await review.retrieve({ isbn, username })
+
+	console.log(response)
+	if (response.result === 'ok') {
+		res.status(200).json({
+			review: response.review,
+		})
+	} else {
+		res.sendStatue(500)
+	}
+}
+
+exports.getRating = async function(req, res, next) {
+	const isbn = req.params.bookIsbn
+	const username = req.cookies.username
+
+	const response = await rating.retrieve({ isbn, username })
+
+	console.log(response)
+	if (response.result === 'ok') {
+		res.status(200).json({
+			rating: response.rating,
+		})
+	} else {
+		res.sendStatue(500)
+	}
+}
