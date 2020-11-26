@@ -8,7 +8,6 @@ class BookshelfLibrary extends React.Component {
     constructor(props) {
         super(props)
         this.state = { books: [], bookshelfModal: false }
-        console.log(this.props.name);
     }
 
 

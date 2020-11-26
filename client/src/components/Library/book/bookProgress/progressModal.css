@@ -1,0 +1,33 @@
+.input-container{
+	width: 100%;
+	margin-top: 10px;
+}
+
+.input-form{
+	/*display: flex;*/
+	padding: 10px;
+	border-top: var(--border);
+	width: 100%;
+}
+
+.input-label{
+	margin-left: -5px;
+	font-size: 15px;
+	font-weight: bold;
+
+}
+
+.input-num{
+	padding-left: 10px;
+	width: 50%;
+	float: center;
+	margin-left: 10px;
+	/*flex: 1;*/
+
+}
+.btn-primary{
+	float: right;
+	margin-right: 30px;
+	font-weight: bold;
+}
+

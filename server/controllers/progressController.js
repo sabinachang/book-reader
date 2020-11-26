@@ -29,11 +29,7 @@ class progressController {
             } else {
                 res.status(400);
                 res.json({'error': 'No permission to track progress'});
-
             }
-
-
-
     	} else {
 
     		res.status(400).json({'error': 'Missing params'})

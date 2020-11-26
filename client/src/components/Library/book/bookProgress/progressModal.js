@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
 import axios from 'axios';
+import "./progressModal.css"
 
 class ProgressModal extends React.Component {
     constructor(props) {
@@ -106,14 +107,14 @@ class ProgressModal extends React.Component {
                         <h5>Current progress: {this.getCurrentProgress()}%</h5>
                     </div>
 
-                    <div className='row text-center'>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>Last page you read: 
+                    <div className='input-container'>
+                        <form onSubmit={this.handleSubmit} className='input-form'>
+                            <label className='input-label'>Last page you read: 
                                 <input type='number' pattern='[0-9]*'
-                                 value={this.state.value}
+                                 value={this.state.value} className='input-num'
                                  onChange={this.handleChange}/>
                             </label>
-                            <input type='submit' value='send'/>
+                            <input type='submit' value='Update' className='btn-primary'/>
                         </form>
                     </div>
                 </div>
