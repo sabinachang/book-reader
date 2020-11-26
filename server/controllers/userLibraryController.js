@@ -9,9 +9,10 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 		query = req.params.query;
 		bookResult = null;
 		baseurl = 'https://www.googleapis.com/books/v1/volumes?q=' 
-		keyurl = ':keyes&key=' + bookSearch.getKey();
+		startIndexQuery = '&startIndex=' + req.query.startIndex
+		keyurl = '&key=' + bookSearch.getKey();
 		console.log('search query: ', query)
-		await axios.get(baseurl + query + keyurl)
+		await axios.get(baseurl + query + startIndexQuery + keyurl)
 		.then((res) => {
 			bookResult = res.data;
 		})

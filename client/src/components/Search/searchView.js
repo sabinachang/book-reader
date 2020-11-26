@@ -5,8 +5,7 @@ import Book from '../Library/book/book';
 import SearchInputForm from './searchInputForm'
 import defaultBookImg from './defaultBook.png'
 import "./searchView.css"
-
-
+import Pagination from './pagination'
 
 class SearchView extends Component {
 	constructor(props) {
@@ -15,8 +14,10 @@ class SearchView extends Component {
 			search: '',
 			result: [],
 			searchOption: '',
-			errMsg: ''
+			errMsg: '',
 		};
+		this.currentPage = 1
+		this.totalItems = 0
 	}
 
 	componentDisMount() {
@@ -30,10 +31,15 @@ class SearchView extends Component {
 
 	searchBook = query => {
 		console.log('query:', query);
-		axios.get('/api/search/' + query)
+		axios.get('/api/search/' + query, {
+			params: {
+				startIndex: ((this.currentPage - 1) *10)
+			}
+		})
 			.then((res) => {
 				if (res.status === 200) {
 					if (res.data.result.totalItems > 0) {
+						this.totalItems = res.data.result.totalItems
 						this.setState({
 							result: res.data.result.items,
 							errMsg: ''
@@ -63,8 +69,59 @@ class SearchView extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
+	updateCurrentPage = (s) => {
+		this.currentPage = s
+	}
+
+	updateTotalItems = (t) => {
+		this.totalItems = t
+	}
+
+	getPage = (number) => {
+		this.updateCurrentPage(parseInt(number, 10))
+		this.searchBook(this.state.search + this.state.searchOption);
+	}
+
+	getPaginationUI = () => {
+		window.scrollTo(0,0)
+		const current = parseInt(this.currentPage, 10)
+		let start
+		let end
+		if (this.totalItems === 0) {
+			return null
+		}
+		if ( (current - 5) < 1 ) {
+			start = 1
+		} else {
+			start = current - 5
+		}
+
+		if ((current + 4) > Math.ceil((this.totalItems/10))) {
+			end = Math.ceil((this.totalItems/10))
+		} else {
+			if (start ===1 ) {
+				end = 10
+			} else {
+				end = current + 4
+
+			}
+		}
+		return (
+			<>
+			<Pagination 
+			onPageClick={this.getPage}
+			start={start}
+			end={end}
+			current={current}>
+			</Pagination>
+			</>
+		)
+	}
+
 	handleFormSubmit = e => {
 		e.preventDefault();
+		this.updateCurrentPage(1)
+		this.updateTotalItems(0)
 		if (this.state.search) {
 			this.searchBook(this.state.search + this.state.searchOption);
 		} else {
@@ -120,6 +177,11 @@ class SearchView extends Component {
 							showUserFeedback={false}
 						/>
 					))}
+				</Row>
+				<Row>
+					<div className="my-4">
+					{this.getPaginationUI()}
+					</div>
 				</Row>
 			</div>
 		)
