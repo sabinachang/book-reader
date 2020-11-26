@@ -26,6 +26,10 @@ schema.statics.updateProgress = async function(flyweight, owner, progressNum) {
     });
 }
 
+schema.statics.getProgress = async function(flyweight, owner) {
+    return await this.find()
+}
+
 schema.statics.calculateProgress = function(pageNum, totalPage) {
     return Math.round(pageNum / totalPage * 100);
 }

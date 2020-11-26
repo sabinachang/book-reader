@@ -8,6 +8,7 @@ class BookshelfLibrary extends React.Component {
     constructor(props) {
         super(props)
         this.state = { books: [], bookshelfModal: false }
+        console.log(this.props.name);
     }
 
 
@@ -44,6 +45,8 @@ class BookshelfLibrary extends React.Component {
                             img={book.thumbnail}
                             pageCount={book.pageCount}
                             key={book.isbn}
+                            page='library'
+                            bookshelf={this.props.name}
                         />
                     ))}
                 </div>

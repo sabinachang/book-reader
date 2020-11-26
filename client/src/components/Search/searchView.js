@@ -19,7 +19,7 @@ class SearchView extends Component {
 		};
 	}
 
-	componentDisMount() {
+	componentDidMount() {
 		this.searchBook(this.state.search);
 	}
 
@@ -128,6 +128,8 @@ class SearchView extends Component {
 							img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
 							isbn={this.getIsbn(book)}
 							pageCount={book.volumeInfo.pageCount}
+							page='search'
+							bookshelf='none'
 						/>
 					))}
 				</Row>

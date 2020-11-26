@@ -15,6 +15,6 @@ module.exports = express
 .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
 .post('/friendship/invitation/:action', interactionController.handleInvitations)
 .get('/search/:query', bookSearchController.getBookResult)
-.get('/progress', progressController.getProgress)
+.get('/progress/:isbn', progressController.getProgress)
 .put('/progress', progressController.updateProgress);
 

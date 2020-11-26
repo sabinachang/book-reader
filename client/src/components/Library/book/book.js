@@ -3,6 +3,7 @@ import { Dropdown } from 'react-bootstrap'
 import axios from 'axios';
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
+import ProgressModal from './bookProgress/progressModal'
 import "./Book.css"
 
 class Book extends Component {
@@ -18,8 +19,11 @@ class Book extends Component {
             pageCount: props.pageCount,
             bookshelfModal: false,
             recommendModal: false,
-            bookshelf: 'read', //TODO: how to get bookshelf in library page
+            progressModal: false,
+            page: props.page,
+            bookshelf: props.bookshelf
         }
+
     }
 
     renderBookshelfModal = () => {
@@ -30,12 +34,20 @@ class Book extends Component {
         this.setState({ recommendModal: true })
     }
 
+    renderProgressModal = () => {
+        this.setState({ progressModal: true})
+    }
+
     unrenderBookshelfModal = () => {
         this.setState({ bookshelfModal: false })
     }
 
     unrenderRecommendModal = () => {
         this.setState({ recommendModal: false })
+    }
+
+    unrenderProgressModal = () => {
+        this.setState({ progressModal: false})
     }
 
     getBookInfo = () => {
@@ -51,39 +63,40 @@ class Book extends Component {
 
     handleRemoveBook = () => {
         axios.put(`/api/library/${this.state.bookshelf}`,
-            {
-            isbn: this.state.isbn
-            },
+            {isbn: this.state.isbn},
             {withCredentials: true
         }).then((res) => {
             if (res.status === 200) {
                 console.log(res.data.message);
             } else {
-                console.log('errrr');
+                console.log('remove err');
             }
         }).catch((err) => {
             console.log(err);
         })
 
     }
-    //TODO: checkProgressModal
-    handleCheckProgress = () => {
-        axios.put('/api/progress', {
-            isbn: this.state.isbn,
-            pageNum: 10  // TODO: input box from user
-            },
-            {withCredentials: true}
-        ).then ((res) => {
-            if (res.status === 200) {
-                console.log(res.data.message);
-            } else {
-                console.log(res.error);
-            }
-   
-        }).catch ((err) => {
-            console.log(err);
-        });
+
+    removeControl = () => {
+        if (this.state.page === 'library') {
+            return (
+                <div>
+                    <Dropdown.Item onClick={this.handleRemoveBook}>Remove From Bookshelf</Dropdown.Item>
+                </div>
+            );
+        }
     }
+
+    progressControl = () => {
+        if (this.state.bookshelf === 'Reading') {
+            return (
+                <div>
+                    <Dropdown.Item onClick={this.renderProgressModal}>Track Progress</Dropdown.Item>
+                </div>
+            );
+        }
+    }
+
 
     render() {
         return (
@@ -98,7 +111,13 @@ class Book extends Component {
                     handleClose={this.unrenderRecommendModal}
                     bookInfo={this.getBookInfo()}
                 />
+                <ProgressModal
+                    visible={this.state.progressModal}
+                    handleClose={this.unrenderProgressModal}
+                    bookInfo={this.getBookInfo()}
+                />
 
+ 
                 <Dropdown >
                     <div className="d-flex book-info">
                         <div className="card" style={{ width: "18rem" }}>
@@ -117,8 +136,9 @@ class Book extends Component {
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
                         <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
-                        <Dropdown.Item onClick={this.handleRemoveBook}>Remove From Bookshelf</Dropdown.Item>
-                        <Dropdown.Item onClick={this.handleCheckProgress}>Track Progress</Dropdown.Item>
+                        {this.removeControl()}
+                        {this.progressControl()}
+                     
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
