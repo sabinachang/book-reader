@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 
 const schema = new mongoose.Schema({
+    owner: String,
     title: String,
     timestamp: { type: Date, default: Date.now },
     image: String,
@@ -16,7 +17,10 @@ class Builder {
     }
     make(obj) {
         console.log("Boilerplate logic for all events")
-        this.wallEvent = new WallEvent({ title: obj.title, image: obj.image, bodyText: obj.bodyText })
+        this.wallEvent = new WallEvent({
+            owner: obj.owner,
+            title: obj.title,
+        })
     }
     async save() {
         await this.wallEvent.save()
