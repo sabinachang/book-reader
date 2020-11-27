@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     owner: String,
     title: String,
-    timestamp: { type: Date, default: Date.now },
     image: String,
-    bodyText: String
+    bodyText: String,
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' }],
+    timestamp: { type: Date, default: Date.now },
 })
 
 const WallEvent = mongoose.model('WallEvents', schema);
