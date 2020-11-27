@@ -20,7 +20,7 @@ class progressController {
                     await Book.updateProgress(flyweight, owner, progress);
                     res.status(200).json({message: progress});
                     if (progress === 100) {
-                        console.log('move to read');
+                        console.log('move to read'); //TODO: add Observer?
                         await Bookshelves.addBookToBookshelf(owner, 'read', book)
                     }
                 } catch (err) {
