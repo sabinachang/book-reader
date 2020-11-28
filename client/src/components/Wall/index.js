@@ -24,6 +24,7 @@ class Wall extends Component {
                 {this.state.posts.map((post) => (
 						<Post
                             key= {post._id}
+                            body = {post.bodytext}
 							id={post._id}
 							title={post.title}
 							owner={post.owner}
