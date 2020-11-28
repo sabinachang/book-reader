@@ -10,11 +10,9 @@ class BookshelfModal extends React.Component {
     addToBookshelf = async () => {
         if (this.state.selected) {
             await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo, { withCredentials: true })
-                .then(() => { console.log('DONE SELECTED') })
         }
         if (this.state.favorites) {
             await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo, { withCredentials: true })
-                .then(() => { console.log('DONE FAVORITES') })
         }
 
         if (this.state.favorites || this.state.selected) {
