@@ -4,22 +4,43 @@ import 'font-awesome/css/font-awesome.min.css';
 
 class Post extends Component {
     state = {
-        showCommentBox: false
+        showCommentBox: false,
+        commentValue: ''
     }
 
 
     componentDidMount = () => {
     }
-    displayImages = () => {
-    
-        return this.props.images.map((img) => {
-            <img style={{width: "12rem"}} className="card-img" src={img} alt="Book Cover"/>
 
-            })}
-    
+    handleCommentChange = (event) => {
+        this.setState({commentValue: event.target.value});
+
+    }
+
+    displayImages = () => {
+      return  <div className="d-flex justify-content-around">
+{ this.props.images.map(image => {
+            return <img key={image} style={{width: "12rem"}} className="card-img" src={image} alt="Book Cover"/>
+        })}
+       </div>
+
+        
+    }
+            
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+          console.log(this.state.commentValue)
+          console.log(this.props.id)
+          this.setState({commentValue: ''})
+        }
+      }
 
     toggleCommentBox = () => {
         this.setState({showCommentBox: !this.state.showCommentBox})
+    }
+
+    sendLike =() => {
+        console.log("You liked " + this.props.id)
     }
 
     convertTime = (timestamp) => {
@@ -60,8 +81,8 @@ class Post extends Component {
             <div className="card-footer text-muted">
 
 <div className = "d-flex justify-content-around pb-1">
-<i className="fa fa-lg fa-thumbs-up"/>
-<i onClick = {this.toggleCommentBox} className="fa fa-lg fa-comment"/>
+<i style = {{cursor: 'pointer'}} onClick = {this.sendLike} className="fa fa-lg fa-thumbs-up"/>
+<i style = {{cursor: 'pointer'}} onClick = {this.toggleCommentBox} className="fa fa-lg fa-comment"/>
 
 </div>
 
@@ -70,7 +91,7 @@ class Post extends Component {
            { this.state.showCommentBox &&  <div className="card-footer text-muted">
 
                 <div className="form-group">
-                <input style={{borderRadius: "15px"}} type="text" className="form-control" placeholder="Write a comment..."/>
+                <input onKeyPress={this.handleKeyPress} onChange={this.handleCommentChange} style={{borderRadius: "15px"}} type="text" value = {this.state.commentValue} className="form-control" placeholder="Write a comment..."/>
 
                  </div>
 
