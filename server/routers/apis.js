@@ -9,7 +9,7 @@ module.exports = express
     .Router()
     .get('/library/:bookshelf', bookshelfController.getBooks)
     .post('/library/:bookshelf', wallObserver.readRequest, bookshelfController.addBookToBookshelf)
-    .post('/request/:type', wallObserver.readRequest, interactionController.requestFactory)
+    .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     //TODO combine with /friends
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
