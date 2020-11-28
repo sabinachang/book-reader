@@ -4,6 +4,7 @@ const Friendship = require('../models/friendship');
 
 const getPrivateWall = async (req, res) => {
     const posts = await WallPost.find({ owner: req.cookies.username })
+    posts = posts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     res.send(posts)
 }
 
