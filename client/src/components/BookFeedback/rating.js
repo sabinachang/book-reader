@@ -6,7 +6,9 @@ function rating(props) {
 
     const getNow = () => {
         const total = props.likeCount + props.dislikeCount
-        console.log(props.likeCount/total)
+        if (total === 0) {
+            return 0
+        }
         return( ( props.likeCount / total) * 100 )
     }
     return (

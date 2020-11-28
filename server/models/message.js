@@ -12,10 +12,11 @@ const schema = new mongoose.Schema({
 
 schema.statics.getReviews = async function (filter) {
     const reviews = await this.find(filter)
-    return await this.populate(reviews,{
+     await this.populate(reviews,{
         path: 'creator',
         select: '_id username'
     })
+    return reviews
 }
 
 schema.statics.createReview = async function ({ bookFlyweight, creator, content }) {

@@ -53,6 +53,9 @@ exports.createRating = async function(req, res, next) {
 	console.log(response)
 
 	if (response.result === 'ok') {
+		if (response.updateFavorite) {
+			req.app.io.sockets.emit("updateBookFavorite", isbn)
+		}
 		res.status(200).json({
 			rating: response.rating,
 		})

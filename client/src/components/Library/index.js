@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import BookshelfLibrary from './bookshelfLibrary'
 import { getBooksInBookshelf } from './helper/utils'
+import socketClient from 'socket.io-client'
 
 class Library extends Component {
-    state = {
-        wantToRead: [],
-        reading: [],
-        read: [],
-        favorites: [],
-        recommendations: []
+    
+    constructor(props) {
+        super(props)
+        this.state = {
+            wantToRead: [],
+            reading: [],
+            read: [],
+            favorites: [],
+            recommendations: []
+        }
+        this.socket = socketClient('/')
+        this.socket.on('fetchFavorite', () => {
+            getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
+        })
     }
-
+  
 
     componentDidMount = () => {
         getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
@@ -21,6 +30,9 @@ class Library extends Component {
     }
 
 
+    componentWillUnmount = () => {
+        this.socket.disconnect()
+    }
     render() {
 
         return (

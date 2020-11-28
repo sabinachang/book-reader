@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
-import BookOverview from './bookOverview';
 import Rating from './rating';
 import Message from './message';
 import UserReview from './userReview';
 import UserRating from './userRating';
 import Modal from '../Common/modal/Modal'
+import socketClient from 'socket.io-client'
 
 
 class FeedbackModal extends Component {
-
     constructor(props) {
+
         super(props);
         this.state = {
             loading: true,
@@ -23,8 +22,15 @@ class FeedbackModal extends Component {
         }
         
         this.callApi = false
+        this.hasUpdate = false
+
+     
     }
     closeModal = () => {
+        if (this.hasUpdate) {
+            this.hasUpdate = false
+            this.socket.emit('updateFavorite')
+        }
 
         this.callApi = false
         this.props.handleClose()
@@ -62,6 +68,20 @@ class FeedbackModal extends Component {
 
     componentDidMount = () => {
         console.log('component mount')
+        this.socket = socketClient('/')
+        this.socket.on('updateBookFavorite', (isbn) => {
+            if (this.props.book.isbn === isbn) {
+                this.hasUpdate = true
+            }
+        })
+    }
+
+    componentWillUnmount = () => {
+        if (this.socket.connect) {
+            console.log('disconnect in  unmount')
+
+            this.socket.disconnect()
+        }
     }
 
     componentDidUpdate = () => {

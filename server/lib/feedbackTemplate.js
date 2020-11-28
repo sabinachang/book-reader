@@ -2,6 +2,7 @@ const BookFlyweight = require( '../models/bookFlyweight');
 const  Book = require( '../models/book');
 const Message = require( '../models/message');
 const {User} = require('../models/user');
+const Bookshelves = require('../models/bookshelves')
 
 let feedbackTemplate =  {
     getBook: async function(isbn, user) {
@@ -94,7 +95,7 @@ review.retrieve = async function ({ isbn, username }) {
 //concrete rating handler
 let rating = inherit(feedbackTemplate)
 
-rating.add = async function({ book, _, content }) {
+rating.add = async function({ book, user, content }) {
     console.log('adding rating')
     console.log(content)
     try {
@@ -105,8 +106,18 @@ rating.add = async function({ book, _, content }) {
         })
 
         await book.updateRating(content.to)
+
+        if (content.from === 'like') {
+            await  Bookshelves.removeBook(user, 'favorites', book)
+            
+        }
+
+        if (content.to === 'like') {
+            await Bookshelves.addBookToBookshelf(user, 'favorites', book)
+        }
         return {
             result: 'ok',
+            updateFavorite: ((content.from === 'like') || (content.to === 'like')),
             rating: content.to,
         }
     } catch (err) {

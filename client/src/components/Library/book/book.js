@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Button } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
 import FeedbackModal from '../../BookFeedback/feedbackModal'
@@ -77,16 +77,15 @@ class Book extends Component {
 
                 <Dropdown >
                     <div   className="d-flex book-info">
-                        <div onClick={this.renderFeedbackModal} className="card" style={{ width: "18rem" }}>
+                        <div  className="card" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title">{this.state.title}</h5>
                                 <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
+                                <Button variant='link' onClick={this.renderFeedbackModal}>View reviews</Button>
                                 <p className="card-text">{this.state.description}</p>
                             </div>
 
                         </div>
-
-
                         <Dropdown.Toggle split variant="" id="dropdown-split-basic" />
 
                     </div>
