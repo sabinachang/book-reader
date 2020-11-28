@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Book from '../Library/book/book';
-import SearchInputForm from './searchInputForm'
+import SearchInputForm from '../Common/searchBar/SearchInputForm';
+import Nav1 from '../Common/nav1/Nav1';
+import Nav2 from '../Common/nav2/Nav2';
 
 class SearchView extends Component {
 	constructor(props) {
@@ -12,7 +14,6 @@ class SearchView extends Component {
 			result: [],
 		};
 	}
-
 
 	componentDisMount() {
 		this.searchBook(this.state.search);
@@ -48,22 +49,28 @@ class SearchView extends Component {
 
 	render() {
 		return (
-			<div className='container'>
-				<SearchInputForm 
-					search={this.state.search}
-					handleInputChange={this.handleInputChange}
-					handleFormSubmit={this.handleFormSubmit}
-				/>
+			<div>
+				<Nav1/>
+				<div className="d-flex row justify-content-center">
 				
-				{this.state.result.map(book => (
-					<Book
-						key={book.id}
-						title={book.volumeInfo.title}
-						author={book.volumeInfo.authors}
-						description={book.volumeInfo.description}
-						img={book.volumeInfo.imageLinks.thumbnail}
-					/>
-				))}
+					<div className="col-9 result-container mb-5">
+						<h4 className="mt-4" >Search books</h4>
+						<SearchInputForm 
+							search={this.state.search}
+							handleInputChange={this.handleInputChange}
+							handleFormSubmit={this.handleFormSubmit}
+						/>
+						{this.state.result.map(book => (
+							<Book
+								key={book.id}
+								title={book.volumeInfo.title}
+								author={book.volumeInfo.authors}
+								description={book.volumeInfo.description}
+								img={book.volumeInfo.imageLinks.thumbnail}
+							/>
+						))}
+					</div>
+				</div>
 			</div>
 		)
 	}

@@ -8,7 +8,6 @@ class Home extends Component {
     return (
       <div>
         <Nav1/>
-        <Nav2/>
       </div>
 
     );

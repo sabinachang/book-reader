@@ -21,6 +21,7 @@ a {
 a:hover {
   color: #739815;
   font-weight: 500;
+  font-style: italic;
 }
 
 h4 {

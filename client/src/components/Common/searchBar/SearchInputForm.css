@@ -1,5 +1,5 @@
 #search-books {
-	background: #f2f9e1;
+	background: #efefef;
     border: none;
 }
 
@@ -9,10 +9,12 @@
     border-radius: 5px;
     color: #739815;
     height: 100%;
+    cursor: pointer;
 }
 
 .form-custom {
 	display: flex;
 	margin-top: auto;
-	margin-bottom: auto;
+    margin-bottom: auto;
+    width: 98%;
 }

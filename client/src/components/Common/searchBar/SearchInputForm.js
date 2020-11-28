@@ -5,7 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 function searchInputForm(props) {
 	return (
-		<form className='form' role='form'>
+		<form className='form my-3' role='form'>
 			<div className='form-group form-custom'>
 				<input 
 					id='search-books'
@@ -18,7 +18,7 @@ function searchInputForm(props) {
 					required
 				/>
 				<span>
-					<button onClick={props.handleFormSubmit} className="ml-2" id="btn-custom"><FontAwesomeIcon icon={faSearch} /></button>
+					<button onClick={props.handleFormSubmit} className="ml-2 px-4" id="btn-custom"><FontAwesomeIcon icon={faSearch} /></button>
 				</span>
 			</div>
 		</form>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Book from './book/book'
 import axios from 'axios';
-import  Nav1 from '../Common/nav1/Nav1';
+import Nav1 from '../Common/nav1/Nav1';
 import Nav2 from '../Common/nav2/Nav2';
 
 
@@ -21,9 +21,9 @@ class Library extends Component {
         return (
             <div>
                 <Nav1/>
-                <Nav2/>
-                <div className="d-flex row justify-content-center">
+                <div className="d-flex row justify-content-center mt-4">
                     <div className="col-9">
+                        <h4>Your Library</h4>
                         <Book
                             title="Harry Potter And The Chamber Of Secrets"
                             author="J.K. Rowling"
