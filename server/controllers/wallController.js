@@ -11,15 +11,13 @@ const getPrivateWall = async (req, res) => {
 
 const getPublicWall = async (req, res) => {
     var posts = await WallPost.find({ owner: req.cookies.username })
-    const friends = await Friendship.list(req.cookies.username);
+    const friendsObj = await Friendship.list(req.cookies.username);
+    const friends = friendsObj.friends;
     for (var i = 0; i < friends.length; i++) {
-        var friendsPosts = await WallPost.find({ owner: friends[i] })
+        var friendsPosts = await WallPost.find({ owner: friends[i].username })
         posts = posts.concat(friendsPosts)
     }
-    console.log(posts[0])
     posts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    console.log(posts[0])
-
     res.send(posts)
 }
 
