@@ -1,4 +1,6 @@
 const AbstractBuilder = require('./AbstractWallBuilder')
+const { addSpacesToBookshelf } = require('../../../lib/helper')
+
 
 class AddToBookshelfBuilder extends AbstractBuilder {
     constructor() {
@@ -10,7 +12,7 @@ class AddToBookshelfBuilder extends AbstractBuilder {
         const request_body = req.body;
         console.log("making post on wall about adding to bookshelf")
         super.make({
-            title: `${username} added '${request_body.title}' to their '${req.params.bookshelf}' bookshelf`,
+            title: `${username} added '${addSpacesToBookshelf(request_body.title)}' to their '${req.params.bookshelf}' bookshelf`,
             owner: username
         });
         // Can have more complex functions for building an event on the wall
