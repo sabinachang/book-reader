@@ -69,10 +69,10 @@ class BookshelfModal extends React.Component {
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
-                    <Bookshelf selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
+                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" icons="faStream"/>
+                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" icons="faBookmark"/>
+                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Read" icons="faBookReader"/>
+                    <Bookshelf selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" icons="faHeart"/>
                 </div>
             </div>
             <div className="d-flex justify-content-end">

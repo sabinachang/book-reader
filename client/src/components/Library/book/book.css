@@ -18,17 +18,21 @@ h1 {
 .card {
     width: 48%;
     margin-right: 2%;
+    float: left;
 }
 
 .card-body {
     display: flex;
     padding: 10px;
-    height: 200px;
+    height: auto;
+}
+
+.card-text {
+    overflow-y: scroll;
+    height: 100px;
 }
 
 .dropdown-btn {
     float: right;
     background-color: #ccea83;
-    right: 5px;
-    bottom: 5px;
 }

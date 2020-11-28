@@ -4,16 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Book from '../Library/book/book';
 import SearchInputForm from './searchInputForm'
 
-
-// export function getSearchGoogle() {
-//   if (searchView == null) {
-//     searchView = new SearchView();
-//   }
-//   return searchView;
-// }
-
-// let searchView = null;
-
 class SearchView extends Component {
 	constructor(props) {
 		super(props);
@@ -65,17 +55,15 @@ class SearchView extends Component {
 					handleFormSubmit={this.handleFormSubmit}
 				/>
 				
-				<Row>
-					{this.state.result.map(book => (
-						<Book
-							key={book.id}
-							title={book.volumeInfo.title}
-							author={book.volumeInfo.authors}
-							description={book.volumeInfo.description}
-							img={book.volumeInfo.imageLinks.thumbnail}
-						/>
-					))}
-				</Row>
+				{this.state.result.map(book => (
+					<Book
+						key={book.id}
+						title={book.volumeInfo.title}
+						author={book.volumeInfo.authors}
+						description={book.volumeInfo.description}
+						img={book.volumeInfo.imageLinks.thumbnail}
+					/>
+				))}
 			</div>
 		)
 	}

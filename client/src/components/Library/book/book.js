@@ -73,13 +73,12 @@ class Book extends Component {
                             </div>
                         </div>
                     </div>
-
                     <Dropdown.Menu className="custom-menu mt-2" menuAlign="right" id="dropdown-menu-align-right">
                         <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
                         <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
                     </Dropdown.Menu>
-
                 </Dropdown>
+
             </div>
 
 
