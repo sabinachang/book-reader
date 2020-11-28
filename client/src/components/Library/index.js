@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Book from './book/book'
 import axios from 'axios';
+import  Nav1 from '../Common/nav1/Nav1';
+import Nav2 from '../Common/nav2/Nav2';
 
 
 class Library extends Component {
@@ -18,10 +20,10 @@ class Library extends Component {
     render() {
         return (
             <div>
-                <h1 className="mb-4">(Google Books API Search Results)</h1>
+                <Nav1/>
+                <Nav2/>
                 <div className="d-flex row justify-content-center">
                     <div className="col-9">
-
                         <Book
                             title="Harry Potter And The Chamber Of Secrets"
                             author="J.K. Rowling"
@@ -31,12 +33,8 @@ class Library extends Component {
                         />
                     </div>
                     <div className="col-9 my-3">
-
                     </div>
-
                 </div>
-
-
             </div>
 
         );

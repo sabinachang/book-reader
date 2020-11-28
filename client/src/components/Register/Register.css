@@ -1,9 +1,21 @@
-
-
 .loginText {
     cursor: pointer;
+    color: #739815;
 }
 
-.custom-card {
-    margin-top: 15vh;
+.register-container {
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.register-form {
+    margin-top: 25vh;
+    width: 25vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-custom {
+    width: 15vw;
 }

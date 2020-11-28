@@ -10,15 +10,13 @@ class Bookshelf extends React.Component {
     }
 
     render() {
-        var className = "";
+        let className = "";
         if (this.props.selected === this.props.name | this.props.selected === true) {
             className = "selected-border";
         }
         return (
             <div className={className} onClick={this.selectBookshelf}>
-                {this.props.name}
-                <div className="bookshelf mt-2 mb-4">
-                </div>
+                <div className="bookshelf mt-2 px-3 py-2">{this.props.name}</div>
             </div>)
     }
 }

@@ -1,16 +1,34 @@
 h1 {
     text-align: center;
 }
+
 .book{
-    width: 100px;
-    height: 170px;
+    width: 120px;
+    height: 180px;
     margin: 0 auto;
-    background-size: 100px 170px;
-  
-    /* Set up positioning */
-    top: 0;
-    left: 0;
-    }
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 120px 180px;
+}
+
 .book-info {
-    text-align: center;
+    text-align: left;
+}
+
+.card {
+    width: 48%;
+    margin-right: 2%;
+}
+
+.card-body {
+    display: flex;
+    padding: 10px;
+    height: 200px;
+}
+
+.dropdown-btn {
+    float: right;
+    background-color: #ccea83;
+    right: 5px;
+    bottom: 5px;
 }

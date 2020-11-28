@@ -21,6 +21,7 @@ render((
                 <Route exact path='/example' component={Example} />
                 <Route exact path='/library' component={Library} />
                 <Route exact path='/search' component={Search} />
+                <Route exact path='/profile' component={Home} />
             </Switch>
         </BrowserRouter>
     </App>

@@ -1,0 +1,18 @@
+#search-books {
+	background: #f2f9e1;
+    border: none;
+}
+
+#btn-custom {
+	border: 1px solid #ccea83;
+    background: #ccea83;
+    border-radius: 5px;
+    color: #739815;
+    height: 100%;
+}
+
+.form-custom {
+	display: flex;
+	margin-top: auto;
+	margin-bottom: auto;
+}

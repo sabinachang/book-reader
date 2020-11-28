@@ -53,6 +53,7 @@ class Book extends Component {
                     visible={this.state.bookshelfModal}
                     handleClose={this.unrenderBookshelfModal}
                 />
+
                 <RecommendModal
                     visible={this.state.recommendModal}
                     handleClose={this.unrenderRecommendModal}
@@ -60,24 +61,24 @@ class Book extends Component {
                 />
 
                 <Dropdown >
-                    <div className="d-flex book-info">
-                        <div className="card" style={{ width: "18rem" }}>
+                    <div className="book-info">
+                        <div className="card mt-2">
                             <div className="card-body">
-                                <h5 className="card-title">{this.state.title}</h5>
-                                <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
-                                <p className="card-text">{this.state.description}</p>
+                                <span><div className="book" style={{ backgroundImage: this.state.img }}></div></span>
+                                <span className="ml-3">
+                                    <h6 className="card-title">{this.state.title}</h6>
+                                    <p className="card-text">{this.state.description}</p>
+                                    <Dropdown.Toggle split variant="" id="dropdown-split-basic" className="dropdown-btn"/>
+                                </span>
                             </div>
-
                         </div>
-
-
-                        <Dropdown.Toggle split variant="" id="dropdown-split-basic" />
-
                     </div>
-                    <Dropdown.Menu>
+
+                    <Dropdown.Menu className="custom-menu mt-2" menuAlign="right" id="dropdown-menu-align-right">
                         <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
                         <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
                     </Dropdown.Menu>
+
                 </Dropdown>
             </div>
 

@@ -54,16 +54,16 @@ function Login (props) {
     }
 
     return(
-        <div className="col-12 col-lg-4 mt-2">
-            <form className="custom-card">
-                <h4>Login</h4>
-                <div className="form-group text-left mt-4">
+        <div className="col-12 col-lg-4 mt-2 login-container">
+            <form className="login-form">
+                <h4>BookReader Login</h4>
+                <div className="form-group text-left mt-3">
                 <label htmlFor="usernameInput1">Username</label>
                 <input type="username" 
                        className="form-control" 
                        id="username" 
                        aria-describedby="usernameHelp" 
-                       placeholder="Enter username" 
+                       placeholder="Enter username..." 
                        value={state.username}
                        onChange={handleChange}
                 />
@@ -73,7 +73,7 @@ function Login (props) {
                 <input type="password" 
                        className="form-control" 
                        id="password" 
-                       placeholder="Password"
+                       placeholder="Enter password..."
                        value={state.password}
                        onChange={handleChange} 
                 />
@@ -82,16 +82,15 @@ function Login (props) {
                 </div>
                 <button 
                     type="submit" 
-                    className="btn btn-primary"
+                    className="btn btn-primary btn-custom mt-2"
                     onClick={handleSubmitClick}
-                >Submit</button>
+                >Sign In</button>
+                <span className="mt-2 ml-4">
+                    <span className="loginText" onClick={() => redirectToRegister()}>or Register</span> 
+                </span>
             </form>
             <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
-            </div>
-            <div className="mt-2">
-                <span>Dont have an account? </span>
-                <span className="loginText" onClick={() => redirectToRegister()}>Register</span> 
             </div>
         </div>
     )

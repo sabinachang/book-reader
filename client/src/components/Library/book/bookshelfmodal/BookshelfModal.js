@@ -59,25 +59,24 @@ class BookshelfModal extends React.Component {
     }
 
     render() {
-        return (<Modal
+        return (
+        <Modal
             visible={this.props.visible}
             handleClose={() => this.closeModal()}
-            heading="Which Bookshelf are you adding this book to?">
+            heading="Which Bookshelf are you adding this book to?"
+        >
 
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
                     <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
                     <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
-
-                </div>
-                <div className="col">
                     <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
                     <Bookshelf selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
                 </div>
             </div>
             <div className="d-flex justify-content-end">
-                <button onClick={() => this.addToBookshelf()} className="btn btn-primary">Submit</button>
+                <button onClick={() => this.addToBookshelf()} className="btn btn-primary mt-3">Submit</button>
 
             </div>
         </Modal>)
