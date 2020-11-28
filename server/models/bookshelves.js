@@ -1,22 +1,28 @@
 const mongoose = require('mongoose');
-const User = require('./user.js');
+
 
 const schema = new mongoose.Schema({
-    username: String,
-    reading: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
-    wantToRead: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
-    read: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
-    favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
-    recommendations: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}]
+    reading: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    wantToRead: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    read: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    recommendations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
-schema.statics.getBooks = async function (username, bookshelf) {
-    var bookshelfObj = await this.findOne({username: username}).exec()
+schema.statics.getBooks = async function (u, bookshelf) {
+    // need to get make u an instance of User to be able to call save()
+    const user = await mongoose.model('User').findOne({ _id: u._id });
+
+    const bookshelfId = user.bookshelves;
+    let bookshelfObj = await this.findOne({ _id: bookshelfId })
+
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: []})
+        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [] });
+        user.bookshelves = bookshelfObj;
+        await user.save()
     }
     var result = []
-    switch(bookshelf.toLowerCase()) {
+    switch (bookshelf.toLowerCase()) {
         case "reading":
             result = bookshelfObj.reading
             break;
@@ -33,15 +39,16 @@ schema.statics.getBooks = async function (username, bookshelf) {
             result = bookshelfObj.recommendations
             break;
         default:
-          throw "Non Existent Bookshelf"
-      }
+            throw "Non Existent Bookshelf"
+    }
+
     return result
 }
 
-schema.statics.removeFromBookshelf = function(bookshelf, book) {
-    const found = bookshelf.indexOf(book)
-    if (found) {
-        bookshelf.splice(found, 1)
+schema.statics.removeFromBookshelf = function (bookshelf, book) {
+    const found = bookshelf.indexOf(book._id)
+    if (found !== -1) {
+         bookshelf.splice(found, 1)
     }
 }
 
@@ -61,39 +68,58 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
             this.removeFromBookshelf(bookshelfObj.reading, book)
             break;
         case "favorites":
+            break
         case "recommendations":
             break;
-    
+
         default:
-          throw "Non Existent Bookshelf"
+            throw "Non Existent Bookshelf"
     }
-   
+
 }
 
-schema.statics.addBookToBookshelf = async function (username, bookshelf, book) {
-    var bookshelfObj = await this.findOne({username: username}).exec()
-    if (!bookshelfObj) {
-        bookshelfObj = await this.create({username: username, reading: [], wantToRead: [], read: [], favorites: [], recommendations: [],})
-    }
-    switch(bookshelf.toLowerCase()) {
+schema.statics.addBook = function (bookshelf, book, bookshelfObj) {
+    switch (bookshelf.toLowerCase()) {
         case "reading":
-            bookshelfObj.reading.push(book);
-            break;
+            this.addBookHelper(bookshelfObj.reading, book)
+            break
         case "wanttoread":
-            bookshelfObj.wantToRead.push(book);
-            break;
+            this.addBookHelper(bookshelfObj.wantToRead, book)
+            break
         case "read":
-            bookshelfObj.read.push(book);
-            break;
+            this.addBookHelper(bookshelfObj.read, book)
+            break
         case "favorites":
-            bookshelfObj.favorites.push(book);
-            break;
+            this.addBookHelper(bookshelfObj.favorites, book)
+            break
         case "recommendations":
-            bookshelfObj.recommendations.push(book);
+            this.addBookHelper(bookshelfObj.recommendations, book)
             break;
         default:
-          throw "Non Existent Bookshelf"
-      }
+            throw "Non Existent Bookshelf"
+    }
+}
+
+schema.statics.addBookHelper = function (bookshelfArr, book) {
+    if (!bookshelfArr.includes(book._id)) {
+        bookshelfArr.push(book._id);
+    } 
+}
+
+schema.statics.addBookToBookshelf = async function (u, bookshelf, book) {
+
+    // need to get make u an instance of User to be able to call save()
+    const user = await mongoose.model('User').findOne({ _id: u._id });
+    
+    const bookshelfId = user.bookshelves;
+    var bookshelfObj = await this.findOne({ _id: bookshelfId })
+
+    if (!bookshelfObj) {
+        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [], recommendations: [], })
+        user.bookshelves = bookshelfObj
+        await user.save()
+    }
+    this.addBook(bookshelf, book, bookshelfObj)
     this.removeFromOtherBookshelves(bookshelf, book, bookshelfObj)
     await bookshelfObj.save()
 

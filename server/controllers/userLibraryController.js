@@ -1,14 +1,18 @@
-
+const getBookSearch = require('../models/bookSearch');
 const axios = require('axios');
+
+const bookSearch = getBookSearch()
 
 exports.getBookResult = async function getBookResult(req, res, next) {
 	if (req.params.query) {
-		query = req.params.query;
-		bookResult = null;
-		console.log(query);
-		await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + query)
+		const query = req.params.query;
+		let bookResult = null;
+		const url = bookSearch.getURL(query);
+		console.log('search url: ', url);
+
+		await axios.get(url)
 		.then((res) => {
-			bookResult = res.data.items;
+			bookResult = res.data;
 		})
 		.catch((err) => {
 			console.log(err);

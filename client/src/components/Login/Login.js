@@ -11,7 +11,7 @@ function Login (props) {
     })
 
     const handleChange = (e) => {
-        const {id , value} = e.target;   
+        const {id , value} = e.target   
         setState(prevState => ({
             ...prevState,
             [id] : value
@@ -19,7 +19,7 @@ function Login (props) {
     }
 
     const handleSubmitClick = (e) => {
-        e.preventDefault();
+        e.preventDefault();	
 
         const payload = {
             username: state.username,
@@ -33,26 +33,29 @@ function Login (props) {
             if(res.status === 200) {
                 setState(prevState => ({
                     ...prevState,
-                    'successMessage' : 'Login successful. Redirecting to home page..'
+                    successMessage : 'Login successful. Redirecting to home page..'
                 }))
                 redirectToHome();
             } else {
-                console.log(res.error);
+                console.log(res);
             }
         })
         .catch((e) => {
-            console.log(e);
+            //Alert
+            console.log(e.response.data.error);
+            setState(prevState => ({
+                ...prevState,
+                errMsg: e.response.data.error
+            }));
         })
     }
 
+    const redirectToHome = () => {
+        props.history.push('/home');
+    }
     const redirectToRegister = () => { 
         props.history.push('/register');
     }
-
-    const redirectToHome = () => { 
-        props.history.push('/home');
-    }
-
     return(
         <div className="col-12 col-lg-4 mt-2 login-container">
             <form className="login-form">
@@ -66,6 +69,7 @@ function Login (props) {
                        placeholder="Enter username..." 
                        value={state.username}
                        onChange={handleChange}
+                       required
                 />
                 </div>
                 <div className="form-group text-left">
@@ -76,6 +80,7 @@ function Login (props) {
                        placeholder="Enter password..."
                        value={state.password}
                        onChange={handleChange} 
+                       required
                 />
                 </div>
                 <div className="form-check">

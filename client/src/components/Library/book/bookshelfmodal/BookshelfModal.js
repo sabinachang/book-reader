@@ -3,23 +3,25 @@ import Modal from '../../../Common/modal/Modal'
 import Bookshelf from './Bookshelf'
 import axios from 'axios';
 
+
 class BookshelfModal extends React.Component {
     state = { selected: null, favorites: false }
 
     addToBookshelf = async () => {
         if (this.state.selected) {
-            await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo)
+            await axios.post(`http://localhost:5000/api/library/${this.state.selected.replace(/\s+/g, '')}`, this.props.bookInfo, { withCredentials: true })
                 .then(() => { console.log('DONE SELECTED') })
         }
         if (this.state.favorites) {
-            await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo)
+            await axios.post(`http://localhost:5000/api/library/favorites`, this.props.bookInfo, { withCredentials: true })
                 .then(() => { console.log('DONE FAVORITES') })
         }
 
         if (this.state.favorites || this.state.selected) {
-            this.setState({ selected: null, favorites: false })
-            this.props.handleClose()
+            this.setState({ selected: null, favorites: false });
+            this.props.handleClose();
         }
+
 
 
     }
@@ -69,11 +71,12 @@ class BookshelfModal extends React.Component {
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" icons="faStream"/>
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" icons="faBookmark"/>
-                    <Bookshelf selected={this.state.selected} onClick={this.selectBookshelf} name="Read" icons="faBookReader"/>
-                    <Bookshelf selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" icons="faHeart"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" icons="faStream"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" icons="faBookmark"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" icons="faBookReader"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" icons="faHeart"/>
                 </div>
+
             </div>
             <div className="d-flex justify-content-end">
                 <button onClick={() => this.addToBookshelf()} className="btn btn-primary mt-3">Submit</button>

@@ -10,6 +10,7 @@ function searchInputForm(props) {
 				<input 
 					id='search-books'
 					onChange={props.handleInputChange}
+					onKeyPress={props.handleKeyPress}
 					value={props.search}
 					name='search'
 					type='text'

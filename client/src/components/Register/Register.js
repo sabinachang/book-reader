@@ -36,7 +36,12 @@ function Register(props) {
             }
         })
         .catch((e) => {
-            console.error();
+            //Alert
+            console.log(e.response.data.error);
+            setState(prevState => ({
+                ...prevState,
+                errMsg: e.response.data.error
+            }));
         })
     }
 
@@ -66,6 +71,9 @@ function Register(props) {
             <h6 className="error">{ state.errMsg }</h6>
             <form className="custom-card register-form">
                 <h4>BookReader Register</h4>
+                <div className="alert alert-danger mt-2" style={{display: state.errMsg ? 'block' : 'none' }} role="alert">
+                    {state.errMsg}
+                </div>
 
                 <div className="form-group text-left">
                 <label>Username</label>

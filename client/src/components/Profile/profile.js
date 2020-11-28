@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import  Nav1 from '../Common/nav1/Nav1';
 
-class Home extends Component {
+class Profile extends Component {
   render() {
     return (
       <div>
@@ -11,4 +11,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default Profile;

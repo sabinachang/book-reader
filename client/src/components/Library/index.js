@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import Book from './book/book'
-import axios from 'axios';
 import Nav1 from '../Common/nav1/Nav1';
-import Nav2 from '../Common/nav2/Nav2';
-
+import Categories from './categories'
+import { getBooksInBookshelf } from './helper/utils'
 
 class Library extends Component {
+    state = {
+        wantToRead: [],
+        reading: [],
+        read: [],
+        favorites: [],
+        recommendations: []
+    }
+
+
     componentDidMount = () => {
-        axios.get('http://localhost:5000/api/library/wantToRead')
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
+        getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
+        getBooksInBookshelf("reading", (data) => this.setState({ reading: data }))
+        getBooksInBookshelf("read", (data) => this.setState({ read: data }))
+        getBooksInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
     }
 
 
@@ -23,7 +29,14 @@ class Library extends Component {
                 <Nav1/>
                 <div className="d-flex row justify-content-center mt-4">
                     <div className="col-9">
-                        <h4>Your Library</h4>
+                        <h4>Your Books</h4>
+                        <div className="mt-3">
+                            <Categories name="Reading" books={this.state.reading} icons = "1" />
+                            <Categories name="Want to Read" books={this.state.wantToRead} icons = "2"/>
+                            <Categories name="Read" books={this.state.read} icons = "3"/>
+                            <Categories name="Recommendations" books={this.state.recommendations} icons = "4"/>
+                            <Categories name="Favorites" books={this.state.favorites} icons = "5"/>
+                        </div>
                         <Book
                             title="Harry Potter And The Chamber Of Secrets"
                             author="J.K. Rowling"
@@ -31,6 +44,7 @@ class Library extends Component {
                             img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
                             isbn="IDK"
                         />
+                        
                     </div>
                     <div className="col-9 my-3">
                     </div>

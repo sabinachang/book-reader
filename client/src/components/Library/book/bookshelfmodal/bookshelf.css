@@ -21,3 +21,7 @@
     border: 1px solid #b1cc6d;
     margin-top: 0.5rem;
 }
+
+.unselectable-bookshelf {
+    background-color: lightgrey
+}
