@@ -3,8 +3,8 @@ const Friendship = require('../models/friendship');
 
 
 const getPrivateWall = async (req, res) => {
-    const posts = await WallPost.find({ owner: req.cookies.username })
-    posts = posts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    var posts = await WallPost.find({ owner: req.cookies.username })
+    posts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     res.send(posts)
 }
 
@@ -16,7 +16,10 @@ const getPublicWall = async (req, res) => {
         var friendsPosts = await WallPost.find({ owner: friends[i] })
         posts = posts.concat(friendsPosts)
     }
-    posts = posts.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    console.log(posts[0])
+    posts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    console.log(posts[0])
+
     res.send(posts)
 }
 
