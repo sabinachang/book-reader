@@ -14,7 +14,8 @@ class AddToBookshelfBuilder extends AbstractBuilder {
             owner: username
         });
         // Can have more complex functions for building an event on the wall
-        this.wallEvent.image = req.body.thumbnail;
+        this.wallPost.images.push(req.body.thumbnail);
+        console.log(this.wallPost)
         super.save();
         console.log("Saved to database...");
     }
