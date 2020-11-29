@@ -33,10 +33,10 @@ class BookshelfLibrary extends React.Component {
         let icon;
         switch (this.props.icons) {
             case "1":
-                icon = faStream;
+                icon = faBookmark;
                 break;
             case "2":
-                icon = faBookmark;
+                icon = faStream;
                 break;
             case "3":
                 icon = faBookReader;
@@ -65,6 +65,7 @@ class BookshelfLibrary extends React.Component {
                             description={book.description}
                             img={book.thumbnail}
                             key={book.isbn}
+                            options="card-full"
                         />
                     ))}
                 </div>

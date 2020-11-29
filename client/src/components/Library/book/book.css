@@ -3,22 +3,33 @@ h1 {
 }
 
 .book{
-    width: 120px;
-    height: 180px;
+    width: 140px;
+    height: 205px;
     margin: 0 auto;
     background-size: cover;
     background-repeat: no-repeat;
-    background-size: 120px 180px;
+    background-size: 140px 205px;
 }
 
 .book-info {
     text-align: left;
 }
 
-.card {
+.card-half {
     width: 48%;
     margin-right: 2%;
     float: left;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.card-full {
+    width: 100%;
+    float: left;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    margin-top: 1rem;
 }
 
 .card-body {
@@ -27,9 +38,14 @@ h1 {
     height: 225px;
 }
 
+.card-title {
+    max-height: 20%;
+    overflow-y: hidden;
+}
+
 .card-text {
     overflow-y: scroll;
-    height: 100px;
+    height: 50%;
 }
 
 .dropdown-btn {

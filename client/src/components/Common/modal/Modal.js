@@ -10,7 +10,7 @@ const ModalClass = props => {
                     <h5>{props.heading}</h5>
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body scrollable>
                 {props.children}
             </Modal.Body>
             {props.footer ? <Modal.Footer>

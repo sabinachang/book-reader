@@ -128,6 +128,7 @@ class SearchView extends Component {
 								description={book.volumeInfo.description}
 								img={book.volumeInfo.imageLinks.thumbnail}
 								isbn={this.getIsbn(book)}
+								options="card-half"
 							/>
 						))}
 					</div>
