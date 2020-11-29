@@ -10,6 +10,7 @@ module.exports = express
 .post('/request/:type', interactionController.requestFactory)
 .get('/friends', interactionController.getFriends)
 .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
+.get('/friendship/candidates', interactionController.getCandidates)
 .post('/friendship/invitation/:action', interactionController.handleInvitations)
 .get('/search/:query', userLibraryController.getBookResult)
 .get('/reviews/:bookIsbn', userLibraryController.getReview)

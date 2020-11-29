@@ -23,9 +23,9 @@ class Candidate extends Component {
                 <Card.Body className="d-flex justify-content-between">
                     <Card.Title>{this.props.username}</Card.Title>
                     <Button 
-                        disabled={this.state.loading}
+                        disabled={this.state.loading || this.props.invited}
                         onClick={ this.handleOnClick.bind(this)}>
-                            Invite
+                            {this.props.invited? 'invited': 'intvite' }
                     </Button>
                 </Card.Body>
             </Card>

@@ -160,6 +160,7 @@ class SearchView extends Component {
 					search={this.state.search}
 					handleInputChange={this.handleInputChange}
 					handleFormSubmit={this.handleFormSubmit}
+					placeholder={'Please search books here...'}
 				/>
 
 				<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
