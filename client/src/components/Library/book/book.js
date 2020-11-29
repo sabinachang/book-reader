@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Button } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
+import FeedbackModal from '../../BookFeedback/feedbackModal'
 import "./book.css"
 
 class Book extends Component {
@@ -15,7 +16,8 @@ class Book extends Component {
             isbn: props.isbn,
             img: img,
             bookshelfModal: false,
-            recommendModal: false
+            recommendModal: false,
+            feedbackModal: false,
         }
     }
 
@@ -33,6 +35,14 @@ class Book extends Component {
 
     unrenderRecommendModal = () => {
         this.setState({ recommendModal: false })
+    }
+
+    renderFeedbackModal = () => {
+        this.setState({ feedbackModal: true })
+    }
+
+    unrenderFeedbackfModal = () => {
+        this.setState({ feedbackModal: false })
     }
 
     getBookInfo = () => {
@@ -59,6 +69,12 @@ class Book extends Component {
                     handleClose={this.unrenderRecommendModal}
                     bookInfo={this.getBookInfo()}
                 />
+                <FeedbackModal
+                    visible={this.state.feedbackModal}
+                    handleClose={this.unrenderFeedbackfModal}
+                    book={this.getBookInfo()}
+                    showUserFeedback={this.props.showUserFeedback}>
+                </FeedbackModal>
 
                 <Dropdown >
                     <div className="book-info">

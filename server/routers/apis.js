@@ -9,8 +9,11 @@ module.exports = express
 .post('/library/:bookshelf', bookshelfController.addBookToBookshelf)
 .post('/request/:type', interactionController.requestFactory)
 .get('/friends', interactionController.getFriends)
-//TODO combine with /friends
 .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
 .post('/friendship/invitation/:action', interactionController.handleInvitations)
-.get('/search/:query', userLibraryController.getBookResult);
-
+.get('/search/:query', userLibraryController.getBookResult)
+.get('/reviews/:bookIsbn', userLibraryController.getReview)
+.post('/reviews/:bookIsbn', userLibraryController.createReview)
+.get('/ratings/:bookIsbn', userLibraryController.getRating)
+.post('/ratings/:bookIsbn', userLibraryController.createRating)
+.get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)

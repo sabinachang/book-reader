@@ -6,6 +6,7 @@ class Home extends Component {
     return (
       <div>
         <Nav1/>
+        <a href="/friends"></a>
       </div>
 
     );

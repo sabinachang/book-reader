@@ -1,4 +1,3 @@
-
 // Singleton getter
 function getBookSearch() {
 	if (bookSearchInstance == null) {

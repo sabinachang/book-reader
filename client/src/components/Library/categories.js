@@ -16,7 +16,6 @@ class BookshelfLibrary extends React.Component {
         if (prevProps.books !== this.props.books) {
             this.setState({ books: this.props.books });
         }
-
     }
 
     renderBookshelfModal = () => {
@@ -28,6 +27,9 @@ class BookshelfLibrary extends React.Component {
         this.setState({ bookshelfModal: false })
     }
 
+    toggleBookshelfModal = (visible) => {
+        this.setState({bookshelfModal: visible})
+    }
 
     render() {
         let icon;
@@ -66,6 +68,7 @@ class BookshelfLibrary extends React.Component {
                             img={book.thumbnail}
                             key={book.isbn}
                             options="card-full"
+                            showUserFeedback={true}
                         />
                     ))}
                 </div>
