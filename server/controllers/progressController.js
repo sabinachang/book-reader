@@ -43,7 +43,7 @@ class progressController {
                 const owner = await User.findOne({username: username});
                 var flyweight = await BookFlyweight.get(req.params.isbn);
                 var book = await Book.findOne({flyweight: flyweight, owner: owner});
-                if (book.progress>=0) {
+                if (book.progress !== null && book.progress>=0) {
                     res.status(200).json({message: book.progress})
                 } else {
                     res.status(400).json({'error': 'Progress Undefined'})

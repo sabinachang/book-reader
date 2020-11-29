@@ -113,6 +113,7 @@ class ProgressModal extends React.Component {
         return (<div>
                     <div>
                         <h5>Current progress: {this.getCurrentProgress()}%</h5>
+                        <p>Total Page: {this.props.bookInfo.pageCount}</p>
                     </div>
 
 

@@ -97,6 +97,21 @@ class Book extends Component {
         }
     }
 
+    getProcessUI = () => {
+        if (this.state.bookshelf === 'Reading') {
+            return (
+                <div>
+                    <ProgressModal
+                        visible={this.state.progressModal}
+                        handleClose={this.unrenderProgressModal}
+                        bookInfo={this.getBookInfo()}
+                    />           
+                </div>
+                );     
+        }
+
+    }
+
 
     render() {
         return (
@@ -111,12 +126,8 @@ class Book extends Component {
                     handleClose={this.unrenderRecommendModal}
                     bookInfo={this.getBookInfo()}
                 />
-                <ProgressModal
-                    visible={this.state.progressModal}
-                    handleClose={this.unrenderProgressModal}
-                    bookInfo={this.getBookInfo()}
-                />
 
+                {this.getProcessUI()}
  
                 <Dropdown >
                     <div className="d-flex book-info">

@@ -19,16 +19,16 @@ class SearchView extends Component {
 		};
 	}
 
-	componentDidMount() {
-		this.searchBook(this.state.search);
-	}
+	// componentDidMount() {
+	// 	this.searchBook(this.state.search);
+	// }
 
 	searchBook = query => {
 		console.log('query:', query);
 		axios.get('http://localhost:5000/api/search/' + query)
 			.then((res) => {
 				if (res.status === 200) {
-					if (res.data.result.totalItems > 0) {
+					if (res.data.result && res.data.result.totalItems > 0) {
 						this.setState({
 							result: res.data.result.items,
 							errMsg: ''
