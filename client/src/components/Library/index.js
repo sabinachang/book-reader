@@ -3,7 +3,7 @@ import Book from './book/book'
 import Nav1 from '../Common/nav1/Nav1';
 import Categories from './categories'
 import { getBooksInBookshelf } from './helper/utils'
-import socketClient from 'socket.io-client'
+// import socketClient from 'socket.io-client'
 
 class Library extends Component {
     
@@ -16,10 +16,10 @@ class Library extends Component {
             favorites: [],
             recommendations: []
         }
-        this.socket = socketClient('/')
-        this.socket.on('fetchFavorite', () => {
-            getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
-        })
+        // this.socket = socketClient('/')
+        // this.socket.on('fetchFavorite', () => {
+        //     getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
+        // })
     }
   
 
@@ -33,7 +33,7 @@ class Library extends Component {
 
 
     componentWillUnmount = () => {
-        this.socket.disconnect()
+        // this.socket.disconnect()
     }
     render() {
         return (
