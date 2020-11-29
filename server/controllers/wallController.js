@@ -21,8 +21,29 @@ const getPublicWall = async (req, res) => {
     res.send(posts)
 }
 
+const toggleLikes = async (req, res) => {
+    var post = await WallPost.findOne({_id: req.params.id});
+    const username = req.cookies.username
+    console.log(username)
+    const index = post.likes.indexOf(req.cookies.username);
+
+    if (index > -1) {
+        post.likes.splice(index, 1);
+        await post.save()
+        res.status(200).json({msg: 'like removed'})
+
+    } else {
+        post.likes.push(req.cookies.username)
+        await post.save()
+        res.status(201).json({msg: 'like added'})
+
+}
+    
+}
+
 
 module.exports = {
     getPublicWall,
-    getPrivateWall
+    getPrivateWall,
+    toggleLikes
 }

@@ -20,5 +20,6 @@ module.exports = express
     .post('/ratings/:bookIsbn', userLibraryController.createRating)
     .get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)
     .get('/wall/public', wallController.getPublicWall)
-    .get('/wall/private', wallController.getPrivateWall);
+    .get('/wall/private', wallController.getPrivateWall)
+    .post('/wall/likes/:id', wallController.toggleLikes);
 
