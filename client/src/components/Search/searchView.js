@@ -18,7 +18,7 @@ class SearchView extends Component {
 		this.totalItems = 0
 	}
 
-	componentDisMount() {
+	componentDiMount() {
 		this.searchBook(this.state.search);
 	}
 
