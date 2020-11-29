@@ -24,9 +24,7 @@ const getPublicWall = async (req, res) => {
 const toggleLikes = async (req, res) => {
     var post = await WallPost.findOne({_id: req.params.id});
     const username = req.cookies.username
-    console.log(username)
-    const index = post.likes.indexOf(req.cookies.username);
-
+    const index = post.likes.indexOf(username);
     if (index > -1) {
         post.likes.splice(index, 1);
         await post.save()

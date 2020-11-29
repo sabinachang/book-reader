@@ -13,7 +13,9 @@ class Post extends Component {
 
 
     componentDidMount = () => {
-        console.log('mount',this.props.likes)
+        if (this.props.likes.includes(localStorage.getItem('username'))) {
+            this.setState({userLiked: true})
+        } 
     }
    
 
@@ -49,7 +51,6 @@ class Post extends Component {
         axios.post(`http://localhost:5000/api/wall/likes/${this.props.id}`, {}, { withCredentials: true })
         .then((like) => {
             if (like.data.msg === 'like added') {
-                console.log('like', like)
                 this.setState({userLiked: true})
             } else {
                 this.setState({userLiked: false})
@@ -80,7 +81,15 @@ class Post extends Component {
     }
 
     render() {
+    const userLiked = this.state.userLiked;
+    let button;
+    if (userLiked) {
+        button = <i style = {{cursor: 'pointer', color: '#66ff00'}} onClick = {this.toggleLike} className="fa fa-lg fa-thumbs-up"/>
 
+    } else {
+        button = <i style = {{cursor: 'pointer'}} onClick = {this.toggleLike} className="fa fa-lg fa-thumbs-up"/>
+
+    }
 
         return (
 <div className="card border-dark mb-4">
@@ -96,7 +105,8 @@ class Post extends Component {
             <div className="card-footer text-muted">
 
 <div className = "d-flex justify-content-around pb-1">
-<i style = {{cursor: 'pointer'}} onClick = {this.toggleLike} className="fa fa-lg fa-thumbs-up"/>
+  
+{button}
 <i style = {{cursor: 'pointer'}} onClick = {this.toggleCommentBox} className="fa fa-lg fa-comment"/>
 
 </div>
