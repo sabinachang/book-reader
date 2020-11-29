@@ -1,0 +1,30 @@
+.bookshelf-library {
+    float: left;
+    background: #f3f3f3;
+    border-radius: 10px;
+    color: #4b630d;
+    cursor: pointer;
+}
+
+.bookshelf-library:hover {
+    background: #e7efd6;
+}
+
+.custom-selection {
+    width: 100%;
+    height: auto;
+}
+
+.custom-select {
+    border: 1px solid #96b34e;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #ffffff;
+    background-color: #739816;
+}
+
+.page-link {
+    color: #739816;
+}
