@@ -17,7 +17,7 @@ class SearchView extends Component {
 		};
 	}
 
-	componentDisMount() {
+	componentDiMount() {
 		this.searchBook(this.state.search);
 	}
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Book from './book/book'
 import Nav1 from '../Common/nav1/Nav1';
-import Categories from './categories'
 import { getBooksInBookshelf } from './helper/utils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStream, faBookmark, faBookReader, faHeart, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import './categories.css'
 
 class Library extends Component {
     state = {
@@ -10,7 +12,8 @@ class Library extends Component {
         reading: [],
         read: [],
         favorites: [],
-        recommendations: []
+        recommendations: [],
+        booksDisplay: [],
     }
 
 
@@ -22,6 +25,27 @@ class Library extends Component {
         getBooksInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
     }
 
+    handleReading = () => {
+        this.setState({booksDisplay: this.state.reading})
+    }
+
+    handleWantToRead = () => {
+        this.setState({booksDisplay: this.state.wantToRead})
+    }
+
+    handleRead = () => {
+        this.setState({booksDisplay: this.state.read})
+    }
+
+    handleRecommendation = () => {
+        this.setState({booksDisplay: this.state.recommendations})
+    }
+
+    handleFavroite = () => {
+        this.setState({booksDisplay: this.state.favorites})
+    }
+
+
 
     render() {
         return (
@@ -30,24 +54,33 @@ class Library extends Component {
                 <div className="d-flex row justify-content-center mt-4">
                     <div className="col-9">
                         <h4>Your Books</h4>
+
                         <div className="mt-3">
-                            <Categories name="Reading" books={this.state.reading} icons = "1" />
-                            <Categories name="Want to Read" books={this.state.wantToRead} icons = "2"/>
-                            <Categories name="Read" books={this.state.read} icons = "3"/>
-                            <Categories name="Recommendations" books={this.state.recommendations} icons = "4"/>
-                            <Categories name="Favorites" books={this.state.favorites} icons = "5"/>
+                        <div onClick={this.handleReading} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                            <FontAwesomeIcon icon={faBookmark} className="mr-2"/>Reading</div>
+                        <div onClick={this.handleWantToRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                            <FontAwesomeIcon icon={faStream} className="mr-2"/>Want to Read</div>
+                        <div onClick={this.handleRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                            <FontAwesomeIcon icon={faBookReader} className="mr-2"/>Read</div>
+                        <div onClick={this.handleRecommendation} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                            <FontAwesomeIcon icon={faUserFriends} className="mr-2"/>Recommendations</div>
+                        <div onClick={this.handleFavroite} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                            <FontAwesomeIcon icon={faHeart} className="mr-2"/>Favorites</div>
                         </div>
-                        <Book
-                            title="Harry Potter And The Chamber Of Secrets"
-                            author="J.K. Rowling"
-                            description="Aenean posuere posuere nisi. Nunc sollicitudin condimentum nunc quis placerat. Donec sagittis nibh eget diam dictum"
-                            img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
-                            isbn="IDK"
-                            options="card-half"
-                        />
+
+                        {this.state.booksDisplay.map(book => (
+                            <Book
+                                key={book.isbn}
+                                title={book.title}
+                                author={book.author}
+                                description={book.description}
+                                img={book.thumbnail}
+                                isbn={book.isbn}
+                                options="card-half"
+                            />
+                        ))}
+             
                         
-                    </div>
-                    <div className="col-9 my-3">
                     </div>
                 </div>
             </div>
