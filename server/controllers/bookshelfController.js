@@ -2,6 +2,7 @@ const Bookshelves = require('../models/bookshelves');
 const Book = require('../models/book');
 const User = require('../models/user').User;
 const BookFlyweight = require('../models/bookFlyweight');
+const observer = require('../lib/observer');
 
 
 const getBooks = async (req, res) => {
@@ -35,12 +36,7 @@ const addBookToBookshelf = async (req, res) => {
     }
     var book = await Book.findOne({ flyweight: flyweight, owner: owner })
     if (!book) { book = await Book.createBook(flyweight, owner) }
-
-    if (req.params.bookshelf === 'Reading') {
-        await Book.updateProgress(flyweight, owner, 0);
-    } else if (req.params.bookshelf === 'Read') {
-        await Book.updateProgress(flyweight, owner, 100);
-    }
+    await observer.addBookshelfObserver(req.params.bookshelf, owner, flyweight);
 
     try {
         await Bookshelves.addBookToBookshelf(owner, req.params.bookshelf, book)

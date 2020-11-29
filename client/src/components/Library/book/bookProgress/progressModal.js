@@ -9,7 +9,8 @@ class ProgressModal extends React.Component {
         this.state = {
             value: '',
             progress: '0',
-            errMsg: ''};
+            errMsg: '',
+            pgsMsg: ''};
         this.needUpdate = true;
     }
 
@@ -22,6 +23,7 @@ class ProgressModal extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault(); 
+        this.setState({errMsg: ''});
         if (this.state.value) {
             const pageNum = Number(this.state.value);
             if (this.checkValidInput(pageNum)) {
@@ -34,21 +36,22 @@ class ProgressModal extends React.Component {
         if (Number.isInteger(userInput)) {
             if (this.props.bookInfo.pageCount &&
                 userInput > this.props.bookInfo.pageCount) {
-                // this.setState(errMsg: 'Out of max page number')
-                console.log('max err');
+                this.setState({errMsg: 'Please enter the page number < total page', value: '', pgsMsg: ''});
+                return false;
+            } else if (userInput <= 0) {
+                this.setState({errMsg: 'Please enter the page number > 0', value: '', pgsMsg: ''});
                 return false;
             } else {
                 return true;
             }
         } else {
-            // this.setState(errMsg: 'Please enter a number');
-            console.log('err');
-            return true;
+            this.setState({errMsg: 'Please enter an integer page number', value: '', pgsMsg: ''});
+            return false;
         }
     }
 
     closeModal = () => {
-        this.setState({value: '', progress: '0'})
+        this.setState({value: '', progress: '0', errMsg: '', pgsMsg: ''});
         this.needUpdate = true;
         this.props.handleClose();
     }
@@ -62,6 +65,7 @@ class ProgressModal extends React.Component {
         ).then ((res) => {
             if (res.status === 200) {
                 this.setState({progress: res.data.message, value: ''});
+                this.checkProgress();
             } else {
                 console.log(res.error);
             }
@@ -87,11 +91,15 @@ class ProgressModal extends React.Component {
         });
     }
 
-    // finishRead = () => {
-    //     axios.post('/api/library/read', this.props.bookInfo, 
-    //         { withCredentials: true }
-    //     ).then(() => {console.log('FINISH READ')});
-    // }
+    checkProgress = () => {
+        if (this.state.progress === 100) {
+            this.setState({pgsMsg: 'Congratulations! This book will move to Read bookshelf!'});   
+        } else if (this.state.progress < 50) {
+            this.setState({pgsMsg: 'Hope you like this book!'});
+        } else {
+            this.setState({pgsMsg: 'Almost done! Good job!'});
+        }
+    }
 
     getCurrentProgress = () => {
         if (this.needUpdate){
@@ -107,6 +115,7 @@ class ProgressModal extends React.Component {
                         <h5>Current progress: {this.getCurrentProgress()}%</h5>
                     </div>
 
+
                     <div className='input-container'>
                         <form onSubmit={this.handleSubmit} className='input-form'>
                             <label className='input-label'>Last page you read: 
@@ -116,6 +125,13 @@ class ProgressModal extends React.Component {
                             </label>
                             <input type='submit' value='Update' className='btn-primary'/>
                         </form>
+                    </div>
+
+                    <div className="alert alert-danger mt-2" style={{display: this.state.errMsg ? 'block' : 'none' }} role="alert">
+                        {this.state.errMsg}
+                    </div>
+                    <div className="alert alert-info mt-2" style={{display: this.state.pgsMsg ? 'block' : 'none' }} role="alert">
+                        {this.state.pgsMsg}
                     </div>
                 </div>
             )

@@ -2,6 +2,7 @@ const Bookshelves = require('../models/bookshelves');
 const Book = require('../models/book');
 const User = require('../models/user').User;
 const BookFlyweight = require('../models/bookFlyweight');
+const observer = require('../lib/observer');
 
 
 class progressController {
@@ -13,16 +14,14 @@ class progressController {
     		var flyweight = await BookFlyweight.get(req.body.isbn);
     		var book = await Book.findOne({flyweight: flyweight, owner: owner});
     		const totalPage = flyweight.pageCount;
-            if (book.progress && totalPage) {
+
+            if (totalPage) { //book.progress>=0 && 
                 const progress = Book.calculateProgress(req.body.pageNum, totalPage);
                 console.log('progress: ',progress,'%');
                 try {
                     await Book.updateProgress(flyweight, owner, progress);
                     res.status(200).json({message: progress});
-                    if (progress === 100) {
-                        console.log('move to read'); //TODO: add Observer?
-                        await Bookshelves.addBookToBookshelf(owner, 'read', book)
-                    }
+                    await observer.progressObserver(progress, owner, book);
                 } catch (err) {
                     console.log(err);
                 }     
@@ -44,7 +43,7 @@ class progressController {
                 const owner = await User.findOne({username: username});
                 var flyweight = await BookFlyweight.get(req.params.isbn);
                 var book = await Book.findOne({flyweight: flyweight, owner: owner});
-                if (book.progress) {
+                if (book.progress>=0) {
                     res.status(200).json({message: book.progress})
                 } else {
                     res.status(400).json({'error': 'Progress Undefined'})
