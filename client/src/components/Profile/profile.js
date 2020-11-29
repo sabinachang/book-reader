@@ -21,10 +21,21 @@ class Profile extends Component {
         <div className="d-flex row justify-content-center mt-4">
           <div className="col-9">
             <h4 className="my-4 ">User Profile</h4>
-            <div className="manage-btn px-3 py-2 mr-2 mb-3" onClick={() => this.redirectToFriends()} >
+
+            <span className="manage-btn px-3 py-2 mb-3" onClick={() => this.redirectToFriends()} >
+              <span className="custom-btn">
+                <FontAwesomeIcon icon={faUsers} className="my-2 custom-icon"/>
+                <h6 className="mt-2 ml-3">Manage Friendships</h6>
+              </span>
+            </span>
+
+            <span className="manage-btn px-3 py-2 mb-3">
+              <span className="custom-btn">
               <FontAwesomeIcon icon={faUsers} className="my-2 custom-icon"/>
-              <h6 className="mt-2 ml-3">Manage Friendships</h6>
-            </div>
+              <h6 className="mt-2 ml-3">Edit your profile</h6>
+              </span>
+            </span>
+
           </div>
         </div>
       </div>

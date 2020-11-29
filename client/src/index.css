@@ -79,6 +79,20 @@ code {
   border-color: #b9b9b9;
 }
 
+.btn-link {
+  font-size: 0.9rem;
+  color: #739815;
+  font-weight: 500;
+  text-align: left;
+  padding: 0px;
+}
+
+.btn-link:hover {
+  color: #4b630e;
+  text-decoration: none;
+  font-style: italic;
+}
+
 .form-control {
   background: #faffed;
   border-color: #a1d424;
@@ -88,6 +102,6 @@ code {
   font-size: 0.9rem;
 }
 
-.dropdown-item:hover {
-  
+.progress-bar {
+  background-color: #739815;
 }
