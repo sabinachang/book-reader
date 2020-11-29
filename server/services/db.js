@@ -11,7 +11,7 @@ class db {
 
     connect() {
         mongoose
-            .connect(cloudDB, {
+            .connect(localDB, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,

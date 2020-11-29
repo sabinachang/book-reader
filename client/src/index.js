@@ -10,6 +10,7 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import FriendHome from './components/Friend/';
 import Profile from './components/Profile/profile';
+import Wall from './components/Wall/';
 
 render((
     <App>
@@ -20,8 +21,9 @@ render((
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/library' component={Library} />
                 <Route exact path='/search' component={Search} />
-                <Route exact path='/friends' component={FriendHome}/>
-                <Route exact path='/profile' component={Profile}/>
+                <Route exact path='/friends' component={FriendHome} />
+                <Route exact path='/profile' component={Profile} />
+                <Route exact path='/wall/public' component={Wall} />
             </Switch>
         </BrowserRouter>
     </App>

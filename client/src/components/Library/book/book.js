@@ -47,6 +47,7 @@ class Book extends Component {
 
     getBookInfo = () => {
         return {
+            request_type: "add_book_to_bookshelf",
             title: this.state.title,
             authors: this.state.authors,
             thumbnail: this.props.img,
