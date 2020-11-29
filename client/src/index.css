@@ -73,6 +73,12 @@ code {
   border-color: #89b320;
 }
 
+.btn-secondary {
+  color: #fff;
+  background-color: #b9b9b9;
+  border-color: #b9b9b9;
+}
+
 .form-control {
   background: #faffed;
   border-color: #a1d424;

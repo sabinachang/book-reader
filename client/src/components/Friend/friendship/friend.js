@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap';
+import './candidate.css';
 
 
 class Friend extends Component {
 
     render() {
         return(
-            <Card className='my-2'style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title>{this.props.username}</Card.Title>
-                </Card.Body>
-            </Card>
+            <div className='custom-myfriend'>
+                <div className="d-flex justify-content-between px-3 py-2">
+                    <h6 className="mt-1">{this.props.username}</h6>
+                </div>
+            </div>
         )
     }
     
