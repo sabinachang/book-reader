@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css'; 
 
 
 class Post extends Component {
     state = {
         showCommentBox: false,
-        commentValue: ''
+        commentValue: '',
+        userLiked: false
+
     }
 
 
     componentDidMount = () => {
+        console.log('mount',this.props.likes)
     }
+   
+
 
     handleCommentChange = (event) => {
         this.setState({commentValue: event.target.value});
@@ -39,8 +45,17 @@ class Post extends Component {
         this.setState({showCommentBox: !this.state.showCommentBox})
     }
 
-    sendLike =() => {
-        console.log("You liked " + this.props.id)
+    toggleLike =() => {
+        axios.post(`http://localhost:5000/api/wall/likes/${this.props.id}`, {}, { withCredentials: true })
+        .then((like) => {
+            if (like.data.msg === 'like added') {
+                console.log('like', like)
+                this.setState({userLiked: true})
+            } else {
+                this.setState({userLiked: false})
+
+            }
+        })
     }
 
     convertTime = (timestamp) => {
@@ -81,7 +96,7 @@ class Post extends Component {
             <div className="card-footer text-muted">
 
 <div className = "d-flex justify-content-around pb-1">
-<i style = {{cursor: 'pointer'}} onClick = {this.sendLike} className="fa fa-lg fa-thumbs-up"/>
+<i style = {{cursor: 'pointer'}} onClick = {this.toggleLike} className="fa fa-lg fa-thumbs-up"/>
 <i style = {{cursor: 'pointer'}} onClick = {this.toggleCommentBox} className="fa fa-lg fa-comment"/>
 
 </div>

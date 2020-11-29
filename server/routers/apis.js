@@ -16,5 +16,6 @@ module.exports = express
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/wall/public', wallController.getPublicWall)
-    .get('/wall/private', wallController.getPrivateWall);
+    .get('/wall/private', wallController.getPrivateWall)
+    .post('/wall/likes/:id', wallController.toggleLikes);
 
