@@ -18,10 +18,6 @@ class SearchView extends Component {
 		this.totalItems = 0
 	}
 
-	componentDisMount() {
-		this.searchBook(this.state.search);
-	}
-
 	searchBook = query => {
 		console.log('query:', query);
 		axios.get('/api/search/' + query, {
@@ -31,8 +27,7 @@ class SearchView extends Component {
 		})
 			.then((res) => {
 				if (res.status === 200) {
-					if (res.data.result.totalItems > 0) {
-						this.totalItems = res.data.result.totalItems
+					if (res.data.result && res.data.result.totalItems > 0) {
 						this.setState({
 							result: res.data.result.items,
 							errMsg: ''
@@ -186,6 +181,8 @@ class SearchView extends Component {
 								img={book.volumeInfo.imageLinks.thumbnail}
 								isbn={this.getIsbn(book)}
 								options="card-half"
+								page='search'
+								bookshelf='none'
 							/>
 						))}
 

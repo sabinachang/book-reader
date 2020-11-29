@@ -66,9 +66,12 @@ class BookshelfLibrary extends React.Component {
                             author={book.author}
                             description={book.description}
                             img={book.thumbnail}
+                            pageCount={book.pageCount}
                             key={book.isbn}
                             options="card-full"
                             showUserFeedback={true}
+                            page='library'
+                            bookshelf={this.props.name}
                         />
                     ))}
                 </div>
