@@ -1,13 +1,27 @@
 .bookshelf {
-    width: 170px;
-    height: 200px;
-    background-size: 170px 200px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
     margin: 0 auto;
+    cursor: pointer;
+    text-align: left;
+    color: #739815;
+}
+
+.bookshelf:hover{
+    background-color: #dbe6bf;
 }
 
 .selected-border {
-    border: 3px solid blue;
+    background-color: #dbe6bf;
+    border-radius: 10px;
+    margin: 0 auto;
+    cursor: pointer;
+    text-align: left;
+    color: #739815;
+    border: 1px solid #b1cc6d;
+    margin-top: 0.5rem;
 }
+
 .unselectable-bookshelf {
     background-color: lightgrey
 }

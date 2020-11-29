@@ -125,4 +125,29 @@ schema.statics.addBookToBookshelf = async function (u, bookshelf, book) {
 
 }
 
+schema.statics.removeBook = async function (u, bookshelf, book) {
+    const user = await mongoose.model('User').findOne({ _id: u._id });
+    
+    const bookshelfId = user.bookshelves;
+    var bookshelfObj = await this.findOne({ _id: bookshelfId })
+
+    switch (bookshelf.toLowerCase()) {
+        case "reading":
+            break;
+        case "wanttoread":
+            break;
+        case "read":
+            break;
+        case "favorites":
+            this.removeFromBookshelf(bookshelfObj.favorites, book)
+            break
+        case "recommendations":
+            break;
+
+        default:
+            throw "Non Existent Bookshelf"
+    }
+    await bookshelfObj.save()
+}
+
 module.exports = mongoose.model('Bookshelves', schema);

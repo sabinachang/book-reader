@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
+import './candidate.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 class Candidate extends Component {
 
@@ -19,16 +22,16 @@ class Candidate extends Component {
 
     render() {
         return(
-            <Card className='my-2'style={{ width: '18rem' }}>
-                <Card.Body className="d-flex justify-content-between">
-                    <Card.Title>{this.props.username}</Card.Title>
+            <div className='custom-card'>
+                <div className="d-flex justify-content-between py-2">
+                    <h6>{this.props.username}</h6>
                     <Button 
-                        disabled={this.state.loading}
-                        onClick={ this.handleOnClick.bind(this)}>
-                            Invite
+                            disabled={this.state.loading}
+                            onClick={ this.handleOnClick.bind(this)}>
+                            <FontAwesomeIcon icon={faPaperPlane}/>
                     </Button>
-                </Card.Body>
-            </Card>
+                </div>
+            </div>
         )
     }
     

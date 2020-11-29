@@ -4,13 +4,13 @@ import "./Modal.css"
 
 const ModalClass = props => {
     return <div >
-        <Modal size="lg" show={props.visible} onHide={props.handleClose}>
+        <Modal size="md" show={props.visible} onHide={props.handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {props.heading}
+                    <h5>{props.heading}</h5>
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body scrollable>
                 {props.children}
             </Modal.Body>
             {props.footer ? <Modal.Footer>

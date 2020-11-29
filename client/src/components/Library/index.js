@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import BookshelfLibrary from './bookshelfLibrary'
+import Book from './book/book'
+import Nav1 from '../Common/nav1/Nav1';
+import Categories from './categories'
 import { getBooksInBookshelf } from './helper/utils'
+// import socketClient from 'socket.io-client'
 
 class Library extends Component {
-    state = {
-        wantToRead: [],
-        reading: [],
-        read: [],
-        favorites: [],
-        recommendations: []
+    
+    constructor(props) {
+        super(props)
+        this.state = {
+            wantToRead: [],
+            reading: [],
+            read: [],
+            favorites: [],
+            recommendations: []
+        }
+        // this.socket = socketClient('/')
+        // this.socket.on('fetchFavorite', () => {
+        //     getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
+        // })
     }
-
+  
 
     componentDidMount = () => {
         getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
@@ -21,22 +32,36 @@ class Library extends Component {
     }
 
 
+    componentWillUnmount = () => {
+        // this.socket.disconnect()
+    }
     render() {
-
         return (
-            <div className='fluid-container'>
-                <h1 className="mb-4">Library</h1>
-                <div className="d-flex justify-content-around">
-                    <BookshelfLibrary name="Reading" books={this.state.reading} />
-                    <BookshelfLibrary name="Want to Read" books={this.state.wantToRead} />
-                    <BookshelfLibrary name="Read" books={this.state.read} />
+            <div>
+                <Nav1/>
+                <div className="d-flex row justify-content-center mt-4">
+                    <div className="col-9">
+                        <h4>Your Books</h4>
+                        <div className="mt-3">
+                            <Categories name="Reading" books={this.state.reading} icons = "1" />
+                            <Categories name="Want to Read" books={this.state.wantToRead} icons = "2"/>
+                            <Categories name="Read" books={this.state.read} icons = "3"/>
+                            <Categories name="Recommendations" books={this.state.recommendations} icons = "4"/>
+                            <Categories name="Favorites" books={this.state.favorites} icons = "5"/>
+                        </div>
+                        <Book
+                            title="Harry Potter And The Chamber Of Secrets"
+                            author="J.K. Rowling"
+                            description="Aenean posuere posuere nisi. Nunc sollicitudin condimentum nunc quis placerat. Donec sagittis nibh eget diam dictum"
+                            img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
+                            isbn="IDK"
+                            options="card-half"
+                        />
+                        
+                    </div>
+                    <div className="col-9 my-3">
+                    </div>
                 </div>
-                <div className="my-5"></div>
-                <div className="d-flex justify-content-between">
-                    <BookshelfLibrary name="Recommendations" books={this.state.recommendations} />
-                    <BookshelfLibrary name="Favorites" books={this.state.favorites} />
-                </div>
-
             </div>
 
         );

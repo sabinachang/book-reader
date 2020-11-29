@@ -1,0 +1,23 @@
+.manage-btn {
+    float: left;
+    background: #f3f3f3;
+    border-radius: 10px;
+    width: 30%;
+    margin-right: 3%;
+    color: #4b630d;
+    cursor: pointer;
+}
+
+.manage-btn:hover {
+    background: #e7efd6;
+}
+
+.custom-btn {
+    display: flex;
+    align-items: center;
+}
+
+.custom-icon {
+    font-size: 2rem;
+    color: #c5d0ad;
+}

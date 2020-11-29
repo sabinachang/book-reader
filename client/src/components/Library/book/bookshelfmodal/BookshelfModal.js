@@ -59,26 +59,25 @@ class BookshelfModal extends React.Component {
     }
 
     render() {
-        return (<Modal
+        return (
+        <Modal
             visible={this.props.visible}
             handleClose={() => this.closeModal()}
-            heading="Which Bookshelf are you adding this book to?">
+            heading="Which Bookshelf are you adding this book to?"
+        >
 
             <div className="row text-center">
                 <div className="col">
                     {/* Add click handler to bookshelf to dd this book to the bookshelf */}
-                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" />
-                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" />
-
-                </div>
-                <div className="col">
-                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" />
-                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" />
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Want to Read" icons="faStream"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Reading" icons="faBookmark"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.selected} onClick={this.selectBookshelf} name="Read" icons="faBookReader"/>
+                    <Bookshelf bookInfo={this.props.bookInfo} selected={this.state.favorites} onClick={this.selectBookshelf} name="Favorites" icons="faHeart"/>
                 </div>
 
             </div>
             <div className="d-flex justify-content-end">
-                <button onClick={() => this.addToBookshelf()} className="btn btn-primary">Submit</button>
+                <button onClick={() => this.addToBookshelf()} className="btn btn-primary mt-3">Submit</button>
 
             </div>
         </Modal>)

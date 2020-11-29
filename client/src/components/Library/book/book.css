@@ -1,16 +1,61 @@
 h1 {
     text-align: center;
 }
+
 .book{
-    width: 100px;
-    height: 170px;
+    width: 140px;
+    height: 205px;
     margin: 0 auto;
-    background-size: 100px 170px;
-  
-    /* Set up positioning */
-    top: 0;
-    left: 0;
-    }
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 140px 205px;
+}
+
 .book-info {
-    text-align: center;
+    text-align: left;
+}
+
+.card-half {
+    width: 48%;
+    margin-right: 2%;
+    float: left;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.card-full {
+    width: 100%;
+    float: left;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.card-body {
+    display: flex;
+    padding: 10px;
+    height: 225px;
+}
+
+.card-title {
+    max-height: 20%;
+    overflow-y: hidden;
+}
+
+.card-text {
+    overflow-y: scroll;
+    height: 50%;
+}
+
+.dropdown-btn {
+    float: right;
+    background-color: #ccea83;
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        width: 100%;
+        margin-right: 0px;
+    }
 }

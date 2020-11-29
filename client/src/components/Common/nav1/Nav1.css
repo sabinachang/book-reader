@@ -1,0 +1,13 @@
+.bg-custom {
+    background: #e7efd6;
+    align-items: center;
+}
+
+.navbar-custom {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.toggler-custom {
+    color: #739815;
+}

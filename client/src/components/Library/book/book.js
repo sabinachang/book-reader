@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Button } from 'react-bootstrap'
 import BookshelfModal from './bookshelfmodal/BookshelfModal'
 import RecommendModal from './recommendFriends/RecommendModal'
+import FeedbackModal from '../../BookFeedback/feedbackModal'
 import "./book.css"
 
 class Book extends Component {
@@ -15,7 +16,8 @@ class Book extends Component {
             isbn: props.isbn,
             img: img,
             bookshelfModal: false,
-            recommendModal: false
+            recommendModal: false,
+            feedbackModal: false,
         }
     }
 
@@ -33,6 +35,14 @@ class Book extends Component {
 
     unrenderRecommendModal = () => {
         this.setState({ recommendModal: false })
+    }
+
+    renderFeedbackModal = () => {
+        this.setState({ feedbackModal: true })
+    }
+
+    unrenderFeedbackfModal = () => {
+        this.setState({ feedbackModal: false })
     }
 
     getBookInfo = () => {
@@ -54,32 +64,39 @@ class Book extends Component {
                     visible={this.state.bookshelfModal}
                     handleClose={this.unrenderBookshelfModal}
                 />
+
                 <RecommendModal
                     visible={this.state.recommendModal}
                     handleClose={this.unrenderRecommendModal}
                     bookInfo={this.getBookInfo()}
                 />
+                <FeedbackModal
+                    visible={this.state.feedbackModal}
+                    handleClose={this.unrenderFeedbackfModal}
+                    book={this.getBookInfo()}
+                    showUserFeedback={this.props.showUserFeedback}>
+                </FeedbackModal>
 
                 <Dropdown >
-                    <div className="d-flex book-info">
-                        <div className="card" style={{ width: "18rem" }}>
+                    <div className="book-info">
+                        <div className={this.props.options}>
                             <div className="card-body">
-                                <h5 className="card-title">{this.state.title}</h5>
-                                <div className="book my-4" style={{ backgroundImage: this.state.img }}></div>
-                                <p className="card-text">{this.state.description}</p>
+                                <span><div className="book" style={{ backgroundImage: this.state.img }}></div></span>
+                                <span className="ml-3">
+                                    <h6 className="card-title">{this.state.title}</h6>
+                                    <p className="card-text">{this.state.description}</p>
+                                    <Button variant='link' onClick={this.renderFeedbackModal}>View reviews</Button>
+                                    <Dropdown.Toggle split variant="" id="dropdown-split-basic" className="dropdown-btn"/>
+                                </span>
                             </div>
-
                         </div>
-
-
-                        <Dropdown.Toggle split variant="" id="dropdown-split-basic" />
-
                     </div>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu className="custom-menu mt-2" id="dropdown-menu-align-right">
                         <Dropdown.Item onClick={this.renderBookshelfModal}>Add To Bookshelf</Dropdown.Item>
                         <Dropdown.Item onClick={this.renderRecommendModal}>Recommend To Friend</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+
             </div>
 
 

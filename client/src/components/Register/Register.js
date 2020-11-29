@@ -25,7 +25,7 @@ function Register(props) {
             password: state.password
         }
 
-        axios.post('/api/users/register', payload)
+        axios.post('http://localhost:5000/api/users/register', payload)
         .then( (res) => {
             if(res.status === 201) {
                 setState(prevState => ({
@@ -67,13 +67,14 @@ function Register(props) {
     }
 
     return(
-        <div className="col-12 col-lg-4 mt-2" >
-            <form className="custom-card">
-                <h4>Register</h4>
+        <div className="col-12 col-lg-4 mt-2 register-container" >
+            <h6 className="error">{ state.errMsg }</h6>
+            <form className="custom-card register-form">
+                <h4>BookReader Register</h4>
                 <div className="alert alert-danger mt-2" style={{display: state.errMsg ? 'block' : 'none' }} role="alert">
                     {state.errMsg}
                 </div>
-                
+
                 <div className="form-group text-left">
                 <label>Username</label>
                 <input type="username" 
@@ -106,20 +107,18 @@ function Register(props) {
                 </div>
                 <button 
                     type="submit" 
-                    className="btn btn-primary"
+                    className="btn btn-primary btn-custom mt-2"
                     onClick={handleSubmitClick}
                 >
                     Register
                 </button>
+                <span className="mt-2 ml-4">
+                    <span className="loginText" onClick={() => redirectToLogin()}>or Login</span> 
+                </span>
             </form>
             <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="mt-2">
-                <span>Already have an account? </span>
-                <span className="loginText" onClick={() => redirectToLogin()}>Login here</span> 
-            </div>
-            
         </div>
     )
 }

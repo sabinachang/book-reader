@@ -1,0 +1,16 @@
+.custom-card {
+    width: 46%;
+    margin-right: 4%;
+    float: left;
+    border-bottom: 1px solid #a7be76;
+    align-items: center;
+}
+
+.custom-myfriend {
+    width: 46%;
+    margin-right: 4%;
+    float: left;
+    align-items: center;
+    background-color: #eff1eb;
+    border-radius: 10px;
+}

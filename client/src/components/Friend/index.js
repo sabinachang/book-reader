@@ -5,6 +5,10 @@ import axios from 'axios';
 import Friend from './friendship/friend';
 import Candidate from './friendship/candidate';
 import Invitation from './friendship/invititation';
+import Nav1 from '../Common/nav1/Nav1';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLongArrowAltLeft, faUsers } from '@fortawesome/free-solid-svg-icons';
+import './index.css';
 
 class FriendHome extends Component {
 
@@ -152,31 +156,40 @@ class FriendHome extends Component {
         const candidatesUI = this.setCandidatesUI();
         const invitationsUI = this.setInvitationsUI();
         return (
-
-            <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-                <Tab className='my-4' eventKey="home" title="My friends">
-                    {this.state.loading ? (
-                        <h5>{this.state.loadingMsg}</h5>
-                    ) : (
-                            friendsUI
-                        )}
-                </Tab>
-                <Tab className='my-4' eventKey="add" title="Add friends">
-                    {this.state.loading ? (
-                        <h5>{this.state.loadingMsg}</h5>
-                    ) : (
-                            candidatesUI
-                        )}
-                </Tab>
-                <Tab className='my-4' eventKey="invite" title="Invitations" >
-                    {this.state.loading ? (
-                        <h5>{this.state.loadingMsg}.</h5>
-                    ) : (
-                            invitationsUI
-                        )}
-                </Tab>
-            </Tabs>
-
+            <div>
+                <Nav1 />
+                <div>
+                    <div className="d-flex row justify-content-center mt-4">
+                        <div className="col-9">
+                            <h6><a href="/profile"><FontAwesomeIcon icon={faLongArrowAltLeft} className="my-2 custom-icon" /></a></h6>
+                            <h5 className="my-4 "><FontAwesomeIcon icon={faUsers} className="mr-2" />Manage Friendships</h5>
+                            <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
+                                <Tab className='my-4' eventKey="home" title="My friends">
+                                    {this.state.loading ? (
+                                        <h5>{this.state.loadingMsg}</h5>
+                                    ) : (
+                                            friendsUI
+                                        )}
+                                </Tab>
+                                <Tab className='my-4' eventKey="add" title="Add friends">
+                                    {this.state.loading ? (
+                                        <h5>{this.state.loadingMsg}</h5>
+                                    ) : (
+                                            candidatesUI
+                                        )}
+                                </Tab>
+                                <Tab className='my-4' eventKey="invite" title="Invitations" >
+                                    {this.state.loading ? (
+                                        <h5>{this.state.loadingMsg}.</h5>
+                                    ) : (
+                                            invitationsUI
+                                        )}
+                                </Tab>
+                            </Tabs>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
