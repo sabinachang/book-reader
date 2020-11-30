@@ -21,5 +21,8 @@ module.exports = express
     .get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)
     .get('/wall/public', wallController.getPublicWall)
     .get('/wall/private', wallController.getPrivateWall)
-    .post('/wall/likes/:id', wallController.toggleLikes);
+    .post('/wall/:id/likes', wallController.toggleLikes)
+    .post('/wall/:id/comments', wallController.addComment)
+    .delete('/wall/comments/:id', wallController.deleteComment)
+    .get('/wall/:id/comments', wallController.getComments);
 

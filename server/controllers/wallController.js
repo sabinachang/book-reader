@@ -1,5 +1,6 @@
 const WallPost = require('../models/wallPost');
 const Friendship = require('../models/friendship');
+const Comment = require('../models/comment');
 
 
 const getPrivateWall = async (req, res) => {
@@ -39,9 +40,47 @@ const toggleLikes = async (req, res) => {
     
 }
 
+const addComment = async (req, res) => {
+    var post = await WallPost.findOne({_id: req.params.id});
+    var comment = await Comment.create({
+        author: req.cookies.username,
+        body: req.body.comment
+    })
+    post.comments.push(comment);
+    await post.save()
+    console.log(post.comments)
+    res.status(200).json({msg: 'comment added'})
+
+}
+const deleteComment = async (req, res) => {
+    var post = await WallPost.findOne({_id: req.params.id});
+    var comments = post.comments;
+    // Iterate through comments and delete right one
+    console.log(req.body.comment)
+    console.log(req.params.id)
+    console.log(req.cookies.username)
+    res.status(201).json({msg: 'comment deleted'})
+
+}
+
+const getComments = async (req, res) => {
+    var post = await WallPost.findOne({_id: req.params.id});
+    var commentIds = post.comments;
+    var comments = []
+    for (var i = 0; i < commentIds.length; i++) {
+        var comment = await Comment.findById(commentIds[i])
+        comments.push(comment)
+    }
+    console.log(comments)
+    res.status(200).json(comments)
+
+}
 
 module.exports = {
     getPublicWall,
     getPrivateWall,
-    toggleLikes
+    toggleLikes,
+    addComment,
+    deleteComment,
+    getComments
 }

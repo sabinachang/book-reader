@@ -8,7 +8,7 @@ class Post extends Component {
         showCommentBox: false,
         commentValue: '',
         userLiked: false,
-        likeText: 'Be the first to like this post',
+        likeText: 'Be the first to like this post!',
         currentLikes: 0
 
 
@@ -21,6 +21,11 @@ class Post extends Component {
   }
 
     componentDidMount = () => {
+        axios.get(`http://localhost:5000/api/wall/${this.props.id}/comments`, { withCredentials: true })
+        .then((comments) => {
+            console.log(comments.data)
+        })
+
         if (this.props.likes.length === 1) {
             this.setState({likeText: '1 person liked this post', currentLikes: 1})
         } else if (this.props.likes.length > 1) {
@@ -32,6 +37,7 @@ class Post extends Component {
         if (this.props.likes.includes(localStorage.getItem('username')) || this.props.likes.includes(this.getCookie('username'))) {
             this.setState({userLiked: true})
         } 
+
     }
     
    
@@ -54,14 +60,37 @@ class Post extends Component {
             
     handleKeyPress = (event) => {
         if(event.key === 'Enter'){
-          console.log(this.state.commentValue)
-          console.log(this.props.id)
-          this.setState({commentValue: ''})
-        }
+          axios.post(`http://localhost:5000/api/wall/${this.props.id}/comments`, {comment: this.state.commentValue}, { withCredentials: true })
+        .then((comment) => {
+            if (comment.data.msg === 'comment added') {
+                console.log('comment added')
+                this.setState({commentValue: ''})
+
+            } 
+        })
       }
+    }
 
     toggleCommentBox = () => {
         this.setState({showCommentBox: !this.state.showCommentBox})
+    }
+
+
+    toggleLike =() => {
+        axios.post(`http://localhost:5000/api/wall/${this.props.id}/likes`, {}, { withCredentials: true })
+        .then((like) => {
+            if (like.data.msg === 'like added') {
+                this.setState({currentLikes: this.state.currentLikes+1})
+
+                const msg = this.determineLikes()
+                this.setState({userLiked: true, likeText: msg})
+            } else {
+                this.setState({currentLikes: this.state.currentLikes-1})
+                const msg = this.determineLikes()
+
+                this.setState({userLiked: false, likeText: msg})
+            }
+        })
     }
 
     determineLikes = () => {
@@ -79,23 +108,6 @@ class Post extends Component {
         }
         return msg;
 
-    }
-
-    toggleLike =() => {
-        axios.post(`http://localhost:5000/api/wall/likes/${this.props.id}`, {}, { withCredentials: true })
-        .then((like) => {
-            if (like.data.msg === 'like added') {
-                this.setState({currentLikes: this.state.currentLikes+1})
-
-                const msg = this.determineLikes()
-                this.setState({userLiked: true, likeText: msg})
-            } else {
-                this.setState({currentLikes: this.state.currentLikes-1})
-                const msg = this.determineLikes()
-
-                this.setState({userLiked: false, likeText: msg})
-            }
-        })
     }
 
     convertTime = (timestamp) => {
