@@ -7,16 +7,33 @@ class Post extends Component {
     state = {
         showCommentBox: false,
         commentValue: '',
-        userLiked: false
+        userLiked: false,
+        likeText: 'Be the first to like this post',
+        currentLikes: 0
+
 
     }
 
+     getCookie = (name) => {
+    var re = new RegExp(name + "=([^;]+)");
+    var value = re.exec(document.cookie);
+    return (value != null) ? unescape(value[1]) : null;
+  }
 
     componentDidMount = () => {
-        if (this.props.likes.includes(localStorage.getItem('username'))) {
+        if (this.props.likes.length === 1) {
+            this.setState({likeText: '1 person liked this post', currentLikes: 1})
+        } else if (this.props.likes.length > 1) {
+            const count = this.props.likes.length;
+            this.setState({likeText: count+' people liked this post', currentLikes: count})
+
+        }
+        
+        if (this.props.likes.includes(localStorage.getItem('username')) || this.props.likes.includes(this.getCookie('username'))) {
             this.setState({userLiked: true})
         } 
     }
+    
    
 
 
@@ -47,14 +64,36 @@ class Post extends Component {
         this.setState({showCommentBox: !this.state.showCommentBox})
     }
 
+    determineLikes = () => {
+        let msg;
+        if (this.state.currentLikes === 1) {
+            msg = '1 person liked this post'
+        }
+        else if (this.state.currentLikes > 1) {
+            const count = this.state.currentLikes;
+
+            msg = count + ' people liked this post'
+        } else {
+            msg = 'Be the first to like this post'
+
+        }
+        return msg;
+
+    }
+
     toggleLike =() => {
         axios.post(`http://localhost:5000/api/wall/likes/${this.props.id}`, {}, { withCredentials: true })
         .then((like) => {
             if (like.data.msg === 'like added') {
-                this.setState({userLiked: true})
-            } else {
-                this.setState({userLiked: false})
+                this.setState({currentLikes: this.state.currentLikes+1})
 
+                const msg = this.determineLikes()
+                this.setState({userLiked: true, likeText: msg})
+            } else {
+                this.setState({currentLikes: this.state.currentLikes-1})
+                const msg = this.determineLikes()
+
+                this.setState({userLiked: false, likeText: msg})
             }
         })
     }
@@ -81,9 +120,8 @@ class Post extends Component {
     }
 
     render() {
-    const userLiked = this.state.userLiked;
     let button;
-    if (userLiked) {
+    if (this.state.userLiked) {
         button = <i style = {{cursor: 'pointer', color: '#66ff00'}} onClick = {this.toggleLike} className="fa fa-lg fa-thumbs-up"/>
 
     } else {
@@ -91,6 +129,7 @@ class Post extends Component {
 
     }
 
+  
         return (
 <div className="card border-dark mb-4">
             <div className="card-header">
@@ -101,6 +140,9 @@ class Post extends Component {
         <p className="card-title">{this.props.title}</p>
               <p className="card-text">{this.props.body}</p>
               {this.displayImages()}
+            </div>
+            <div className = 'card-footer'>
+            {this.state.likeText}
             </div>
             <div className="card-footer text-muted">
 

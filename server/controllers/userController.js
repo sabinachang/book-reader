@@ -19,7 +19,6 @@ class UserController {
           maxAge: cookieMaxAge * 1000,
         });
         res.cookie('username', username, {
-          path: '/api',
           maxAge: cookieMaxAge * 1000,
         })
         res.status(201).send({ message: 'create user successfully' });
