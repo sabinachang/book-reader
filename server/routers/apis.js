@@ -17,7 +17,7 @@ module.exports = express
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
     .post('/reviews/:bookIsbn', wallObserver.readRequest, userLibraryController.createReview)
     .get('/ratings/:bookIsbn', userLibraryController.getRating)
-    .post('/ratings/:bookIsbn', userLibraryController.createRating)
+    .post('/ratings/:bookIsbn', wallObserver.readRequest, userLibraryController.createRating)
     .get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)
     .get('/wall/public', wallController.getPublicWall)
     .get('/wall/private', wallController.getPrivateWall)

@@ -11,9 +11,8 @@ class ReviewBookBuilder extends AbstractBuilder {
         const request_body = req.body;
         var flyweight = await BookFlyweight.get(req.params.bookIsbn)
         const authors = flyweight.authors.length === 0 ? "Unknown Author" : flyweight.authors[0]
-        console.log(flyweight)
         super.make({
-            title: `${username} added a review to '${flyweight.title} by ${authors}`,
+            title: `${username} added a review to '${flyweight.title}' by ${authors}`,
             owner: username
         });
 

@@ -7,58 +7,59 @@ class UserRating extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          rating: "none",
-          loading: false,
+            rating: "none",
+            loading: false,
         };
-      }
-    
+    }
+
     handleClick = clickEvent => {
-      const prevRating = this.state.rating
-      let curRating;
-      if (clickEvent.target.value === prevRating) {
+        const prevRating = this.state.rating
+        let curRating;
+        if (clickEvent.target.value === prevRating) {
             curRating = "none";
-      } else {
+        } else {
             curRating = clickEvent.target.value;
-      }
-      this.setState({
-          loading: true,
-      });
-      axios.post(`/api/ratings/${this.props.book.isbn}`, {
-          rating: {
-              from: prevRating,
-              to: curRating,
-          }
-      }, { withCredentials: true })
-      .then((res) => {
-            console.log(res) 
-          this.setState({
-              loading: false,
-              rating: res.data.rating,
-          })
-          console.log(this.state.rating)
-          if (res.status === 200) {
-              this.props.notifyUpdate()
-          } else {
-              console.log('something went wrong')
-          }
-      })
-      .catch((err) => {
-          console.log(err)
-      })
+        }
+        this.setState({
+            loading: true,
+        });
+        axios.post(`/api/ratings/${this.props.book.isbn}`, {
+            request_type: "rate-book",
+            rating: {
+                from: prevRating,
+                to: curRating,
+            }
+        }, { withCredentials: true })
+            .then((res) => {
+                console.log(res)
+                this.setState({
+                    loading: false,
+                    rating: res.data.rating,
+                })
+                console.log(this.state.rating)
+                if (res.status === 200) {
+                    this.props.notifyUpdate()
+                } else {
+                    console.log('something went wrong')
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     };
 
     getUserRating = () => {
         axios.get(`/api/ratings/${this.props.book.isbn}`, { withCredentials: true })
-        .then((res) => {
-            console.log(res)
-            this.setState({
-                loading: false,
-                rating: res.data.rating,
+            .then((res) => {
+                console.log(res)
+                this.setState({
+                    loading: false,
+                    rating: res.data.rating,
+                })
             })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     componentDidMount = () => {
@@ -67,30 +68,30 @@ class UserRating extends Component {
 
 
     render() {
-      return (
-        <div className="container">
-          <div className="row mt-3">
-              <div className="col-sm-5 col-lg-3  d-flex justify-content-between">
-                  { this.state.loading && 
-                      <Spinner animation="border"></Spinner>
-                  }
-                  { this.state.rating === 'like' ? (
-                      <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}>Like</Button> 
-                  ) : (
-                    <Button onClick={this.handleClick} value="like" variant='light' disabled={this.state.loading}>Like</Button> 
+        return (
+            <div className="container">
+                <div className="row mt-3">
+                    <div className="col-sm-5 col-lg-3  d-flex justify-content-between">
+                        {this.state.loading &&
+                            <Spinner animation="border"></Spinner>
+                        }
+                        {this.state.rating === 'like' ? (
+                            <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}>Like</Button>
+                        ) : (
+                                <Button onClick={this.handleClick} value="like" variant='light' disabled={this.state.loading}>Like</Button>
 
-                  )}
+                            )}
 
-                  { this.state.rating === 'dislike' ? (
-                      <Button onClick={this.handleClick} value="dislike" variant='primary' disabled={this.state.loading}>Dislike</Button>
-                      ) : (
-                        <Button onClick={this.handleClick} value="dislike" variant='light' disabled={this.state.loading}>Dislike</Button>
+                        {this.state.rating === 'dislike' ? (
+                            <Button onClick={this.handleClick} value="dislike" variant='primary' disabled={this.state.loading}>Dislike</Button>
+                        ) : (
+                                <Button onClick={this.handleClick} value="dislike" variant='light' disabled={this.state.loading}>Dislike</Button>
 
-                      )}
-              </div>
-          </div>
-        </div>
-      );
+                            )}
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 

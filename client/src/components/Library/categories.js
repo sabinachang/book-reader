@@ -8,7 +8,7 @@ import { faStream, faBookmark, faBookReader, faHeart, faUserFriends } from '@for
 class BookshelfLibrary extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { books: [], bookshelfModal: false}
+        this.state = { books: [], bookshelfModal: false }
     }
 
 
@@ -28,7 +28,7 @@ class BookshelfLibrary extends React.Component {
     }
 
     toggleBookshelfModal = (visible) => {
-        this.setState({bookshelfModal: visible})
+        this.setState({ bookshelfModal: visible })
     }
 
     render() {
@@ -63,7 +63,7 @@ class BookshelfLibrary extends React.Component {
                         <Book
                             isbn={book.isbn}
                             title={book.title}
-                            author={book.author}
+                            authors={book.author}
                             description={book.description}
                             img={book.thumbnail}
                             key={book.isbn}
@@ -73,7 +73,7 @@ class BookshelfLibrary extends React.Component {
                     ))}
                 </div>
             </Modal>
-            <div onClick={this.renderBookshelfModal} className="bookshelf-library px-3 py-2 mr-2 mb-3"><FontAwesomeIcon icon={icon} className="mr-2"/>{this.props.name}</div>
+            <div onClick={this.renderBookshelfModal} className="bookshelf-library px-3 py-2 mr-2 mb-3"><FontAwesomeIcon icon={icon} className="mr-2" />{this.props.name}</div>
         </div>)
     }
 }

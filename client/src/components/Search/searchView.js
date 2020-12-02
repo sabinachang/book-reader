@@ -26,7 +26,7 @@ class SearchView extends Component {
 		console.log('query:', query);
 		axios.get('/api/search/' + query, {
 			params: {
-				startIndex: ((this.currentPage - 1) *10)
+				startIndex: ((this.currentPage - 1) * 10)
 			}
 		})
 			.then((res) => {
@@ -76,23 +76,23 @@ class SearchView extends Component {
 	}
 
 	getPaginationUI = () => {
-		window.scrollTo(0,0)
+		window.scrollTo(0, 0)
 		const current = parseInt(this.currentPage, 10)
 		let start
 		let end
 		if (this.totalItems === 0) {
 			return null
 		}
-		if ( (current - 5) < 1 ) {
+		if ((current - 5) < 1) {
 			start = 1
 		} else {
 			start = current - 5
 		}
 
-		if ((current + 4) > Math.ceil((this.totalItems/10))) {
-			end = Math.ceil((this.totalItems/10))
+		if ((current + 4) > Math.ceil((this.totalItems / 10))) {
+			end = Math.ceil((this.totalItems / 10))
 		} else {
-			if (start ===1 ) {
+			if (start === 1) {
 				end = 10
 			} else {
 				end = current + 4
@@ -101,12 +101,12 @@ class SearchView extends Component {
 		}
 		return (
 			<>
-			<Pagination 
-			onPageClick={this.getPage}
-			start={start}
-			end={end}
-			current={current}>
-			</Pagination>
+				<Pagination
+					onPageClick={this.getPage}
+					start={start}
+					end={end}
+					current={current}>
+				</Pagination>
 			</>
 		)
 	}
@@ -117,7 +117,7 @@ class SearchView extends Component {
 		this.updateTotalItems(0)
 		if (this.state.search) {
 			this.searchBook(this.state.searchOption + this.state.search);
-			this.setState({ search: ''})
+			this.setState({ search: '' })
 		} else {
 			this.redirectToSearchBook();
 			this.setState({ errMsg: 'Please enter book name or author name to search!' })
@@ -154,9 +154,9 @@ class SearchView extends Component {
 	render() {
 		return (
 			<div>
-				<Nav1/>
+				<Nav1 />
 				<div className="d-flex row justify-content-center">
-				
+
 					<div className="col-9 result-container mb-5">
 						<h4 className="mt-4" >Search books</h4>
 
@@ -167,7 +167,7 @@ class SearchView extends Component {
 							<input type='radio' value=' ' name='soption' className='option' defaultChecked /> All
 						</div>
 
-						<SearchInputForm 
+						<SearchInputForm
 							search={this.state.search}
 							handleInputChange={this.handleInputChange}
 							handleFormSubmit={this.handleFormSubmit}
@@ -176,12 +176,12 @@ class SearchView extends Component {
 						<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
 							{this.state.errMsg}
 						</div>
-						
+
 						{this.state.result.map(book => (
 							<Book
 								key={book.id}
 								title={book.volumeInfo.title}
-								author={book.volumeInfo.authors}
+								authors={book.volumeInfo.authors}
 								description={book.volumeInfo.description}
 								img={book.volumeInfo.imageLinks.thumbnail}
 								isbn={this.getIsbn(book)}
