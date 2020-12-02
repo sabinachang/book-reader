@@ -1,4 +1,4 @@
-const WallPost = require("../../wallPost")
+const WallPost = require("../../wallPost").BaseModel
 
 class Builder {
     constructor() {
