@@ -23,25 +23,25 @@ const getPublicWall = async (req, res) => {
 }
 
 const toggleLikes = async (req, res) => {
-    var post = await WallPost.findOne({_id: req.params.id});
+    var post = await WallPost.findOne({ _id: req.params.id });
     const username = req.cookies.username
     const index = post.likes.indexOf(username);
     if (index > -1) {
         post.likes.splice(index, 1);
         await post.save()
-        res.status(200).json({msg: 'like removed'})
+        res.status(200).json({ msg: 'like removed' })
 
     } else {
         post.likes.push(req.cookies.username)
         await post.save()
-        res.status(201).json({msg: 'like added'})
+        res.status(201).json({ msg: 'like added' })
 
-}
-    
+    }
+
 }
 
 const addComment = async (req, res) => {
-    var post = await WallPost.findOne({_id: req.params.id});
+    var post = await WallPost.findOne({ _id: req.params.id });
     var comment = await Comment.create({
         author: req.cookies.username,
         body: req.body.comment
@@ -49,22 +49,22 @@ const addComment = async (req, res) => {
     post.comments.push(comment);
     await post.save()
     console.log(post.comments)
-    res.status(200).json({msg: 'comment added'})
+    res.status(200).json({ msg: 'comment added', comment: comment })
 
 }
 const deleteComment = async (req, res) => {
-    var post = await WallPost.findOne({_id: req.params.id});
+    var post = await WallPost.findOne({ _id: req.params.id });
     var comments = post.comments;
     // Iterate through comments and delete right one
     console.log(req.body.comment)
     console.log(req.params.id)
     console.log(req.cookies.username)
-    res.status(201).json({msg: 'comment deleted'})
+    res.status(201).json({ msg: 'comment deleted' })
 
 }
 
 const getComments = async (req, res) => {
-    var post = await WallPost.findOne({_id: req.params.id});
+    var post = await WallPost.findOne({ _id: req.params.id });
     var commentIds = post.comments;
     var comments = []
     for (var i = 0; i < commentIds.length; i++) {

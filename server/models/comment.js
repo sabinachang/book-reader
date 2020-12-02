@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
     author: String,
-    body: String
+    body: String,
+    timestamp: { type: Date, default: Date.now },
 }
 );
 

@@ -9,33 +9,32 @@ class Wall extends Component {
 
     componentDidMount = () => {
         axios.get(`http://localhost:5000/api/wall/public`, { withCredentials: true })
-        .then((posts) => {
-            this.setState({posts: posts.data})
-        })
-       
+            .then((posts) => {
+                this.setState({ posts: posts.data })
+            })
+
     }
 
 
     render() {
 
         return (
-            <div className = "container">
+            <div className="container">
                 <h1 className="mb-4">Public Wall</h1>
                 {this.state.posts.map((post) => (
-						<Post
-                            key= {post._id}
-                            body = {post.bodytext}
-							id={post._id}
-							title={post.title}
-							owner={post.owner}
-                            likes={post.likes}
-                            comments = {post.comments}
-							images={post.images}
-							timestamp={post.timestamp}
-						/>
-					))}
+                    <Post
+                        key={post._id}
+                        body={post.bodytext}
+                        id={post._id}
+                        title={post.title}
+                        owner={post.owner}
+                        likes={post.likes}
+                        images={post.images}
+                        timestamp={post.timestamp}
+                    />
+                ))}
             </div>
-            
+
         );
     }
 }
