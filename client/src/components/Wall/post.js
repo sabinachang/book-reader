@@ -123,7 +123,7 @@ class Post extends Component {
             return <div className="card-footer">
                 {this.state.comments.slice(0, this.state.commentsLength).map(comment => {
                     return (
-                        <div className="border-top border-black my-1">
+                        <div key={comment.timestamp} className="border-top border-black my-1">
                             <div className="d-flex justify-content-between">
                                 <div>
                                     {comment.author}
@@ -136,16 +136,18 @@ class Post extends Component {
                         </div>
                     )
                 })}
-                {this.state.comments.length > 2 && this.state.comments.length !== this.state.commentsLength &&
-                    <p onClick={this.displayAllComments} className="btn btn-link">
-                        See More Comments
+                <div className="d-flex justify-content-end">
+                    {this.state.comments.length > 2 && this.state.comments.length !== this.state.commentsLength &&
+                        <p onClick={this.displayAllComments} className="btn btn-link">
+                            See More Comments
                     </p>
-                }
-                {this.state.commentsLength > 2 && this.state.comments.length === this.state.commentsLength &&
-                    <p onClick={() => this.setState({ commentsLength: 2 })} className="btn btn-link">
-                        See Fewer Comments
+                    }
+                    {this.state.commentsLength > 2 && this.state.comments.length === this.state.commentsLength &&
+                        <p onClick={() => this.setState({ commentsLength: 2 })} className="btn btn-link">
+                            See Fewer Comments
                     </p>
-                }
+                    }
+                </div>
             </div>
         }
 
@@ -190,9 +192,11 @@ class Post extends Component {
                     {this.props.owner} | {this.convertTime(this.props.timestamp)}
 
                 </div>
-                <div className="card-body text-center">
+                <div className=" text-center">
                     <p className="card-title">{this.props.title}</p>
-                    <p className="card-text">{this.props.body}</p>
+                    <div>
+                        <p className="card-text">{this.props.body}</p>
+                    </div>
                     {this.displayImages()}
                 </div>
                 <div className='card-footer'>

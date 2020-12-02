@@ -15,7 +15,7 @@ module.exports = express
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
-    .post('/reviews/:bookIsbn', userLibraryController.createReview)
+    .post('/reviews/:bookIsbn', wallObserver.readRequest, userLibraryController.createReview)
     .get('/ratings/:bookIsbn', userLibraryController.getRating)
     .post('/ratings/:bookIsbn', userLibraryController.createRating)
     .get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)

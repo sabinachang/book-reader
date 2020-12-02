@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
     owner: String,
     title: String,
     images: [String],
-    bodyText: String,
+    bodytext: String,
     likes: [String],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     timestamp: { type: Date, default: Date.now },

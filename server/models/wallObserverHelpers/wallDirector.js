@@ -1,5 +1,6 @@
 const AddToBookshelfBuilder = require("./wallBuilders/AddToBookshelfBuilder")
 const FriendshipBuilder = require("./wallBuilders/FriendshipBuilder")
+const ReviewBookBuilder = require("./wallBuilders/ReviewBookBuilder")
 
 class Director {
     create = (req) => {
@@ -18,6 +19,11 @@ class Director {
                 console.log('Creating a post about adding a book to bookshelf.');
                 const addToBookshelfBuilder = new AddToBookshelfBuilder()
                 addToBookshelfBuilder.make(req)
+                break;
+            case 'review-book':
+                const reviewBookBuilder = new ReviewBookBuilder()
+                reviewBookBuilder.make(req)
+                console.log('Creating a post about adding a book to bookshelf.');
                 break;
             default:
                 console.log(`${request_type} not registered.`);

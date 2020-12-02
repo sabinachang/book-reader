@@ -48,7 +48,6 @@ const addComment = async (req, res) => {
     })
     post.comments.push(comment);
     await post.save()
-    console.log(post.comments)
     res.status(200).json({ msg: 'comment added', comment: comment })
 
 }
@@ -71,7 +70,6 @@ const getComments = async (req, res) => {
         var comment = await Comment.findById(commentIds[i])
         comments.push(comment)
     }
-    console.log(comments)
     res.status(200).json(comments)
 
 }

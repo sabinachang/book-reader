@@ -1,11 +1,11 @@
-const BookFlyweight = require( '../models/bookFlyweight');
-const  Book = require( '../models/book');
-const Message = require( '../models/message');
-const {User} = require('../models/user');
+const BookFlyweight = require('../models/bookFlyweight');
+const Book = require('../models/book');
+const Message = require('../models/message');
+const { User } = require('../models/user');
 const Bookshelves = require('../models/bookshelves')
 
-let feedbackTemplate =  {
-    getBook: async function(isbn, user) {
+let feedbackTemplate = {
+    getBook: async function (isbn, user) {
         const flyweight = await BookFlyweight.get(isbn)
         if (flyweight !== null) {
             const book = await Book.findOne({ flyweight: flyweight._id, owner: user._id })
@@ -14,16 +14,16 @@ let feedbackTemplate =  {
         return null
     },
 
-    getUser: async function(username) { 
-        return await User.findOne({username})
+    getUser: async function (username) {
+        return await User.findOne({ username })
     },
 
-    generate: async function({ isbn, username, content }) {
+    generate: async function ({ isbn, username, content }) {
         const user = await this.getUser(username);
         const book = await this.getBook(isbn, user);
 
-        if ( book !== null ){
-            const result = await this.add({book, user, content})
+        if (book !== null) {
+            const result = await this.add({ book, user, content })
 
             return result
         } else {
@@ -33,9 +33,9 @@ let feedbackTemplate =  {
         }
     }
 }
- 
+
 function inherit(proto) {
-    var F = function() { };
+    var F = function () { };
     F.prototype = proto;
     return new F();
 }
@@ -43,7 +43,7 @@ function inherit(proto) {
 //concrete review handler
 let review = inherit(feedbackTemplate)
 
-review.add = async function({book, user, content}) {
+review.add = async function ({ book, user, content }) {
     console.log('adding review')
     try {
         const r = await Message.createReview({
@@ -54,18 +54,18 @@ review.add = async function({book, user, content}) {
         console.log(r)
 
         await book.addReview(r._id)
-    
+
         return {
             result: 'ok',
             review: r,
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err)
         return {
             result: 'error',
         }
     }
-   
+
 }
 
 review.retrieve = async function ({ isbn, username }) {
@@ -77,8 +77,8 @@ review.retrieve = async function ({ isbn, username }) {
             bookFlyweight: flyweight._id,
             creator: u._id,
         }
-        
-        const review =  await Message.getReviews(filter)
+
+        const review = await Message.getReviews(filter)
         return {
             result: 'ok',
             review,
@@ -89,15 +89,13 @@ review.retrieve = async function ({ isbn, username }) {
             result: 'error',
         }
     }
-   
+
 }
 
 //concrete rating handler
 let rating = inherit(feedbackTemplate)
 
-rating.add = async function({ book, user, content }) {
-    console.log('adding rating')
-    console.log(content)
+rating.add = async function ({ book, user, content }) {
     try {
         await BookFlyweight.updateLikeDislike({
             id: book.flyweight._id,
@@ -108,8 +106,8 @@ rating.add = async function({ book, user, content }) {
         await book.updateRating(content.to)
 
         if (content.from === 'like') {
-            await  Bookshelves.removeBook(user, 'favorites', book)
-            
+            await Bookshelves.removeBook(user, 'favorites', book)
+
         }
 
         if (content.to === 'like') {
@@ -147,15 +145,15 @@ rating.retrieve = async function ({ isbn, username }) {
                 result: 'error'
             }
         }
-        
-       
+
+
     } catch (err) {
         console.log(err)
         return {
             result: 'error',
         }
     }
-   
+
 }
 
 module.exports = { review, rating }
