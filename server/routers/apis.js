@@ -7,8 +7,8 @@ const wallObserver = require('../middleware/wallObserver');
 
 module.exports = express
     .Router()
-    .get('/library/:bookshelf', wallObserver.readRequest, bookshelfController.getBooks)
-    .post('/library/:bookshelf', bookshelfController.addBookToBookshelf)
+    .get('/library/:bookshelf', bookshelfController.getBooks)
+    .post('/library/:bookshelf', wallObserver.readRequest, bookshelfController.addBookToBookshelf)
     .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
