@@ -13,7 +13,9 @@ exports.generateRequest = async function generateRequest(to, req) {
             thumbnail: req.body.thumbnail,
             author: req.body.author,
             isbn: req.body.isbn,
-            description: req.body.description}
+            description: req.body.description,
+            pageCount: req.body.pageCount
+        }
 
        flyweight = await BookFlyweight.createFlyweight(d);
     } 

@@ -35,6 +35,7 @@ class RecommendModal extends React.Component {
             thumbnail: this.props.bookInfo.thumbnail,
             description: this.props.bookInfo.description,
             isbn: this.props.bookInfo.isbn,
+            pageCount: this.props.bookInfo.pageCount,
             to: data.friendId,
         }).then ((res) => {
             this.setState({

@@ -185,6 +185,7 @@ class SearchView extends Component {
 								options="card-half"
 								page='search'
 								bookshelf='none'
+								pageCount={book.volumeInfo.pageCount}
 								showUserFeedback={false}
 							/>
 						))}
