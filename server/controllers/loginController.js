@@ -39,16 +39,16 @@ class LoginController {
         }
     }
 
-    static logout(req, res) {
-      const { username } = req.body;
-      User.updateOnlineStatus(username, false)
-        .then(() => {
-          res.status(200).end();
-        })
-        .catch((err) => {
-          res.status(400).json({ error: err.message });
-        });
-    }
+    // static logout(req, res) {
+    //   const { username } = req.body;
+    //   User.updateOnlineStatus(username, false)
+    //     .then(() => {
+    //       res.status(200).end();
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ error: err.message });
+    //     });
+    // }
 }
 
 module.exports = LoginController;

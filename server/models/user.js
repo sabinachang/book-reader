@@ -8,10 +8,6 @@ const userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
-    online: {
-        type: Boolean,
-        default: false,
-    },
     bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' },
     privacySettings: { type: mongoose.Schema.Types.ObjectId, ref: 'PrivacySettings' }
 });
@@ -39,17 +35,9 @@ function validateUsernamePassword(username, password) {
       throw Error('Passwords should be at least 6 characters long');
 }
 
-function updateOnlineStatus(username, online) {
-    return this.updateOne(
-        { username: username }, // Filter
-        { $set: { online: online } } // Update
-    );
-}
-
 module.exports = {
     User,
     createNewUser,
     findUserByUsername,
     validateUsernamePassword,
-    updateOnlineStatus
 }
