@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css';
-import { getCookie } from './helper'
+import { getCookie } from '../../helper'
 
 
 class Post extends Component {
