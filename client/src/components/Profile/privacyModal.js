@@ -15,7 +15,7 @@ class PrivacyModal extends React.Component {
 
     submitSettings = () => {
         const username = getCookie('username')
-        axios.post(`http://localhost:5000/api/users/${username}`, this.state, { withCredentials: true })
+        axios.post(`http://localhost:5000/api/privacy/${username}`, this.state, { withCredentials: true })
         .then(() => {
             this.props.handleClose()
             alert('Your privacy settings have been successfully saved')

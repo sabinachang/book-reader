@@ -19,7 +19,9 @@ class PrivacySettings {
     }
     getSettings = async (targetUser) => {
         const user = await User.findOne({ username: targetUser })
-        console.log(user)
+        if (!user) {
+            throw new Error("This user does not exist")
+        }
         if (!user.privacySettings) {
             user.privacySettings = await this.create()
             await user.save()
@@ -29,9 +31,6 @@ class PrivacySettings {
     }
 
     canVerify = async (setting, targetUser, loggedInUser) => {
-        console.log('checking verification', setting)
-        console.log('targetUser', targetUser)
-        console.log('loggedInUser', loggedInUser)
         switch (setting) {
             case "everybody":
                 return true
@@ -49,9 +48,9 @@ class PrivacySettings {
     verify = async (privacy_type, targetUser, loggedInUser) => {
         const settings = await this.getSettings(targetUser)
         const setting = settings[privacy_type]
-        const unverfied = !this.canVerify(setting, targetUser, loggedInUser)
-        console.log("unverfied", unverfied)
-        if (unverfied) {
+        const verfied =  await this.canVerify(setting, targetUser, loggedInUser)
+        console.log("verfied", verfied)
+        if (!verfied) {
             if (setting === 'friends') {
                 throw new Error("Only friends of this person can view their profile")
             }

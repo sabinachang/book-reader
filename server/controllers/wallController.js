@@ -3,10 +3,20 @@ const Friendship = require('../models/friendship');
 
 
 const getPrivateWall = async (req, res) => {
-    const targetUser = req.params.username;
-    const loggedInUser = req.cookies.username
-    const posts = await WallPost.getPrivatePosts(targetUser, loggedInUser)
-    res.send(posts)
+    try {
+        const targetUser = req.params.username;
+        const loggedInUser = req.cookies.username
+        const posts = await WallPost.getPrivatePosts(targetUser, loggedInUser)
+        res.send(posts)
+    } catch (err) {
+        // console.log("Error:", err)
+        let status = 403
+        if (err.message === "This user does not exist") {
+            status=404
+        }
+        res.status(status).json({err: err})
+    }
+    
 }
 
 
@@ -17,20 +27,30 @@ const getPublicWall = async (req, res) => {
 }
 
 const toggleLikes = async (req, res) => {
-
-    const index = await WallPost.toggleLikes(req.cookies.username, req.params.id)
+    try {
+        const index = await WallPost.toggleLikes(req.cookies.username, req.params.id)
     if (index > -1) {
         res.status(200).json({ msg: 'like removed' })
     } else {
         res.status(201).json({ msg: 'like added' })
     }
+    } catch (err) {
+        res.status(403).json({err: err})
+    }
+
+    
 
 }
 
 const addComment = async (req, res) => {
-    const comment = await WallPost.postComment
+    try {
+        const comment = await WallPost.postComment
         (req.cookies.username, req.params.id, req.body.comment)
     res.status(200).json({ msg: 'comment added', comment: comment })
+    } catch (err) {
+        res.status(403).json({err: err})
+    }
+   
 
 }
 const deleteComment = async (req, res) => {

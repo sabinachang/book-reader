@@ -19,6 +19,9 @@ class Wall extends Component {
                     this.setState({ isUserWall: true })
                 }
             })
+            .catch((response) => {
+                console.log(response)
+            })
 
     }
 

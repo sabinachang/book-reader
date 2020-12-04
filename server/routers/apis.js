@@ -26,5 +26,5 @@ module.exports = express
     .post('/wall/:id/comments', wallController.addComment)
     .delete('/wall/comments/:id', wallController.deleteComment)
     .get('/wall/:id/comments', wallController.getComments)
-    .post('/users/:username', privacyController.changeSettings);
+    .post('/privacy/:username', privacyController.changeSettings);
 

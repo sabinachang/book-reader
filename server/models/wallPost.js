@@ -21,8 +21,10 @@ class WallPost {
         this.Privacy = privacySettings
     }
 
-    getPosts(targetUser, loggedInUser) {
-        this.Privacy.verify("whoCanViewProfile", targetUser, loggedInUser)
+    async getPosts(targetUser, loggedInUser) {
+        console.log("verifying get posts!")
+        await this.Privacy.verify("whoCanViewProfile", targetUser, loggedInUser)
+        console.log("getPosts verified!")
         return this.WallPost.find({ owner: targetUser })
     }
 
@@ -49,7 +51,7 @@ class WallPost {
     async toggleLikes(loggedInUser, post_id) {
         const post = await this.WallPost.findById(post_id)
         const targetUser = post.owner;
-        this.Privacy.verify("whoCanLikePosts", targetUser, loggedInUser)
+        await this.Privacy.verify("whoCanLikePosts", targetUser, loggedInUser)
         const index = post.likes.indexOf(username);
         if (index > -1) {
             post.likes.splice(index, 1);
@@ -64,7 +66,7 @@ class WallPost {
     async postComment(username, post_id, comment_body) {
         const post = await this.WallPost.findById(post_id)
         const targetUser = post.owner;
-        this.Privacy.verify("whoCanCommentOnPosts", targetUser, loggedInUser)
+        await this.Privacy.verify("whoCanCommentOnPosts", targetUser, username)
         const comment = await Comment.create({
             author: username,
             body: comment_body

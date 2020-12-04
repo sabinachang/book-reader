@@ -1,7 +1,6 @@
 const privacySettings= require('../models/privacySettings');
 
-async function changeSettings(req, res) {
-    console.log(req.body)
+const changeSettings = async (req, res) =>{
 
     if (req.cookies.username !== req.params.username) {
         res.status(403)

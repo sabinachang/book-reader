@@ -67,6 +67,9 @@ class Post extends Component {
                         this.setState({ comments: newComments })
                     }
                 })
+                .catch((response) => {
+                    alert("This user's pricacy settings prohibits you from commenting on their post.")
+                })
         }
     }
 
@@ -89,6 +92,9 @@ class Post extends Component {
 
                     this.setState({ userLiked: false, likeText: msg })
                 }
+            })
+            .catch((response) => {
+                alert("This user's pricacy settings prohibits you from liking their post.")
             })
     }
 
