@@ -18,7 +18,6 @@ render((
             <Switch>
                 <Route exact path='/' component={Login} />
                 <Route exact path='/register' component={Register} />
-                <Route exact path='/home' component={Home} />
                 <Route exact path='/library' component={Library} />
                 <Route exact path='/search' component={Search} />
                 <Route exact path='/friends' component={FriendHome} />
