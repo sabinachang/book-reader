@@ -114,7 +114,6 @@ class SearchView extends Component {
 		this.updateTotalItems(0)
 		if (this.state.search) {
 			this.searchBook(this.state.searchOption + this.state.search);
-			this.setState({ search: '' })
 		} else {
 			this.redirectToSearchBook();
 			this.setState({ errMsg: 'Please enter book name or author name to search!' })
