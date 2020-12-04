@@ -17,7 +17,7 @@ class SettingsForm extends React.Component {
                         Friends
                        </label>
                 </div>
-                <div className="form-check">
+                <div className="form-check mb-4">
                     <input className="form-check-input" type="radio" name={this.props.privacy_type} id={this.props.privacy_type + "me"} value="me" />
                     <label className="form-check-label" htmlFor={this.props.privacy_type + 'me'}>
                         Only me

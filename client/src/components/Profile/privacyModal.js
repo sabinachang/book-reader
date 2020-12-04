@@ -13,9 +13,7 @@ class PrivacyModal extends React.Component {
                 heading="Edit Privacy Settings">
                 <div>
                     <Form heading="Who can view my posts?" route={`/api/privacy`} privacy_type={"whoCanViewProfile"} />
-                    <br></br>
                     <Form heading="Who can like my posts?" route={`/api/privacy`} privacy_type={"whoCanLikePosts"} />
-                    <br></br>
                     <Form heading="Who can comment on my posts?" route={`/api/privacy`} privacy_type={"whoCanCommentOnPosts"} />
                 </div>
                 <div className="d-flex justify-content-end">
