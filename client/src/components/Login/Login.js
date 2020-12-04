@@ -58,7 +58,11 @@ function Login (props) {
     }
     return(
         <div className="col-12 col-lg-4 mt-2 login-container">
+
             <form className="login-form">
+                <div className="alert alert-danger mt-2" style={{display: state.errMsg ? 'block' : 'none' }} role="alert">
+                    {state.errMsg}
+                </div>
                 <h4>BookReader Login</h4>
                 <div className="form-group text-left mt-3">
                 <label htmlFor="usernameInput1">Username</label>
@@ -97,6 +101,7 @@ function Login (props) {
             <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
+
         </div>
     )
 }
