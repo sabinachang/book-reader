@@ -191,10 +191,10 @@ class SearchView extends Component {
 								showUserFeedback={false}
 							/>
 						))}
+					</div>	
 						<div>
 							{this.getPaginationUI()}
 						</div>
-					</div>	
 				</div>
 			</div>
 		)
