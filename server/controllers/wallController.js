@@ -1,49 +1,80 @@
-const WallPost = require('../models/wallPost');
+const WallPost = require('../models/wallPost').RefinedModel;
 const Friendship = require('../models/friendship');
 
 
 const getPrivateWall = async (req, res) => {
-    var posts = await WallPost.find({ owner: req.cookies.username })
-    posts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    res.send(posts)
-}
-
-
-const getPublicWall = async (req, res) => {
-    var posts = await WallPost.find({ owner: req.cookies.username })
-    const friendsObj = await Friendship.list(req.cookies.username);
-    const friends = friendsObj.friends;
-    for (var i = 0; i < friends.length; i++) {
-        var friendsPosts = await WallPost.find({ owner: friends[i].username })
-        posts = posts.concat(friendsPosts)
+    try {
+        const targetUser = req.params.username;
+        const loggedInUser = req.cookies.username
+        const posts = await WallPost.getPrivatePosts(targetUser, loggedInUser)
+        res.send(posts)
+    } catch (err) {
+        // console.log("Error:", err)
+        let status = 403
+        if (err.message === "This user does not exist") {
+            status=404
+        }
+        res.status(status).json({err: err})
     }
-    posts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    res.send(posts)
-}
-
-const toggleLikes = async (req, res) => {
-    var post = await WallPost.findOne({_id: req.params.id});
-    const username = req.cookies.username
-    console.log(username)
-    const index = post.likes.indexOf(req.cookies.username);
-
-    if (index > -1) {
-        post.likes.splice(index, 1);
-        await post.save()
-        res.status(200).json({msg: 'like removed'})
-
-    } else {
-        post.likes.push(req.cookies.username)
-        await post.save()
-        res.status(201).json({msg: 'like added'})
-
-}
     
 }
 
 
+const getPublicWall = async (req, res) => {
+    const friendsObj = await Friendship.list(req.cookies.username);
+    const posts = await WallPost.getPublicPosts(req.cookies.username, friendsObj.friends)
+    res.send(posts)
+}
+
+const toggleLikes = async (req, res) => {
+    try {
+        const index = await WallPost.toggleLikes(req.cookies.username, req.params.id)
+    if (index > -1) {
+        res.status(200).json({ msg: 'like removed' })
+    } else {
+        res.status(201).json({ msg: 'like added' })
+    }
+    } catch (err) {
+        res.status(403).json({err: err})
+    }
+
+    
+
+}
+
+const addComment = async (req, res) => {
+    try {
+        const comment = await WallPost.postComment
+        (req.cookies.username, req.params.id, req.body.comment)
+    res.status(200).json({ msg: 'comment added', comment: comment })
+    } catch (err) {
+        res.status(403).json({err: err})
+    }
+   
+
+}
+const deleteComment = async (req, res) => {
+    var post = await WallPost.findOne({ _id: req.params.id });
+    var comments = post.comments;
+    // Iterate through comments and delete right one
+    console.log(req.body.comment)
+    console.log(req.params.id)
+    console.log(req.cookies.username)
+    res.status(201).json({ msg: 'comment deleted' })
+
+}
+
+const getComments = async (req, res) => {
+    const comments = await WallPost.getComments(req.params.id);
+    res.status(200).json(comments)
+
+}
+
 module.exports = {
     getPublicWall,
     getPrivateWall,
-    toggleLikes
+    toggleLikes,
+    addComment,
+    deleteComment,
+    getComments
 }

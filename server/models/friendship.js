@@ -4,8 +4,8 @@ const { User } = require('./user');
 const schema = new mongoose.Schema({
     me: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    invited: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    invited: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 schema.statics.findOrCreateFriendship = async function findOrCreateFriendship(me) {
@@ -61,7 +61,7 @@ schema.statics.sendInvitation = async function sendInvitation(me, to) {
     const f = await User.findOne({ username: to });
 
     // friend already exists, do nothing
-     if (friendship.friends.includes(m._id)) {
+    if (friendship.friends.includes(m._id)) {
         return;
     }
 
@@ -88,7 +88,7 @@ schema.statics.listInvitations = async function listInvitations(me) {
 
 // add friend as me's friend
 schema.statics.add = async function add(me, friend) {
-   
+
     const myFrienship = await this.findOrCreateFriendship(me);
     const otherFriendship = await this.findOrCreateFriendship(friend);
 

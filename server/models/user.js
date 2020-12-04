@@ -8,19 +8,18 @@ const userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
-    bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' }
+    bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' },
+    privacySettings: { type: mongoose.Schema.Types.ObjectId, ref: 'PrivacySettings' }
 });
 
 const User = mongoose.model('User', userSchema);
 
-function createNewUser(username, hash, salt) {
+async function createNewUser(username, hash, salt) {
     const newUser = new User({
         username: username,
         hash: hash,
         salt: salt,
     });
-
-
     return newUser.save();
 }
 

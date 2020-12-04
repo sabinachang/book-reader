@@ -157,7 +157,7 @@ class Book extends Component {
                                     <h6 className="card-title">{this.state.title}</h6>
                                     <p className="card-text">{this.state.description}</p>
                                     <Button variant='link' onClick={this.renderFeedbackModal}>View reviews</Button>
-                                    <Dropdown.Toggle split variant="" id="dropdown-split-basic" className="dropdown-btn"/>
+                                    <Dropdown.Toggle split variant="" id="dropdown-split-basic" className="dropdown-btn" />
                                 </span>
                             </div>
                         </div>

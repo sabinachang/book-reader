@@ -9,7 +9,7 @@ import './categories.css'
 // import socketClient from 'socket.io-client'
 
 class Library extends Component {
-    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -26,7 +26,7 @@ class Library extends Component {
         //     getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
         // })
     }
-  
+
 
     componentDidMount = () => {
         getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
@@ -66,6 +66,7 @@ class Library extends Component {
             <div>
                 <Nav1/>
                 <div className="d-flex row justify-content-center mt-4 mb-6">
+
                     <div className="col-9">
                         <h4>Your Books</h4>
 
@@ -99,7 +100,9 @@ class Library extends Component {
                                 />
                             ))}  
                         </div>
+                      
                     </div>
+
                 </div>
             </div>
 
