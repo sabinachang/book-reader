@@ -8,7 +8,7 @@ import axios from 'axios'
 class PrivacyModal extends React.Component {
     state = {
         whoCanViewProfile: "everybody",
-        whoCanLikePosts:'everybody',
+        whoCanLikePosts: 'everybody',
         whoCanCommentOnPosts: 'everybody'
     }
 
@@ -16,38 +16,38 @@ class PrivacyModal extends React.Component {
     submitSettings = () => {
         const username = getCookie('username')
         axios.post(`http://localhost:5000/api/privacy/${username}`, this.state, { withCredentials: true })
-        .then(() => {
-            this.props.handleClose()
-            alert('Your privacy settings have been successfully saved')
-        })
+            .then(() => {
+                this.props.handleClose()
+                alert('Your privacy settings have been successfully saved')
+            })
 
     }
-    updateValueViewPosts = (value)=> {
+    updateValueViewPosts = (value) => {
         console.log(value, 'updatevalueviewposts')
-        this.setState({whoCanViewProfile: value})
+        this.setState({ whoCanViewProfile: value })
     }
-    updateValueLikePosts = (value)=> {
+    updateValueLikePosts = (value) => {
         console.log(value, 'updatevaluelikeposts')
-        this.setState({whoCanLikePosts: value})
+        this.setState({ whoCanLikePosts: value })
     }
-    updateValueCommentPosts = (value)=> {
+    updateValueCommentPosts = (value) => {
         console.log(value, 'updatevaluecommentposts')
-        this.setState({whoCanCommentOnPosts: value})
+        this.setState({ whoCanCommentOnPosts: value })
     }
 
     render() {
         const visible = this.props.visible
         const handleClose = this.props.handleClose
         return (
-            
+
             <Modal
                 visible={visible}
                 handleClose={handleClose}
                 heading="Edit Privacy Settings">
                 <div>
-                    <Form updateValue={this.updateValueViewPosts} heading="Who can view my posts?"  privacy_type={"whoCanViewProfile"} />
-                    <Form updateValue={this.updateValueLikePosts} heading="Who can like my posts?" privacy_type={"whoCanLikePosts"} />
-                    <Form updateValue={this.updateValueCommentPosts} heading="Who can comment on my posts?"  privacy_type={"whoCanCommentOnPosts"} />
+                    <Form updateValue={this.updateValueViewPosts} heading="Who can view my posts?" privacyType={"whoCanViewProfile"} />
+                    <Form updateValue={this.updateValueLikePosts} heading="Who can like my posts?" privacyType={"whoCanLikePosts"} />
+                    <Form updateValue={this.updateValueCommentPosts} heading="Who can comment on my posts?" privacyType={"whoCanCommentOnPosts"} />
                 </div>
                 <div className="d-flex justify-content-end">
                     <button onClick={this.submitSettings} className="btn btn-primary mt-3">Submit Settings</button>

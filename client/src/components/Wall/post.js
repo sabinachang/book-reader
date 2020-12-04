@@ -68,7 +68,12 @@ class Post extends Component {
                     }
                 })
                 .catch((response) => {
-                    alert("This user's pricacy settings prohibits you from commenting on their post.")
+                    const name = this.props.match.params.wall_id
+                    if (response.message.includes("404")) {
+                        alert(`${name} is not a registered user.`)
+                    } else if (response.message.includes("403")) {
+                        alert(`${name}'s privacy settings prevents you from commenting on their posts.`)
+                    }
                 })
         }
     }
@@ -94,7 +99,12 @@ class Post extends Component {
                 }
             })
             .catch((response) => {
-                alert("This user's pricacy settings prohibits you from liking their post.")
+                const name = this.props.match.params.wall_id
+                if (response.message.includes("404")) {
+                    alert(`${name} is not a registered user.`)
+                } else if (response.message.includes("403")) {
+                    alert(`${name}'s privacy settings prevents you from liking their posts.`)
+                }
             })
     }
 

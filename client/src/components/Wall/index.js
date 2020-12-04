@@ -22,6 +22,8 @@ class Wall extends Component {
             .catch((response) => {
                 if (response.message.includes("404")) {
                     alert(`${name} is not a registered user.`)
+                } else if (response.message.includes("403")) {
+                    alert(`${name}'s privacy settings prevents you from seeing their profile.`)
                 }
             })
 
@@ -43,6 +45,7 @@ class Wall extends Component {
                 <h1 className="mb-4">{this.getWallName()}</h1>
                 {this.state.posts.map((post) => (
                     <Post
+                        match={this.props.match}
                         key={post._id}
                         body={post.bodytext}
                         id={post._id}

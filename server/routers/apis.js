@@ -18,7 +18,7 @@ module.exports = express
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/progress/:isbn', progressController.getProgress)
-	.put('/progress', progressController.updateProgress)
+    .put('/progress', progressController.updateProgress)
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
     .post('/reviews/:bookIsbn', wallObserver.readRequest, userLibraryController.createReview)
     .get('/ratings/:bookIsbn', userLibraryController.getRating)
@@ -30,5 +30,6 @@ module.exports = express
     .post('/wall/:id/comments', wallController.addComment)
     .delete('/wall/comments/:id', wallController.deleteComment)
     .get('/wall/:id/comments', wallController.getComments)
+    .get('/privacy/:username/:privacyType', privacyController.getSettingsForPrivacyType)
     .post('/privacy/:username', privacyController.changeSettings);
 
