@@ -59,13 +59,35 @@ exports.getCompleteFrienshipInfo = async function (req, res, next) {
 
   try {
     const f = await Friendship.list(me);
-    const c = await Friendship.listCandidates(me);
     const i = await Friendship.listInvitations(me);
+    const invited = await Friendship.listInvited(me);
 
     res.status(200).json({
       friends: f.friends,
-      candidates: c,
       invitations: i.invitations,
+      invited: invited
+    })
+
+  } catch(e) {
+    res.status(400).json({
+      error: err.message,
+    })
+  }
+
+}
+
+exports.getCandidates = async function (req, res, next) {
+  const me = req.cookies.username;
+  const query = '^' + req.query.username;
+  
+  const regex =  new RegExp(query, 'i')
+
+  try {
+    const c = await Friendship.listCandidates(me, regex);
+    const i = await Friendship.listInvited(me);
+    res.status(200).json({
+      candidates: c,
+      invited: i
     })
 
   } catch(e) {
@@ -74,6 +96,4 @@ exports.getCompleteFrienshipInfo = async function (req, res, next) {
     })
   }
  
-
-
 }

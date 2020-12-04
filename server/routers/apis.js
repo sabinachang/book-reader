@@ -8,11 +8,12 @@ const wallObserver = require('../middleware/wallObserver');
 
 module.exports = express
     .Router()
-    .get('/library/:bookshelf', wallObserver.readRequest, bookshelfController.getBooks)
-    .post('/library/:bookshelf', bookshelfController.addBookToBookshelf)
+    .get('/library/:bookshelf', bookshelfController.getBooks)
+    .post('/library/:bookshelf', wallObserver.readRequest, bookshelfController.addBookToBookshelf)
     .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
+    .get('/friendship/candidates', interactionController.getCandidates)
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/progress/:isbn', progressController.getProgress)
@@ -25,4 +26,3 @@ module.exports = express
     .get('/wall/public', wallController.getPublicWall)
     .get('/wall/private', wallController.getPrivateWall)
     .post('/wall/likes/:id', wallController.toggleLikes);
-

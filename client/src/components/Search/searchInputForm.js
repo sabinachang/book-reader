@@ -19,7 +19,7 @@ function searchInputForm(props) {
 						name='search'
 						type='text'
 						className='form-control'
-						placeholder='Please search books here...'
+						placeholder={props.placeholder}
 						required
 					/>
 				</div>
