@@ -57,8 +57,8 @@ class PrivacySettings {
             else {
                 throw new Error("This person's profile is private.")
             }
-
         }
+        console.log("should be finished")
     }
 }
 

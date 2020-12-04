@@ -3,6 +3,7 @@ const interactionController = require('../controllers/interactionController');
 const userLibraryController = require('../controllers/userLibraryController');
 const bookshelfController = require('../controllers/bookshelfController');
 const privacyController = require('../controllers/privacyController');
+const progressController = require('../controllers/progressController');
 const wallController = require('../controllers/wallController');
 const wallObserver = require('../middleware/wallObserver');
 
@@ -13,8 +14,11 @@ module.exports = express
     .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
+    .get('/friendship/candidates', interactionController.getCandidates)
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
+    .get('/progress/:isbn', progressController.getProgress)
+	.put('/progress', progressController.updateProgress)
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
     .post('/reviews/:bookIsbn', wallObserver.readRequest, userLibraryController.createReview)
     .get('/ratings/:bookIsbn', userLibraryController.getRating)

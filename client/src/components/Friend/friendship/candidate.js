@@ -26,9 +26,10 @@ class Candidate extends Component {
                 <div className="d-flex justify-content-between py-2">
                     <h6>{this.props.username}</h6>
                     <Button 
-                            disabled={this.state.loading}
-                            onClick={ this.handleOnClick.bind(this)}>
-                            <FontAwesomeIcon icon={faPaperPlane}/>
+                        disabled={this.state.loading || this.props.invited}
+                        onClick={ this.handleOnClick.bind(this)}>
+                        <FontAwesomeIcon icon={faPaperPlane}/>
+                        {this.props.invited? 'invited': 'invite' }
                     </Button>
                 </div>
             </div>

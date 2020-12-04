@@ -18,10 +18,6 @@ class SearchView extends Component {
 		this.totalItems = 0
 	}
 
-	componentDisMount() {
-		this.searchBook(this.state.search);
-	}
-
 	searchBook = query => {
 		console.log('query:', query);
 		axios.get('/api/search/' + query, {
@@ -31,8 +27,7 @@ class SearchView extends Component {
 		})
 			.then((res) => {
 				if (res.status === 200) {
-					if (res.data.result.totalItems > 0) {
-						this.totalItems = res.data.result.totalItems
+					if (res.data.result && res.data.result.totalItems > 0) {
 						this.setState({
 							result: res.data.result.items,
 							errMsg: ''
@@ -59,6 +54,7 @@ class SearchView extends Component {
 	}
 
 	handleInputChange = e => {
+		
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
@@ -171,6 +167,7 @@ class SearchView extends Component {
 							search={this.state.search}
 							handleInputChange={this.handleInputChange}
 							handleFormSubmit={this.handleFormSubmit}
+							placeholder={'Please search books here...'}
 						/>
 
 						<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
@@ -186,13 +183,16 @@ class SearchView extends Component {
 								img={book.volumeInfo.imageLinks.thumbnail}
 								isbn={this.getIsbn(book)}
 								options="card-half"
+								page='search'
+								bookshelf='none'
 							/>
 						))}
 
-						{/* <div className="my-4">
-							{this.getPaginationUI()}
-						</div> */}
+					
 					</div>
+					<div className="my-4">
+							{this.getPaginationUI()}
+						</div>
 				</div>
 			</div>
 		)

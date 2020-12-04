@@ -51,13 +51,14 @@ class WallPost {
     async toggleLikes(loggedInUser, post_id) {
         const post = await this.WallPost.findById(post_id)
         const targetUser = post.owner;
+        console.log('tL', targetUser)
         await this.Privacy.verify("whoCanLikePosts", targetUser, loggedInUser)
-        const index = post.likes.indexOf(username);
+        const index = post.likes.indexOf(loggedInUser);
         if (index > -1) {
             post.likes.splice(index, 1);
             await post.save()
         } else {
-            post.likes.push(username)
+            post.likes.push(loggedInUser)
             await post.save()
         }
         return index

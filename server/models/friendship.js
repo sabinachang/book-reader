@@ -33,21 +33,17 @@ schema.statics.list = async function list(me) {
 }
 
 // List all users who aren't friends with me yet
-schema.statics.listCandidates = async function listCandidates(me) {
-    const friendship = await this.findOrCreateFriendship(me);
-    const m = await User.findOne({ username: me });
+schema.statics.listCandidates = async function listCandidates(me, regex) {
+    const m = await User.findOne({username: me});
     return await User.aggregate([
-        {
-            // Dont list current friend, myself, people who already invited me,
-            // or peopel I have already invited
+        { 
+            // Dont list myself
             $match: {
-                $and: [
-                    { _id: { $nin: friendship.friends } },
-                    { _id: { $ne: m._id } },
-                    { _id: { $nin: friendship.invitations } },
-                    { _id: { $nin: friendship.invited } }
-                ]
-            },
+                    $and: [
+                    { _id: { $ne: m._id} },
+                    { username: {$regex: regex}},
+                    ]
+                }, 
         },
         {
             $project: {
@@ -119,4 +115,15 @@ schema.statics.add = async function add(me, friend) {
     await otherFriendship.save();
     await myFrienship.save();
 }
+
+// list invited
+schema.statics.listInvited = async function listInvited(me) {
+    const friendship = await this.findOrCreateFriendship(me);
+    await this.populate(friendship, {
+        path: 'invited',
+        select: 'username'
+    })
+    return friendship.invited
+}
+
 module.exports = mongoose.model('Friendship', schema);

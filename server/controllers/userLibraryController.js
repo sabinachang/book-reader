@@ -6,18 +6,18 @@ const bookSearch = getBookSearch()
 
 exports.getBookResult = async function getBookResult(req, res, next) {
 	if (req.params.query) {
-		query = req.params.query;
-		bookResult = null;
-		baseurl = 'https://www.googleapis.com/books/v1/volumes?q='
+		const query = req.params.query;
+		let bookResult = null;
 		startIndexQuery = '&startIndex=' + req.query.startIndex
-		keyurl = '&key=' + bookSearch.getKey();
-		await axios.get(baseurl + query + startIndexQuery + keyurl)
-			.then((res) => {
-				bookResult = res.data;
-			})
-			.catch((err) => {
-				console.log(err);
-			})
+		const url = bookSearch.getURL(query);
+		await axios.get(url+startIndexQuery)
+
+		.then((res) => {
+			bookResult = res.data;
+		})
+		.catch((err) => {
+			console.log(err);
+		})
 		res.status(200);
 		res.json({ 'result': bookResult });
 	} else {
