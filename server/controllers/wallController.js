@@ -9,14 +9,14 @@ const getPrivateWall = async (req, res) => {
         const posts = await WallPost.getPrivatePosts(targetUser, loggedInUser)
         res.send(posts)
     } catch (err) {
-        // console.log("Error:", err)
+        console.log("Error:", err)
         let status = 403
         if (err.message === "This user does not exist") {
-            status=404
+            status = 404
         }
-        res.status(status).json({err: err})
+        res.status(status).json({ err: err })
     }
-    
+
 }
 
 
@@ -29,37 +29,33 @@ const getPublicWall = async (req, res) => {
 const toggleLikes = async (req, res) => {
     try {
         const index = await WallPost.toggleLikes(req.cookies.username, req.params.id)
-    if (index > -1) {
-        res.status(200).json({ msg: 'like removed' })
-    } else {
-        res.status(201).json({ msg: 'like added' })
-    }
+        if (index > -1) {
+            res.status(200).json({ msg: 'like removed' })
+        } else {
+            res.status(201).json({ msg: 'like added' })
+        }
     } catch (err) {
-        res.status(403).json({err: err})
+        res.status(403).json({ err: err })
     }
 
-    
+
 
 }
 
 const addComment = async (req, res) => {
     try {
         const comment = await WallPost.postComment
-        (req.cookies.username, req.params.id, req.body.comment)
-    res.status(200).json({ msg: 'comment added', comment: comment })
+            (req.cookies.username, req.params.id, req.body.comment)
+        res.status(200).json({ msg: 'comment added', comment: comment })
     } catch (err) {
-        res.status(403).json({err: err})
+        res.status(403).json({ err: err })
     }
-   
+
 
 }
 const deleteComment = async (req, res) => {
-    var post = await WallPost.findOne({ _id: req.params.id });
-    var comments = post.comments;
-    // Iterate through comments and delete right one
-    console.log(req.body.comment)
-    console.log(req.params.id)
-    console.log(req.cookies.username)
+    // TODO: Implement
+    await WallPost.deleteComment(req.params.id, req.body.comment, req.cookies.username);
     res.status(201).json({ msg: 'comment deleted' })
 
 }

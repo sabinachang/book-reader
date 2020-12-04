@@ -20,7 +20,9 @@ class Wall extends Component {
                 }
             })
             .catch((response) => {
-                console.log(response)
+                if (response.message.includes("404")) {
+                    alert(`${name} is not a registered user.`)
+                }
             })
 
     }
