@@ -18,6 +18,10 @@ const schema = new mongoose.Schema({
         required: true,
     },
     description: String,
+    pageCount: {
+        type: Number,
+        required: true,
+    },
     like: Number,
     dislike: Number,
 });
@@ -28,13 +32,15 @@ schema.statics.createFlyweight = async function createFlyweight({
     authors,
     isbn,
     description = '',
+    pageCount,
 }) {
     return await this.create({
         title,
         thumbnail,
         authors,
         isbn,
-        description
+        description,
+        pageCount
     });
 }
 
