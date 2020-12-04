@@ -14,3 +14,12 @@
     background-color: #eff1eb;
     border-radius: 10px;
 }
+
+.btn-custom {
+    border: 1px solid #ccea83;
+    background: #ccea83;
+    border-radius: 5px;
+    color: #739815;
+    height: 100%;
+    cursor: pointer;
+}

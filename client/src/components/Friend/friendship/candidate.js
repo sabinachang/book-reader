@@ -28,7 +28,7 @@ class Candidate extends Component {
                     <Button 
                         disabled={this.state.loading || this.props.invited}
                         onClick={ this.handleOnClick.bind(this)}>
-                        <FontAwesomeIcon icon={faPaperPlane}/>
+                        <FontAwesomeIcon icon={faPaperPlane} className="mr-1"/>
                         {this.props.invited? 'invited': 'invite' }
                     </Button>
                 </div>

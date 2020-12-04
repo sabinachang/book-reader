@@ -1,0 +1,17 @@
+.custom-textarea {
+    height: 5rem;
+}
+
+.btn-primary {
+    margin-right: 0px;
+}
+
+.btn-primary:hover {
+    background-color: #d6d8d1;
+    border-color: #d6d8d1;
+}
+
+.user-review {
+    background: #f4f7ed;
+    border-radius: 5px;
+}

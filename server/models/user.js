@@ -27,8 +27,17 @@ function findUserByUsername(username) {
     return User.findOne({ username: username }, { _id: 0, __v: 0 });
 }
 
+function validateUsernamePassword(username, password) {
+    if (!username.length >= 6)
+      throw Error('Username should be at least 6 characters long');
+
+    if (!password.length >= 6)
+      throw Error('Passwords should be at least 6 characters long');
+}
+
 module.exports = {
     User,
     createNewUser,
-    findUserByUsername
+    findUserByUsername,
+    validateUsernamePassword,
 }

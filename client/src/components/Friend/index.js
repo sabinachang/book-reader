@@ -5,7 +5,7 @@ import axios from 'axios';
 import Friend from './friendship/friend';
 import Candidate from './friendship/candidate';
 import Invitation from './friendship/invititation';
-import SearchInputForm from '../Search/searchInputForm';
+import SearchInputForm from '../Common/searchBar/SearchInputForm';
 import Nav1 from '../Common/nav1/Nav1';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltLeft, faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -224,6 +224,12 @@ class FriendHome extends Component {
 
     handleInputChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
+    }
+    
+    handleKeyPress = e => {
+		if (e.key === 'Enter') {
+			this.handleFormSubmit(e);
+		}
 	}
 
     render () {
@@ -251,8 +257,9 @@ class FriendHome extends Component {
                                     <SearchInputForm
 					                        search={this.state.search}
 					                        handleInputChange={this.handleInputChange}
-					                        handleFormSubmit={this.handleFormSubmit}
-                                            placeholder={'Search for usernames'}
+                                            handleFormSubmit={this.handleFormSubmit}
+                                            handleKeyPress={this.handleKeyPress}
+                                            placeholder={'Search for usernames...'}
                                     />
                                     {this.state.loading ? (
                                          <h5>{this.state.loadingMsg}</h5>

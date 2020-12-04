@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './Register.css';
 
 function Register(props) {
-    const [state , setState] = useState({
-        username : "",
-        password : "",
+    const [state, setState] = useState({
+        username: "",
+        password: "",
         confirmPassword: "",
-        errMsg : "",
+        errMsg: "",
         successMessage: null
     })
-    
+
     const handleChange = (e) => {
-        const {id , value} = e.target   
+        const { id, value } = e.target
         setState(prevState => ({
             ...prevState,
-            [id] : value
+            [id]: value
         }))
     }
 
@@ -26,99 +26,98 @@ function Register(props) {
         }
 
         axios.post('http://localhost:5000/api/users/register', payload)
-        .then( (res) => {
-            if(res.status === 201) {
+            .then((res) => {
+                if (res.status === 201) {
+                    setState(prevState => ({
+                        ...prevState,
+                        'successMessage': 'Registration successful. Redirecting to home page..'
+                    }))
+                    redirectToHome();
+                }
+            })
+            .catch((e) => {
+                //Alert
+                console.log(e.response.data.error);
                 setState(prevState => ({
                     ...prevState,
-                    'successMessage' : 'Registration successful. Redirecting to home page..'
-                }))
-                redirectToHome();
-            }
-        })
-        .catch((e) => {
-            //Alert
-            console.log(e.response.data.error);
-            setState(prevState => ({
-                ...prevState,
-                errMsg: e.response.data.error
-            }));
-        })
+                    errMsg: e.response.data.error
+                }));
+            })
     }
 
     const redirectToLogin = () => {
-        props.history.push('/'); 
+        props.history.push('/');
     }
 
     const redirectToHome = () => {
-        props.history.push('/home'); 
+        props.history.push('/home');
     }
 
     const handleSubmitClick = (e) => {
         e.preventDefault();
-        if(state.password === state.confirmPassword) {
-            sendDetailsToServer()    
+        if (state.password === state.confirmPassword) {
+            sendDetailsToServer()
         } else {
             setState(prevState => ({
                 ...prevState,
-                errMsg : "password not match"
+                errMsg: "Passwords do not match"
             }));
-            console.log("password not match");
         }
     }
 
-    return(
+    return (
         <div className="col-12 col-lg-4 mt-2 register-container" >
-            <h6 className="error">{ state.errMsg }</h6>
             <form className="custom-card register-form">
-                <h4>BookReader Register</h4>
-                <div className="alert alert-danger mt-2" style={{display: state.errMsg ? 'block' : 'none' }} role="alert">
+                <div className="alert alert-danger mt-2" style={{ display: state.errMsg ? 'block' : 'none' }} role="alert">
                     {state.errMsg}
                 </div>
+                <h4>BookReader Register</h4>
 
                 <div className="form-group text-left">
-                <label>Username</label>
-                <input type="username" 
-                       className="form-control" 
-                       id="username"  
-                       placeholder="Enter username" 
-                       value={state.username}
-                       onChange={handleChange}
-                />
+                    <label>Username</label>
+                    <input type="username"
+                        className="form-control"
+                        id="username"
+                        placeholder="Enter username"
+                        value={state.username}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div className="form-group text-left">
                     <label>Password</label>
-                    <input type="password" 
-                        className="form-control" 
-                        id="password" 
+                    <input type="password"
+                        className="form-control"
+                        id="password"
                         placeholder="Password"
                         value={state.password}
-                        onChange={handleChange} 
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="form-group text-left">
                     <label>Confirm Password</label>
-                    <input type="password" 
-                        className="form-control" 
-                        id="confirmPassword" 
+                    <input type="password"
+                        className="form-control"
+                        id="confirmPassword"
                         placeholder="Confirm Password"
                         value={state.confirmPassword}
-                        onChange={handleChange} 
+                        onChange={handleChange}
                     />
                 </div>
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     className="btn btn-primary btn-custom mt-2"
                     onClick={handleSubmitClick}
                 >
                     Register
                 </button>
                 <span className="mt-2 ml-4">
-                    <span className="loginText" onClick={() => redirectToLogin()}>or Login</span> 
+                    <span className="loginText" onClick={() => redirectToLogin()}>or Login</span>
                 </span>
             </form>
-            <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
+            <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
+
         </div>
     )
 }

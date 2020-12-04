@@ -9,10 +9,10 @@ function pagination(props) {
     const getPageItem = () => {
         let i
         let pages = []
-        console.log(props)
         for (i = props.start; i <= props.end; i++) {
             pages.push(
                 <Pagination.Item 
+                    key={i}
                     value={i}
                     active={i === props.current}
                     onClick={ handleClick}>
