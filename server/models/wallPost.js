@@ -46,8 +46,10 @@ class WallPost {
             })
     }
 
-    async toggleLikes(username, post_id) {
-        var post = await this.WallPost.findOne({ _id: post_id });
+    async toggleLikes(loggedInUser, post_id) {
+        const post = await this.WallPost.findById(post_id)
+        const targetUser = post.owner;
+        this.Privacy.verify("whoCanLikePosts", targetUser, loggedInUser)
         const index = post.likes.indexOf(username);
         if (index > -1) {
             post.likes.splice(index, 1);
@@ -60,9 +62,9 @@ class WallPost {
     }
 
     async postComment(username, post_id, comment_body) {
-        const post = await this.WallPost.findOne({ _id: post_id });
-        // console.log(post)
-        // console.log(comment_body)
+        const post = await this.WallPost.findById(post_id)
+        const targetUser = post.owner;
+        this.Privacy.verify("whoCanCommentOnPosts", targetUser, loggedInUser)
         const comment = await Comment.create({
             author: username,
             body: comment_body
