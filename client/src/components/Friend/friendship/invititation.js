@@ -24,19 +24,20 @@ class Invitation extends Component {
                     <h6>{this.props.username}</h6>
                     <span>
                         <Button 
-                                value='accept' 
-                                disabled={this.state.loading}
-                                onClick={ this.handleOnClick.bind(this) }
-                                className="mr-2"
-                                >
-                                Accept
+                            value='accept' 
+                            disabled={this.state.loading}
+                            onClick={ this.handleOnClick.bind(this) }
+                            >
+                            Accept
                         </Button>
                         <Button 
                             value='deny'
                             variant= "secondary"
                             disabled={this.state.loading}
-                            onClick={ this.handleOnClick.bind(this)}>
-                                Deny
+                            onClick={ this.handleOnClick.bind(this)}
+                            className="mr-2"
+                            >
+                            Deny
                         </Button>
                     </span>
                 </div>
