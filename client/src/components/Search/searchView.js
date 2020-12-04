@@ -4,6 +4,7 @@ import Book from '../Library/book/book';
 import SearchInputForm from '../Common/searchBar/SearchInputForm';
 import Nav1 from '../Common/nav1/Nav1';
 import Pagination from './pagination'
+import defaultBookImg from './defaultBook.png';
 
 class SearchView extends Component {
 	constructor(props) {
@@ -181,7 +182,7 @@ class SearchView extends Component {
 								title={book.volumeInfo.title}
 								authors={book.volumeInfo.authors}
 								description={book.volumeInfo.description}
-								img={book.volumeInfo.imageLinks.thumbnail}
+								img={this.getImageLink(book.volumeInfo.imageLinks) || defaultBookImg}
 								isbn={this.getIsbn(book)}
 								options="card-half"
 								page='search'
@@ -190,10 +191,11 @@ class SearchView extends Component {
 								showUserFeedback={false}
 							/>
 						))}
+						
+					</div>
 						<div>
 							{this.getPaginationUI()}
 						</div>
-					</div>
 				</div>
 			</div>
 		)

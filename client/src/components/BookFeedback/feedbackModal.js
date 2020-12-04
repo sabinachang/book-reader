@@ -67,7 +67,7 @@ class FeedbackModal extends Component {
     }
 
     componentDidMount = () => {
-        console.log('component mount')
+        // console.log('component mount')
         // this.socket = socketClient('/')
         // this.socket.on('updateBookFavorite', (isbn) => {
         //     if (this.props.book.isbn === isbn) {
@@ -85,7 +85,7 @@ class FeedbackModal extends Component {
     }
 
     componentDidUpdate = () => {
-        console.log('component update')
+        // console.log('component update')
         if (this.props.visible && !this.callApi) {
             this.callApi = true
             console.log('call api')
