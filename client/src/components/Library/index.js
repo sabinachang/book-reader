@@ -13,6 +13,7 @@ class Library extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            selectedShelf: '',
             wantToRead: [],
             reading: [],
             read: [],
@@ -36,23 +37,23 @@ class Library extends Component {
     }
 
     handleReading = () => {
-        this.setState({booksDisplay: this.state.reading})
+        this.setState({booksDisplay: this.state.reading, selectedShelf:'Reading'})
     }
 
     handleWantToRead = () => {
-        this.setState({booksDisplay: this.state.wantToRead})
+        this.setState({booksDisplay: this.state.wantToRead, selectedShelf:'WantToRead'})
     }
 
     handleRead = () => {
-        this.setState({booksDisplay: this.state.read})
+        this.setState({booksDisplay: this.state.read, selectedShelf:'Read'})
     }
 
     handleRecommendation = () => {
-        this.setState({booksDisplay: this.state.recommendations})
+        this.setState({booksDisplay: this.state.recommendations, selectedShelf:'Recommendations'})
     }
 
     handleFavroite = () => {
-        this.setState({booksDisplay: this.state.favorites})
+        this.setState({booksDisplay: this.state.favorites, selectedShelf:'Favorites'})
     }
 
 
@@ -91,6 +92,10 @@ class Library extends Component {
                                     img={book.thumbnail}
                                     isbn={book.isbn}
                                     options="card-half"
+                                    page='library'
+                                    bookshelf={this.state.selectedShelf}
+                                    pageCount={book.pageCount}
+                                    showUserFeedback={true}
                                 />
                             ))}  
                         </div>
