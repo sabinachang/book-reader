@@ -8,9 +8,9 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 	if (req.params.query) {
 		const query = req.params.query;
 		let bookResult = null;
-		startIndexQuery = '&startIndex=' + req.query.startIndex
-		const url = bookSearch.getURL(query);
-		await axios.get(url+startIndexQuery)
+		const startIndex = req.query.startIndex
+		const url = bookSearch.getURL(query, startIndex);
+		await axios.get(url)
 
 		.then((res) => {
 			bookResult = res.data;

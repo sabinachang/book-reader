@@ -28,6 +28,7 @@ class SearchView extends Component {
 			.then((res) => {
 				if (res.status === 200) {
 					if (res.data.result && res.data.result.totalItems > 0) {
+						this.totalItems = res.data.result.totalItems
 						this.setState({
 							result: res.data.result.items,
 							errMsg: ''
@@ -192,7 +193,7 @@ class SearchView extends Component {
 					</div>
 					<div className="my-4">
 							{this.getPaginationUI()}
-						</div>
+					</div>
 				</div>
 			</div>
 		)

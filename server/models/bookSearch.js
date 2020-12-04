@@ -16,15 +16,19 @@ class bookSearch {
 	}
 
 	getKey() {
-		return '&key=' + process.env.API_KEY;
+		return '&key=AIzaSyCzt3rMLM1vtDOFRgwLO1dfIqT1o3HO7Tk' 
 	}
 
 	getLang(lang='en'){
 		return '&langRestrict=' + lang;
 	}
 
-	getURL(query, lang='en') {
-		return this.getBaseUrl() + query + this.getLang(lang) + this.getKey();
+	getStartIndex(startIndex) {
+		return '&startIndex=' + startIndex;
+	}
+
+	getURL(query, startIndex, lang='en') {
+		return this.getBaseUrl() + query + this.getLang(lang) + this.getStartIndex(startIndex) + this.getKey();
 	}
 }
 
