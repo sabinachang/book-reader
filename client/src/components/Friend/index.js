@@ -5,6 +5,7 @@ import axios from 'axios';
 import Friend from './friendship/friend';
 import Candidate from './friendship/candidate';
 import Invitation from './friendship/invititation';
+import SearchInputForm from '../Search/searchInputForm';
 import Nav1 from '../Common/nav1/Nav1';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltLeft, faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -15,36 +16,66 @@ class FriendHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            search: '',
             loading: true,
             loadingMsg: 'Loading...',
             friends: [],
             candidates: [],
             invitations: [],
+            invited: [],
+            searched: false,
         }
     }
 
     getFriendshipInfo = () => {
-        axios.get(`/api/friendship/all`, { withCredentials: true })
-            .then((res) => {
-                if (res.status === 200) {
-                    this.setState({
-                        loading: false,
-                        loadingMsg: 'Loading...',
-                        friends: res.data.friends,
-                        candidates: res.data.candidates,
-                        invitations: res.data.invitations,
-                    })
-                } else {
-                    this.setState(prevState => ({
-                        ...prevState,
-                        loadingMsg: 'something went wrong, please reload'
-                    }))
-                }
+        axios.get(`/api/friendship/all`, {withCredentials: true})
+        .then((res) => {
+           if (res.status === 200) {
+               console.log(res)
+                this.setState({
+                    loading: false,
+                    loadingMsg: 'Loading...',
+                    friends: res.data.friends,
+                    invitations: res.data.invitations,
+                    invited: res.data.invited,
+                })
+           } else {
+               this.setState(prevState => ({
+                   ...prevState,
+                   loadingMsg:'something went wrong, please reload'
+               }))
+           }
+    
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+    getSearchResult = () => {
+        axios.get('/api/friendship/candidates', {
+            params: {
+                username: this.state.search
+            }
+        }, {withCredentials: true})
+        .then((res) => {
+            console.log(res)
+            if (res.status === 200) {
+                this.setState({
+                    loading: false,
+                    candidates: res.data.candidates,
+                    invited: res.data.invited,
+                })
+            } else {
+                this.setState(prevState => ({
+                    ...prevState,
+                    loadingMsg:'something went wrong, please reload'
+                }))
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     handleInvite = (invitee) => {
@@ -57,10 +88,6 @@ class FriendHome extends Component {
             if (res.status === 200) {
                 this.setState({
                     loading: true,
-                    loadingMsg: 'Updating...',
-                    friends: [],
-                    candidates: [],
-                    invitations: [],
                 })
                 this.getFriendshipInfo();
 
@@ -92,6 +119,9 @@ class FriendHome extends Component {
                     friends: [],
                     candidates: [],
                     invitations: [],
+                    invited: [],
+                    search: '',
+                    search: false,
                 })
                 this.getFriendshipInfo();
             } else {
@@ -120,12 +150,34 @@ class FriendHome extends Component {
 
     setCandidatesUI = () => {
         let candidatesUI;
-        if (this.state.candidates.length !== 0) {
-            candidatesUI = this.state.candidates.map((c) => {
-                return <Candidate key={c._id} username={c.username} handleInvite={this.handleInvite} />
+        if(this.state.candidates.length !== 0 ) {
+            const friends = this.state.friends.map(f => {
+                return f.username
+            })
+            const invited = this.state.invited.map(i => {
+                return i.username
+            })
+
+            candidatesUI = this.state.candidates.map(c => {
+                if (friends.includes(c.username)) {
+                    return <Friend key={c._id} username={c.username}/>
+                } else {
+                    if (invited.includes(c.username)) {
+                        return <Candidate key={c._id} invited={true} username={c.username} handleInvite={this.handleInvite}/>
+                    } else {
+                        return <Candidate key={c._id} invited={false} username={c.username} handleInvite={this.handleInvite}/>
+                    }
+                }
+                
             })
         } else {
-            candidatesUI = <Friend key='-1' username='No candidates to show'></Friend>
+            if (this.state.searched === false ) {
+                candidatesUI = null
+            } else if (this.state.search) {
+                candidatesUI = (
+                <Friend key='-1' username='No match found'></Friend>
+                )
+            }
         }
         return candidatesUI;
     }
@@ -150,7 +202,31 @@ class FriendHome extends Component {
         this.getFriendshipInfo();
     }
 
-    render() {
+    handleFormSubmit = (e) => {
+        e.preventDefault();
+        this.setState({
+            loading: true,
+            searched:true,
+        })
+        if (this.state.search) {
+
+            this.getSearchResult()
+
+		} else {
+			this.setState({
+                loading: false,
+                candidates: [],
+                invited: [],
+                searched: false,
+            })
+		}
+    }
+
+    handleInputChange = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	}
+
+    render () {
         const friendsUI = this.setFriendsUI();
 
         const candidatesUI = this.setCandidatesUI();
@@ -171,12 +247,20 @@ class FriendHome extends Component {
                                             friendsUI
                                         )}
                                 </Tab>
-                                <Tab className='my-4' eventKey="add" title="Add friends">
+                                <Tab className='my-4'eventKey="add" title="Add friends">
+                                    <SearchInputForm
+					                        search={this.state.search}
+					                        handleInputChange={this.handleInputChange}
+					                        handleFormSubmit={this.handleFormSubmit}
+                                            placeholder={'Search for usernames'}
+                                    />
                                     {this.state.loading ? (
-                                        <h5>{this.state.loadingMsg}</h5>
-                                    ) : (
-                                            candidatesUI
-                                        )}
+                                         <h5>{this.state.loadingMsg}</h5>
+                                    ): (
+                                        <>
+                                        {candidatesUI}
+                                        </>
+                                    )}
                                 </Tab>
                                 <Tab className='my-4' eventKey="invite" title="Invitations" >
                                     {this.state.loading ? (

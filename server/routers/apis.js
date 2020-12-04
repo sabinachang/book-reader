@@ -12,6 +12,7 @@ module.exports = express
     .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)
+    .get('/friendship/candidates', interactionController.getCandidates)
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
@@ -22,4 +23,3 @@ module.exports = express
     .get('/wall/public', wallController.getPublicWall)
     .get('/wall/private', wallController.getPrivateWall)
     .post('/wall/likes/:id', wallController.toggleLikes);
-

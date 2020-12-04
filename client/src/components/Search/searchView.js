@@ -171,6 +171,7 @@ class SearchView extends Component {
 							search={this.state.search}
 							handleInputChange={this.handleInputChange}
 							handleFormSubmit={this.handleFormSubmit}
+							placeholder={'Please search books here...'}
 						/>
 
 						<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
@@ -186,6 +187,7 @@ class SearchView extends Component {
 								img={book.volumeInfo.imageLinks.thumbnail}
 								isbn={this.getIsbn(book)}
 								options="card-half"
+								showUserFeedback={false}
 							/>
 						))}
 
