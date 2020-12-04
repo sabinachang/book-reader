@@ -20,7 +20,7 @@ module.exports = express
     .post('/ratings/:bookIsbn', wallObserver.readRequest, userLibraryController.createRating)
     .get('/feedbacks/:bookIsbn', bookshelfController.getFeedbacks)
     .get('/wall/public', wallController.getPublicWall)
-    .get('/wall/private', wallController.getPrivateWall)
+    .get('/wall/:username', wallController.getPrivateWall)
     .post('/wall/:id/likes', wallController.toggleLikes)
     .post('/wall/:id/comments', wallController.addComment)
     .delete('/wall/comments/:id', wallController.deleteComment)

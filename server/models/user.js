@@ -14,14 +14,12 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-function createNewUser(username, hash, salt) {
+async function createNewUser(username, hash, salt) {
     const newUser = new User({
         username: username,
         hash: hash,
         salt: salt,
     });
-
-
     return newUser.save();
 }
 

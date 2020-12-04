@@ -11,7 +11,7 @@ class UserController {
     const { hash, salt } = genHashAndSalt(password);
     createNewUser(username, hash, salt)
       .then(async () => {
-        console.log('create user successfully');
+        console.log('create user successfully', username);
         const user = await findUserByUsername(username);
         const token = createToken(user);
         const cookieMaxAge = 3 * 24 * 60 * 60;

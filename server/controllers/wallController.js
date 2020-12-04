@@ -1,11 +1,9 @@
 const WallPost = require('../models/wallPost').RefinedModel;
 const Friendship = require('../models/friendship');
-const Comment = require('../models/comment');
 
 
 const getPrivateWall = async (req, res) => {
-    const targetUser = req.cookies.username;
-    // NOTE: targetUser will likely change to req.params.targetUser
+    const targetUser = req.params.username;
     const loggedInUser = req.cookies.username
     const posts = await WallPost.getPrivatePosts(targetUser, loggedInUser)
     res.send(posts)
@@ -13,8 +11,6 @@ const getPrivateWall = async (req, res) => {
 
 
 const getPublicWall = async (req, res) => {
-    // assumes there is a isAuthorized middleware; 
-    // nobody but the current user should see this person's public wall
     const friendsObj = await Friendship.list(req.cookies.username);
     const posts = await WallPost.getPublicPosts(req.cookies.username, friendsObj.friends)
     res.send(posts)

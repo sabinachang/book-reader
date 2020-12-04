@@ -4,8 +4,8 @@ const { User } = require('./user');
 const schema = new mongoose.Schema({
     me: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    invited: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    invited: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 schema.statics.findOrCreateFriendship = async function findOrCreateFriendship(me) {
@@ -35,19 +35,19 @@ schema.statics.list = async function list(me) {
 // List all users who aren't friends with me yet
 schema.statics.listCandidates = async function listCandidates(me) {
     const friendship = await this.findOrCreateFriendship(me);
-    const m = await User.findOne({username: me});
+    const m = await User.findOne({ username: me });
     return await User.aggregate([
-        { 
+        {
             // Dont list current friend, myself, people who already invited me,
             // or peopel I have already invited
             $match: {
-                    $and: [
-                    { _id: { $nin: friendship.friends} },
-                    { _id: { $ne: m._id} },
-                    { _id: { $nin: friendship.invitations} },
-                    { _id: { $nin: friendship.invited}}
-                    ]
-                }, 
+                $and: [
+                    { _id: { $nin: friendship.friends } },
+                    { _id: { $ne: m._id } },
+                    { _id: { $nin: friendship.invitations } },
+                    { _id: { $nin: friendship.invited } }
+                ]
+            },
         },
         {
             $project: {
@@ -65,7 +65,7 @@ schema.statics.sendInvitation = async function sendInvitation(me, to) {
     const f = await User.findOne({ username: to });
 
     // friend already exists, do nothing
-     if (friendship.friends.includes(m._id)) {
+    if (friendship.friends.includes(m._id)) {
         return;
     }
 
@@ -92,7 +92,7 @@ schema.statics.listInvitations = async function listInvitations(me) {
 
 // add friend as me's friend
 schema.statics.add = async function add(me, friend) {
-   
+
     const myFrienship = await this.findOrCreateFriendship(me);
     const otherFriendship = await this.findOrCreateFriendship(friend);
 

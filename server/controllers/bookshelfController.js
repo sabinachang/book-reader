@@ -23,11 +23,12 @@ const addBookToBookshelf = async (req, res) => {
     const username = req.cookies.username
     const owner = await User.findOne({ username: username })
     var flyweight = await BookFlyweight.get(req.body.isbn)
+    console.log(req.body)
     if (!flyweight) {
         flyweight = await BookFlyweight.create({
             title: req.body.title,
             thumbnail: req.body.thumbnail,
-            author: req.body.authors,
+            authors: req.body.authors,
             isbn: req.body.isbn,
             description: req.body.description
         })
@@ -53,11 +54,11 @@ const removeBookFromBookshelf = async (req, res) => {
         res.sendStatus(400)
     }
     var book = await Book.findOne({ flyweight: flyweight, owner: owner })
-    if (!book) { 
+    if (!book) {
         res.sendStatus(400)
     }
     try {
-    
+
         await Bookshelves.removeBook(owner, req.params.bookshelf, book)
         res.sendStatus(201)
     }
@@ -71,9 +72,9 @@ const getFeedbacks = async (req, res) => {
     const isbn = req.params.bookIsbn
     try {
         const flyweight = await BookFlyweight.get(isbn)
-        if (flyweight !== null ){
+        if (flyweight !== null) {
             const filter = { bookFlyweight: flyweight._id }
-        
+
             const reviews = await Message.getReviews(filter)
             let like = flyweight.like
             let dislike = flyweight.dislike
@@ -89,15 +90,15 @@ const getFeedbacks = async (req, res) => {
                 dislikeCount: dislike,
                 reviews,
             })
-        } else{
+        } else {
             res.sendStatus(205)
         }
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
     }
-    
-    
+
+
 }
 
 module.exports = {

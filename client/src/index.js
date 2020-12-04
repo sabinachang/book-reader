@@ -23,7 +23,7 @@ render((
                 <Route exact path='/search' component={Search} />
                 <Route exact path='/friends' component={FriendHome} />
                 <Route exact path='/profile' component={Profile} />
-                <Route exact path='/wall/public' component={Wall} />
+                <Route exact path='/wall/:wall_id' component={Wall} />
             </Switch>
         </BrowserRouter>
     </App>

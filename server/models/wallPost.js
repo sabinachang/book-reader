@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Comment = require('../models/comment');
+const PrivacySettings = require('../models/privacySettings');
 
 
 const schema = new mongoose.Schema({
@@ -15,25 +16,18 @@ const schema = new mongoose.Schema({
 const BaseModel = mongoose.model('WallPost', schema)
 
 class WallPost {
-    constructor(wallPostModel) {
+    constructor(wallPostModel, privacySettings) {
         this.WallPost = wallPostModel
+        this.Privacy = privacySettings
     }
 
-    async getPosts(targetUser, loggedInUser) {
-        // check privacy settings of targetUser 
-        // could also have a privacy.verify("view profile", targetUser, loggedInUser)
-
-        // if privacy.whoCanViewProfile === everyone or loggedInUser.isFriend(targetUser)....
+    getPosts(targetUser, loggedInUser) {
+        this.Privacy.verify("whoCanViewProfile", targetUser, loggedInUser)
         return this.WallPost.find({ owner: targetUser })
-
-        // else if  privacy.whoCanViewProfile === friends:
-        // throw new Error("Only friends of this person can view their profile")
-        // else  privacy.whoCanViewProfile === me
-        // throw new Error("This person's profile is private.")
     }
 
     async getPrivatePosts(targetUser, loggedInUser) {
-        return getPosts(targetUser, loggedInUser)
+        return this.getPosts(targetUser, loggedInUser)
             .then(posts => {
                 return posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             })
@@ -46,10 +40,7 @@ class WallPost {
                     try {
                         var friendsPosts = await this.getPosts(friends[i].username, username)
                         posts = posts.concat(friendsPosts)
-                    } catch (err) {
-
-                    }
-
+                    } catch (err) { }
                 }
                 return posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             })
@@ -70,13 +61,13 @@ class WallPost {
 
     async postComment(username, post_id, comment_body) {
         const post = await this.WallPost.findOne({ _id: post_id });
-        console.log(post)
-        console.log(comment_body)
+        // console.log(post)
+        // console.log(comment_body)
         const comment = await Comment.create({
             author: username,
             body: comment_body
         })
-        console.log(comment)
+        // console.log(comment)
         post.comments.push(comment);
         await post.save()
         return comment
@@ -94,6 +85,6 @@ class WallPost {
     }
 }
 
-const wallPost = new WallPost(BaseModel)
+const wallPost = new WallPost(BaseModel, PrivacySettings)
 
 module.exports = { BaseModel: BaseModel, RefinedModel: wallPost };

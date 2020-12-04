@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css';
+import { getCookie } from './helper'
 
 
 class Post extends Component {
@@ -12,12 +13,6 @@ class Post extends Component {
         currentLikes: 0,
         comments: [],
         commentsLength: 2
-    }
-
-    getCookie = (name) => {
-        var re = new RegExp(name + "=([^;]+)");
-        var value = re.exec(document.cookie);
-        return (value != null) ? unescape(value[1]) : null;
     }
 
     componentDidMount = () => {
@@ -35,7 +30,7 @@ class Post extends Component {
 
         }
 
-        if (this.props.likes.includes(localStorage.getItem('username')) || this.props.likes.includes(this.getCookie('username'))) {
+        if (this.props.likes.includes(localStorage.getItem('username')) || this.props.likes.includes(getCookie('username'))) {
             this.setState({ userLiked: true })
         }
 
@@ -121,21 +116,22 @@ class Post extends Component {
     getComments = () => {
         if (this.state.comments.length > 0) {
             return <div className="card-footer">
-                {this.state.comments.slice(0, this.state.commentsLength).map(comment => {
-                    return (
-                        <div key={comment.timestamp} className="border-top border-black my-1">
-                            <div className="d-flex justify-content-between">
-                                <div>
-                                    {comment.author}
+                {this.state.comments.slice(this.state.comments.length - this.state.commentsLength, this.state.comments.length)
+                    .map(comment => {
+                        return (
+                            <div key={comment.timestamp} className="border-top border-black my-1">
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        {comment.author}
+                                    </div>
+                                    <div>
+                                        {this.convertTime(comment.timestamp)}
+                                    </div>
                                 </div>
-                                <div>
-                                    {this.convertTime(comment.timestamp)}
-                                </div>
+                                {comment.body}
                             </div>
-                            {comment.body}
-                        </div>
-                    )
-                })}
+                        )
+                    })}
                 <div className="d-flex justify-content-end">
                     {this.state.comments.length > 2 && this.state.comments.length !== this.state.commentsLength &&
                         <p onClick={this.displayAllComments} className="btn btn-link">
