@@ -2,6 +2,7 @@ const express = require('express');
 const interactionController = require('../controllers/interactionController');
 const userLibraryController = require('../controllers/userLibraryController');
 const bookshelfController = require('../controllers/bookshelfController');
+const privacyController = require('../controllers/privacyController');
 const wallController = require('../controllers/wallController');
 const wallObserver = require('../middleware/wallObserver');
 
@@ -24,5 +25,6 @@ module.exports = express
     .post('/wall/:id/likes', wallController.toggleLikes)
     .post('/wall/:id/comments', wallController.addComment)
     .delete('/wall/comments/:id', wallController.deleteComment)
-    .get('/wall/:id/comments', wallController.getComments);
+    .get('/wall/:id/comments', wallController.getComments)
+    .post('/users/:username', privacyController.changeSettings);
 

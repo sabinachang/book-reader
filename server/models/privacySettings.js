@@ -17,8 +17,9 @@ class PrivacySettings {
     create = () => {
         return this.PrivacyModel.create({})
     }
-    get_settings = async (targetUser) => {
+    getSettings = async (targetUser) => {
         const user = await User.findOne({ username: targetUser })
+        console.log(user)
         if (!user.privacySettings) {
             user.privacySettings = await this.create()
             await user.save()
@@ -27,7 +28,7 @@ class PrivacySettings {
         return this.PrivacyModel.findById(privacy_id)
     }
 
-    can_verify = async (setting, targetUser, loggedInUser) => {
+    canVerify = async (setting, targetUser, loggedInUser) => {
         console.log('checking verification', setting)
         console.log('targetUser', targetUser)
         console.log('loggedInUser', loggedInUser)
@@ -46,9 +47,9 @@ class PrivacySettings {
     }
 
     verify = async (privacy_type, targetUser, loggedInUser) => {
-        const settings = await this.get_settings(targetUser)
+        const settings = await this.getSettings(targetUser)
         const setting = settings[privacy_type]
-        const unverfied = !this.can_verify(setting, targetUser, loggedInUser)
+        const unverfied = !this.canVerify(setting, targetUser, loggedInUser)
         console.log("unverfied", unverfied)
         if (unverfied) {
             if (setting === 'friends') {
