@@ -109,7 +109,18 @@ code {
 }
 
 .progress-bar {
-  background-color: #739815;
+  background-color: #94bd2c;
+}
+
+.page-item .page-link {
+  color: #94bd2c;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #94bd2c;
+  border-color: #94bd2c;
 }
 
 .badge-brimary {

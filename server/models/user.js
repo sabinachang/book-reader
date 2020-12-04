@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
+    online: {
+        type: Boolean,
+        default: false,
+    },
     bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' },
     privacySettings: { type: mongoose.Schema.Types.ObjectId, ref: 'PrivacySettings' }
 });
@@ -27,8 +31,25 @@ function findUserByUsername(username) {
     return User.findOne({ username: username }, { _id: 0, __v: 0 });
 }
 
+function validateUsernamePassword(username, password) {
+    if (!username.length >= 6)
+      throw Error('Username should be at least 6 characters long');
+
+    if (!password.length >= 6)
+      throw Error('Passwords should be at least 6 characters long');
+}
+
+function updateOnlineStatus(username, online) {
+    return this.updateOne(
+        { username: username }, // Filter
+        { $set: { online: online } } // Update
+    );
+}
+
 module.exports = {
     User,
     createNewUser,
-    findUserByUsername
+    findUserByUsername,
+    validateUsernamePassword,
+    updateOnlineStatus
 }
