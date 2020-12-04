@@ -164,7 +164,7 @@ class FeedbackModal extends Component {
                    </div>) :(
                     <>
                     {this.getUserFeedback()}
-                    <h4> All Reviews</h4>
+                    <h5> All Reviews</h5>
                     <Rating likeCount={this.state.likeCount} 
                             dislikeCount={this.state.dislikeCount}>
                     </Rating>

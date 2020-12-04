@@ -5,7 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 function searchInputForm(props) {
 	return (
-		<form className='form my-3' role='form'>
+		<form className='form my-3'>
 			<div className='form-group form-custom'>
 				<input 
 					id='search-books'
@@ -15,7 +15,7 @@ function searchInputForm(props) {
 					name='search'
 					type='text'
 					className='form-control p-2'
-					placeholder=' Enter book name...'
+					placeholder={props.placeholder}
 					required
 				/>
 				<span>

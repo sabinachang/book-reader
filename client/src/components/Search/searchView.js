@@ -166,6 +166,7 @@ class SearchView extends Component {
 						<SearchInputForm
 							search={this.state.search}
 							handleInputChange={this.handleInputChange}
+							handleKeyPress={this.handleKeyPress}
 							handleFormSubmit={this.handleFormSubmit}
 							placeholder={'Please search books here...'}
 						/>
@@ -189,11 +190,9 @@ class SearchView extends Component {
 								showUserFeedback={false}
 							/>
 						))}
-
-					
-					</div>
-					<div className="my-4">
+						<div>
 							{this.getPaginationUI()}
+						</div>
 					</div>
 				</div>
 			</div>

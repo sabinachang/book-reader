@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Message from './message';
+import './feedback.css';
 
 class UserReview extends Component {
 
@@ -80,10 +81,10 @@ class UserReview extends Component {
                 { this.state.userReview ? (
                     <Message message={this.state.userReview}></Message>
                 ) : (
-                        <Form className="col-lg-6" onSubmit={this.onPostClick}>
+                        <Form onSubmit={this.onPostClick}>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Write your review</Form.Label>
-                                <Form.Control ref={this.textInput} as="textarea" rows={3} />
+                                <Form.Label className="mt-3">Write your review</Form.Label>
+                                <Form.Control ref={this.textInput} as="textarea" className="custom-textarea"/>
 
                             </Form.Group>
                             { this.state.loading ? (

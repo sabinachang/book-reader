@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
 class UserRating extends Component {
     constructor(props) {
@@ -51,7 +53,6 @@ class UserRating extends Component {
     getUserRating = () => {
         axios.get(`/api/ratings/${this.props.book.isbn}`, { withCredentials: true })
             .then((res) => {
-                console.log(res)
                 this.setState({
                     loading: false,
                     rating: res.data.rating,
@@ -69,28 +70,28 @@ class UserRating extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row mt-3">
-                    <div className="col-sm-5 col-lg-3  d-flex justify-content-between">
+            
+                <div>
+                    <div className="d-flex justify-content-left mt-2">
                         {this.state.loading &&
                             <Spinner animation="border"></Spinner>
                         }
                         {this.state.rating === 'like' ? (
-                            <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}>Like</Button>
+                            <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsUp} className="mr-1"/>Like</Button>
                         ) : (
-                                <Button onClick={this.handleClick} value="like" variant='light' disabled={this.state.loading}>Like</Button>
+                                <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsUp} className="mr-1"/>Like</Button>
 
                             )}
 
                         {this.state.rating === 'dislike' ? (
-                            <Button onClick={this.handleClick} value="dislike" variant='primary' disabled={this.state.loading}>Dislike</Button>
+                            <Button className="ml-2" onClick={this.handleClick} value="dislike" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsDown} className="mr-1"/>Dislike</Button>
                         ) : (
-                                <Button onClick={this.handleClick} value="dislike" variant='light' disabled={this.state.loading}>Dislike</Button>
+                                <Button className="ml-2" onClick={this.handleClick} variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsDown} className="mr-1"/>Dislike</Button>
 
                             )}
                     </div>
                 </div>
-            </div>
+            
         );
     }
 }

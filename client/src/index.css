@@ -73,6 +73,12 @@ code {
   border-color: #89b320;
 }
 
+.btn-primary:disabled {
+  color: #739816;
+  background-color: #eff1eb;
+  border-color: #eff1eb;
+}
+
 .btn-secondary {
   color: #fff;
   background-color: #b9b9b9;
@@ -104,4 +110,8 @@ code {
 
 .progress-bar {
   background-color: #739815;
+}
+
+.badge-brimary {
+  background-color: #94bd2c;
 }
