@@ -22,9 +22,7 @@ class WallPost {
     }
 
     async getPosts(targetUser, loggedInUser) {
-        console.log("verifying get posts!")
         await this.Privacy.verify("whoCanViewProfile", targetUser, loggedInUser)
-        console.log("getPosts verified!")
         return this.WallPost.find({ owner: targetUser })
     }
 

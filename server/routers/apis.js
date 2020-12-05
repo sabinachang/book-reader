@@ -19,7 +19,7 @@ module.exports = express
     .post('/friendship/invitation/:action', wallObserver.readRequest, interactionController.handleInvitations)
     .get('/search/:query', userLibraryController.getBookResult)
     .get('/progress/:isbn', progressController.getProgress)
-    .put('/progress', progressController.updateProgress)
+    .put('/progress', wallObserver.readRequest, progressController.updateProgress)
     .get('/reviews/:bookIsbn', userLibraryController.getReview)
     .post('/reviews/:bookIsbn', wallObserver.readRequest, userLibraryController.createReview)
     .get('/ratings/:bookIsbn', userLibraryController.getRating)

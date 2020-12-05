@@ -2,6 +2,7 @@ const AddToBookshelfBuilder = require("./wallBuilders/AddToBookshelfBuilder")
 const FriendshipBuilder = require("./wallBuilders/FriendshipBuilder")
 const ReviewBookBuilder = require("./wallBuilders/ReviewBookBuilder")
 const RateBookBuilder = require("./wallBuilders/RateBookBuilder")
+const BookProgressBuilder = require("./wallBuilders/BookProgressBuilder")
 
 class Director {
     create = (req) => {
@@ -23,6 +24,10 @@ class Director {
             case 'review-book':
                 const reviewBookBuilder = new ReviewBookBuilder()
                 reviewBookBuilder.make(req)
+                break;
+            case 'book-progress':
+                const bookProgressBuilder = new BookProgressBuilder()
+                bookProgressBuilder.make(req)
                 break;
             default:
                 console.log(`${request_type} not registered.`);
