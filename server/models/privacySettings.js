@@ -48,8 +48,7 @@ class PrivacySettings {
     verify = async (privacy_type, targetUser, loggedInUser) => {
         const settings = await this.getSettings(targetUser)
         const setting = settings[privacy_type]
-        const verfied =  await this.canVerify(setting, targetUser, loggedInUser)
-        console.log("verfied", verfied)
+        const verfied = await this.canVerify(setting, targetUser, loggedInUser)
         if (!verfied) {
             if (setting === 'friends') {
                 throw new Error("Only friends of this person can view their profile")
@@ -58,7 +57,6 @@ class PrivacySettings {
                 throw new Error("This person's profile is private.")
             }
         }
-        console.log("should be finished")
     }
 }
 
