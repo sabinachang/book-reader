@@ -13,6 +13,13 @@ class Nav extends Component {
         };
     }
 
+    handleLogoutClick = (e) => {
+        e.preventDefault();
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/';
+    }
+
     render() {
         return (
             <div>
@@ -24,7 +31,7 @@ class Nav extends Component {
                             <a className="nav-item nav-link mr-3" href="/library">Library</a>
                             <a className="nav-item nav-link mr-3" href={`/${getCookie('username')}`}>My Wall</a>
                             <a className="nav-item nav-link mr-3" href="/profile">Profile</a>
-                            <a className="nav-item nav-link" href="/">Logout</a>
+                            <a className="nav-item nav-link" onClick={this.handleLogoutClick} >Logout</a>
                         </div>
                     </div>
                     <a className="nav-item nav-link" href="/search"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search</a>

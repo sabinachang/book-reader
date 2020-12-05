@@ -6,6 +6,7 @@ const privacyController = require('../controllers/privacyController');
 const progressController = require('../controllers/progressController');
 const wallController = require('../controllers/wallController');
 const wallObserver = require('../middleware/wallObserver');
+const auth = require('../middleware/authentication');
 
 module.exports = express
     .Router()

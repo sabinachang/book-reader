@@ -8,7 +8,7 @@ function Register(props) {
         password: "",
         confirmPassword: "",
         errMsg: "",
-        successMessage: null
+        successMessage: null,
     })
 
     const handleChange = (e) => {
@@ -37,16 +37,20 @@ function Register(props) {
             })
             .catch((e) => {
                 //Alert
-                console.log(e.response.data.error);
                 setState(prevState => ({
                     ...prevState,
                     errMsg: e.response.data.error
                 }));
+                redirectToRegister();
             })
     }
 
     const redirectToLogin = () => {
         props.history.push('/');
+    }
+
+    const redirectToRegister = () => {
+        props.history.push('/register');
     }
 
     const redirectToHome = () => {
@@ -55,13 +59,23 @@ function Register(props) {
 
     const handleSubmitClick = (e) => {
         e.preventDefault();
-        if (state.password === state.confirmPassword) {
-            sendDetailsToServer()
-        } else {
+        if(state.password !== state.confirmPassword){
             setState(prevState => ({
                 ...prevState,
                 errMsg: "Passwords do not match"
             }));
+        } else if (state.password.length < 6){
+            setState(prevState => ({
+                ...prevState,
+                errMsg: "Password should be at least 6 characters"
+            }));
+        } else if (state.username.length < 6) {
+            setState(prevState => ({
+                ...prevState,
+                errMsg: "Username should be at least 6 characters",
+            }));
+        } else {
+            sendDetailsToServer();
         }
     }
 

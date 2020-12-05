@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const cloudDB = process.env.DB_STRING;
+const cloudDB = 'mongodb+srv://mimishih:Mvl3IoIHFbicSEAR@bookreader-cluster.adyrc.mongodb.net/bookreader?retryWrites=true&w=majority';
 const localDB = 'mongodb://127.0.0.1:27017/bookreader';
 
 
@@ -11,7 +11,7 @@ class db {
 
     connect() {
         mongoose
-            .connect(localDB, {
+            .connect(cloudDB, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
