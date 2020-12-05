@@ -200,8 +200,13 @@ class Post extends Component {
 
         return (
             <div className="card border-dark mb-4">
-                <div className="card-header">
-                    <a href={`/${this.props.owner}`}>{this.props.owner}</a> | {this.convertTime(this.props.timestamp)}
+                <div className="card-header d-flex justify-content-between">
+                    <div>
+                        <a href={`/${this.props.owner}`}>{this.props.owner}</a>
+                    </div>
+                    <div>
+                        {this.convertTime(this.props.timestamp)}
+                    </div>
 
                 </div>
                 <div className=" text-center">
