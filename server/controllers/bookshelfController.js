@@ -39,6 +39,17 @@ const addBookToBookshelf = async (req, res) => {
     await observer.addBookshelfObserver(req.params.bookshelf, owner, flyweight);
 
     try {
+        // Update rating when adding to favorite shelf
+        console.log(req.params.bookshelf)
+        if (req.params.bookshelf.toLowerCase() === 'favorites') {
+            await BookFlyweight.updateLikeDislike({
+                id: book.flyweight._id,
+                from: book.rating,
+                to: 'like',
+            })
+    
+            await book.updateRating('like')
+        }
         await Bookshelves.addBookToBookshelf(owner, req.params.bookshelf, book)
         res.sendStatus(201)
     }
@@ -65,7 +76,7 @@ const removeBookFromBookshelf = async (req, res) => {
 
         try {
             // Update rating when removing from favorites shelf
-            if (req.params.bookshelf === 'Favorites') {
+            if (req.params.bookshelf.toLowerCase() === 'favorites') {
                 await BookFlyweight.updateLikeDislike({
                     id: book.flyweight._id,
                     from: 'like',

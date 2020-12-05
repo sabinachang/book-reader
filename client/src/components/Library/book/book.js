@@ -131,6 +131,7 @@ class Book extends Component {
                     bookInfo={this.getBookInfo()}
                     visible={this.state.bookshelfModal}
                     handleClose={this.unrenderBookshelfModal}
+                    onReload={this.props.onReload}
                 />
 
                 <RecommendModal

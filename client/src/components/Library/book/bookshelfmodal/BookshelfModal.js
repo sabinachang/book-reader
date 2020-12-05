@@ -17,7 +17,13 @@ class BookshelfModal extends React.Component {
 
         if (this.state.favorites || this.state.selected) {
             this.setState({ selected: null, favorites: false });
-            this.props.handleClose();
+            
+            if (this.props.onReload) {
+                this.props.onReload();
+            } else {
+                this.props.handleClose()
+            }
+          
         }
 
 
