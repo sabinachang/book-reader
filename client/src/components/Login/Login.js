@@ -57,14 +57,6 @@ function Login(props) {
         props.history.push('/register');
     }
 
-    const redirectFromLogin = () => {
-        axios.get('http://localhost:5000/api/users/authenticate', {
-            withCredentials: true
-        })
-            .then(redirectToHome)
-            .catch()
-    }
-    redirectFromLogin()
     return (
         <div className="col-12 col-lg-4 mt-2 login-container">
 
