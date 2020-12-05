@@ -6,13 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStream, faBookmark, faBookReader, faHeart, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import './categories.css'
 
-// import socketClient from 'socket.io-client'
-
 class Library extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
+            loading: true,
             selectedShelf: '',
             wantToRead: [],
             reading: [],
@@ -21,20 +20,45 @@ class Library extends Component {
             recommendations: [],
             booksDisplay: [],
         }
-        // this.socket = socketClient('/')
-        // this.socket.on('fetchFavorite', () => {
-        //     getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
-        // })
+        this.apiCount = 0
     }
 
+    checkLoadingDone =  () => {
 
-    componentDidMount = () => {
-        getBooksInBookshelf("wantToRead", (data) => this.setState({ wantToRead: data }))
-        getBooksInBookshelf("favorites", (data) => this.setState({ favorites: data }))
-        getBooksInBookshelf("reading", (data) => this.setState({ reading: data }))
-        getBooksInBookshelf("read", (data) => this.setState({ read: data }))
-        getBooksInBookshelf("recommendations", (data) => this.setState({ recommendations: data }))
+        this.apiCount ++;
+        if (this.apiCount === 5) {
+            this.setState({loading: false})
+            this.apiCount = 0
+        }
     }
+    componentDidMount =  () => {
+        getBooksInBookshelf("wantToRead", (data) => {
+            this.setState({ wantToRead: data })
+            this.checkLoadingDone()
+        })
+
+        getBooksInBookshelf("favorites", (data) => {
+            this.setState({ favorites: data })
+            this.checkLoadingDone()
+        })
+
+        getBooksInBookshelf("reading", (data) => {
+            this.setState({ reading: data })
+            this.checkLoadingDone()
+        })
+
+        getBooksInBookshelf("read", (data) => {
+            this.setState({ read: data })
+            this.checkLoadingDone()
+        })
+
+        getBooksInBookshelf("recommendations", (data) => {
+            this.setState({ recommendations: data })
+            this.checkLoadingDone()
+        })
+        
+    }
+    
 
     handleReading = () => {
         this.setState({booksDisplay: this.state.reading, selectedShelf:'Reading'})
@@ -56,11 +80,11 @@ class Library extends Component {
         this.setState({booksDisplay: this.state.favorites, selectedShelf:'Favorites'})
     }
 
-
-
-    componentWillUnmount = () => {
-        // this.socket.disconnect()
+    onReload = () => {
+        window.location.reload() 
     }
+
+
     render() {
         return (
             <div>
@@ -69,7 +93,12 @@ class Library extends Component {
 
                     <div className="col-9">
                         <h4>Your Books</h4>
-
+                        {this.state.loading ? (
+                            <div>
+                                <p> Loading...</p>
+                            </div>
+                        ) : (
+                            <>
                         <div className="mt-3">
                             <span onClick={this.handleReading} className="bookshelf-library px-3 py-2 mr-2 mb-3">
                                 <FontAwesomeIcon icon={faBookmark} className="mr-2"/>Reading</span>
@@ -97,10 +126,13 @@ class Library extends Component {
                                     bookshelf={this.state.selectedShelf}
                                     pageCount={book.pageCount}
                                     showUserFeedback={true}
+                                    onReload={this.onReload}
                                 />
                             ))}  
                         </div>
                       
+                            </>
+                        )}
                     </div>
 
                 </div>
