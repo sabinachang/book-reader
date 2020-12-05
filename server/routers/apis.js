@@ -11,6 +11,7 @@ module.exports = express
     .Router()
     .get('/library/:bookshelf', bookshelfController.getBooks)
     .post('/library/:bookshelf', wallObserver.readRequest, bookshelfController.addBookToBookshelf)
+    .put('/library/:bookshelf', bookshelfController.removeBookFromBookshelf)
     .post('/request/:type', interactionController.requestFactory)
     .get('/friends', interactionController.getFriends)
     .get('/friendship/all', interactionController.getCompleteFrienshipInfo)

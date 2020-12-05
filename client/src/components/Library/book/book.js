@@ -26,7 +26,6 @@ class Book extends Component {
             page: props.page,
             bookshelf: props.bookshelf
         }
-
     }
 
     renderBookshelfModal = () => {
@@ -78,8 +77,8 @@ class Book extends Component {
             {isbn: this.state.isbn},
             {withCredentials: true
         }).then((res) => {
-            if (res.status === 200) {
-                console.log(res.data.message);
+            if (res.status === 201) {
+                this.props.onReload()
             } else {
                 console.log('remove err');
             }
