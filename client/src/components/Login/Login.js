@@ -88,15 +88,15 @@ function Login(props) {
                     />
                 </div>
                 <div className="form-check">
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-custom mt-2"
+                        onClick={handleSubmitClick}
+                    >Sign In</button>
+                    <span className="mt-2 ml-4">
+                        <span className="loginText" onClick={() => redirectToRegister()}>or Register</span>
+                    </span>
                 </div>
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-custom mt-2"
-                    onClick={handleSubmitClick}
-                >Sign In</button>
-                <span className="mt-2 ml-4">
-                    <span className="loginText" onClick={() => redirectToRegister()}>or Register</span>
-                </span>
             </form>
             <div className="alert alert-success mt-2" style={{ display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
