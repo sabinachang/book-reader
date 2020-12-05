@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import "./Nav1.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faEllipsisH, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { getCookie } from '../../../helper'
+import { getCookie } from '../../../helper';
+import axios from 'axios';
 
 class Nav extends Component {
     constructor(props) {
@@ -11,6 +12,15 @@ class Nav extends Component {
             search: '',
             result: [],
         };
+    }
+
+    logout = () => {
+        axios.post('http://localhost:5000/api/users/logout', {}, {
+            withCredentials: true,
+        })
+            .then((res) => {
+                window.location = '/'
+            })
     }
 
     render() {
@@ -24,7 +34,7 @@ class Nav extends Component {
                             <a className="nav-item nav-link mr-3" href="/library">Library</a>
                             <a className="nav-item nav-link mr-3" href={`/${getCookie('username')}`}>My Wall</a>
                             <a className="nav-item nav-link mr-3" href="/profile">Profile</a>
-                            <a className="nav-item nav-link" href="/">Logout</a>
+                            <a onClick={this.logout} className="nav-item nav-link" href="#">Logout</a>
                         </div>
                     </div>
                     <a className="nav-item nav-link" href="/search"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search</a>

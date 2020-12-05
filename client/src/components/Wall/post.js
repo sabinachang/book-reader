@@ -18,7 +18,6 @@ class Post extends Component {
     componentDidMount = () => {
         axios.get(`http://localhost:5000/api/wall/${this.props.id}/comments`, { withCredentials: true })
             .then((comments) => {
-                console.log(comments.data)
                 this.setState({ comments: comments.data })
             })
 

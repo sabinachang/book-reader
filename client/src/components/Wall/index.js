@@ -13,7 +13,6 @@ class Wall extends Component {
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id
-        console.log(name)
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
                 this.setState({ posts: posts.data })
