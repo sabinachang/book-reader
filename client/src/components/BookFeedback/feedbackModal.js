@@ -6,7 +6,6 @@ import Message from './message';
 import UserReview from './userReview';
 import UserRating from './userRating';
 import Modal from '../Common/modal/Modal'
-// import socketClient from 'socket.io-client'
 
 
 class FeedbackModal extends Component {
@@ -22,14 +21,14 @@ class FeedbackModal extends Component {
         }
         
         this.callApi = false
-        this.hasUpdate = false
+        this.hasFavoriteUpdate = false
 
      
     }
     closeModal = () => {
-        if (this.hasUpdate) {
-            this.hasUpdate = false
-            // this.socket.emit('updateFavorite')
+        if (this.hasFavoriteUpdate) {
+            this.hasFavoriteUpdate = false
+            this.props.onReload()
         }
 
         this.callApi = false
@@ -64,24 +63,6 @@ class FeedbackModal extends Component {
         .catch((err) => {
             console.log(err)
         })
-    }
-
-    componentDidMount = () => {
-        // console.log('component mount')
-        // this.socket = socketClient('/')
-        // this.socket.on('updateBookFavorite', (isbn) => {
-        //     if (this.props.book.isbn === isbn) {
-        //         this.hasUpdate = true
-        //     }
-        // })
-    }
-
-    componentWillUnmount = () => {
-        // if (this.socket.connect) {
-        //     console.log('disconnect in  unmount')
-
-        //     this.socket.disconnect()
-        // }
     }
 
     componentDidUpdate = () => {
@@ -135,7 +116,9 @@ class FeedbackModal extends Component {
         }
     }
 
-    onNotifyUpdate = () => {
+    onNotifyUpdate = (updateFavorite = false) => {
+        this.hasFavoriteUpdate = updateFavorite
+
         this.setState(prevState => ({
             loading: true,
             ...prevState,

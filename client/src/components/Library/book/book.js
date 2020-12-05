@@ -142,6 +142,7 @@ class Book extends Component {
                     visible={this.state.feedbackModal}
                     handleClose={this.unrenderFeedbackfModal}
                     book={this.getBookInfo()}
+                    onReload={this.props.onReload}
                     showUserFeedback={this.props.showUserFeedback}>
                 </FeedbackModal>
 

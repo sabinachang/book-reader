@@ -40,7 +40,7 @@ class UserRating extends Component {
                 })
                 console.log(this.state.rating)
                 if (res.status === 200) {
-                    this.props.notifyUpdate()
+                    this.props.notifyUpdate(true)
                 } else {
                     console.log('something went wrong')
                 }
@@ -79,14 +79,14 @@ class UserRating extends Component {
                         {this.state.rating === 'like' ? (
                             <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsUp} className="mr-1"/>Like</Button>
                         ) : (
-                                <Button onClick={this.handleClick} value="like" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsUp} className="mr-1"/>Like</Button>
+                                <Button onClick={this.handleClick} value="like" variant='secondary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsUp} className="mr-1"/>Like</Button>
 
                             )}
 
                         {this.state.rating === 'dislike' ? (
                             <Button className="ml-2" onClick={this.handleClick} value="dislike" variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsDown} className="mr-1"/>Dislike</Button>
                         ) : (
-                                <Button className="ml-2" onClick={this.handleClick} variant='primary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsDown} className="mr-1"/>Dislike</Button>
+                                <Button className="ml-2" onClick={this.handleClick} value='dislike' variant='secondary' disabled={this.state.loading}><FontAwesomeIcon icon={faThumbsDown} className="mr-1"/>Dislike</Button>
 
                             )}
                     </div>
