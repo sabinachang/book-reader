@@ -11,8 +11,8 @@ const getBooks = async (req, res) => {
     const username = req.cookies.username
     const user = await User.findOne({ username: username })
     const books = await Bookshelves.getBooks(user, req.params.bookshelf)
-
-    var result = []
+    const result = []
+    let i;
     for (i = 0; i < books.length; i++) {
         var foundBook = await Book.findById(books[i])
         var foundFlyweight = await BookFlyweight.findById(foundBook.flyweight)
@@ -54,9 +54,16 @@ const removeBookFromBookshelf = async (req, res) => {
     if (req.cookies.username && req.params.bookshelf && req.body.isbn) {
         const username = req.cookies.username;
         const owner = await User.findOne({ username: username });
+
         var flyweight = await BookFlyweight.get(req.body.isbn);
+        if (!flyweight) {
+            res.sendStatus(400)
+        }
 
         var book = await Book.findOne({ flyweight: flyweight, owner: owner });
+        if (!book) { 
+            res.sendStatus(400)
+        }
 
         try {
             await Bookshelves.removeBook(owner, req.params.bookshelf, book);
@@ -64,8 +71,10 @@ const removeBookFromBookshelf = async (req, res) => {
         }
         catch (e) {
             console.log('err:', e);
-            res.status(500);
+            res.sendStatus(500);
         }
+    } else {
+        res.sendStatus(500)
     }
     
 }
