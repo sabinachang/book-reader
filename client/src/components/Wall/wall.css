@@ -1,0 +1,15 @@
+.content {
+    display: flex;
+}
+
+.wall-bg {
+    background: #f7f7f7;
+}
+
+.card-header {
+    background-color: white;
+}
+
+.card-footer {
+    background-color: rgb(243 245 240);
+}

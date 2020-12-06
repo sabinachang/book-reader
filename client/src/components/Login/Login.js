@@ -56,6 +56,7 @@ function Login(props) {
     const redirectToRegister = () => {
         props.history.push('/register');
     }
+
     return (
         <div className="col-12 col-lg-4 mt-2 login-container">
 

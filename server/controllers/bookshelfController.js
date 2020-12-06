@@ -47,7 +47,7 @@ const addBookToBookshelf = async (req, res) => {
                 from: book.rating,
                 to: 'like',
             })
-    
+
             await book.updateRating('like')
         }
         await Bookshelves.addBookToBookshelf(owner, req.params.bookshelf, book)
@@ -70,7 +70,7 @@ const removeBookFromBookshelf = async (req, res) => {
         }
 
         var book = await Book.findOne({ flyweight: flyweight, owner: owner });
-        if (!book) { 
+        if (!book) {
             res.sendStatus(400)
         }
 
@@ -82,12 +82,12 @@ const removeBookFromBookshelf = async (req, res) => {
                     from: 'like',
                     to: 'none',
                 })
-        
+
                 await book.updateRating('none')
             }
 
             await Bookshelves.removeBook(owner, req.params.bookshelf, book);
-            res.status(201).json({message: "DELETE BOOK"});
+            res.status(201).json({ message: "DELETE BOOK" });
         }
         catch (e) {
             console.log('err:', e);
@@ -96,7 +96,7 @@ const removeBookFromBookshelf = async (req, res) => {
     } else {
         res.sendStatus(500)
     }
-    
+
 }
 
 const getFeedbacks = async (req, res) => {

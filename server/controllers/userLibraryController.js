@@ -4,20 +4,19 @@ const { review, rating } = require('../lib/feedbackTemplate');
 
 const bookSearch = getBookSearch()
 
-exports.getBookResult = async function getBookResult(req, res, next) {
+const getBookResult = async function (req, res, next) {
 	if (req.params.query) {
 		const query = req.params.query;
 		let bookResult = null;
 		const startIndex = req.query.startIndex
 		const url = bookSearch.getURL(query, startIndex);
 		await axios.get(url)
-
-		.then((res) => {
-			bookResult = res.data;
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+			.then((res) => {
+				bookResult = res.data;
+			})
+			.catch((err) => {
+				console.log(err);
+			})
 		res.status(200);
 		res.json({ 'result': bookResult });
 	} else {
@@ -27,7 +26,7 @@ exports.getBookResult = async function getBookResult(req, res, next) {
 	}
 }
 
-exports.createReview = async function (req, res, next) {
+const createReview = async function (req, res, next) {
 	const isbn = req.params.bookIsbn
 	const username = req.cookies.username
 	const content = req.body.review
@@ -43,7 +42,7 @@ exports.createReview = async function (req, res, next) {
 	}
 }
 
-exports.createRating = async function (req, res, next) {
+const createRating = async function (req, res, next) {
 	const isbn = req.params.bookIsbn
 	const username = req.cookies.username
 	const content = req.body.rating
@@ -61,7 +60,7 @@ exports.createRating = async function (req, res, next) {
 	}
 }
 
-exports.getReview = async function (req, res, next) {
+const getReview = async function (req, res, next) {
 	const isbn = req.params.bookIsbn
 	const username = req.cookies.username
 
@@ -76,7 +75,7 @@ exports.getReview = async function (req, res, next) {
 	}
 }
 
-exports.getRating = async function (req, res, next) {
+const getRating = async function (req, res, next) {
 	const isbn = req.params.bookIsbn
 	const username = req.cookies.username
 
@@ -89,4 +88,12 @@ exports.getRating = async function (req, res, next) {
 	} else {
 		res.sendStatue(500)
 	}
+}
+
+module.exports = {
+	getBookResult,
+	createRating,
+	createReview,
+	getReview,
+	getRating
 }

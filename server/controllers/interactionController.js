@@ -1,19 +1,19 @@
 const recommendationCreator = require('../lib/recommendationCreator');
 const Friendship = require('../models/friendship');
 
-exports.getFriends = async function getFriends(req, res, next) {
-    try {
-      const list =  await Friendship.list(req.cookies.username);
-      res.json({
-        list: list,
-      })
-    } catch (e) {
-      console.log(e);
-    }
+const getFriends = async function (req, res, next) {
+  try {
+    const list = await Friendship.list(req.cookies.username);
+    res.json({
+      list: list,
+    })
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // A factory that generates request for friendship or book recommendation
-exports.requestFactory = async function (req, res, next) {
+const requestFactory = async function (req, res, next) {
   const type = req.params.type;
   try {
     if (type === 'recommendBook') {
@@ -36,12 +36,12 @@ exports.requestFactory = async function (req, res, next) {
       message: 'something went wrong. try again.',
     })
   }
-  
+
 }
 
-exports.handleInvitations = async function (req, res, next) {
+const handleInvitations = async function (req, res, next) {
   const action = req.params.action
-  try{
+  try {
     if (action === 'accept') {
       await Friendship.add(req.cookies.username, req.body.to)
       res.status(200).send('accept invitation ok');
@@ -54,7 +54,7 @@ exports.handleInvitations = async function (req, res, next) {
     console.log(e);
   }
 }
-exports.getCompleteFrienshipInfo = async function (req, res, next) {
+const getCompleteFrienshipInfo = async function (req, res, next) {
   const me = req.cookies.username;
 
   try {
@@ -68,7 +68,7 @@ exports.getCompleteFrienshipInfo = async function (req, res, next) {
       invited: invited
     })
 
-  } catch(e) {
+  } catch (e) {
     res.status(400).json({
       error: err.message,
     })
@@ -76,11 +76,11 @@ exports.getCompleteFrienshipInfo = async function (req, res, next) {
 
 }
 
-exports.getCandidates = async function (req, res, next) {
+const getCandidates = async function (req, res, next) {
   const me = req.cookies.username;
   const query = '^' + req.query.username;
-  
-  const regex =  new RegExp(query, 'i')
+
+  const regex = new RegExp(query, 'i')
 
   try {
     const c = await Friendship.listCandidates(me, regex);
@@ -90,10 +90,17 @@ exports.getCandidates = async function (req, res, next) {
       invited: i
     })
 
-  } catch(e) {
+  } catch (e) {
     res.status(400).json({
       error: err.message,
     })
   }
- 
+}
+
+module.exports = {
+  getFriends,
+  requestFactory,
+  handleInvitations,
+  getCompleteFrienshipInfo,
+  getCandidates
 }

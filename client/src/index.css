@@ -126,3 +126,7 @@ code {
 .badge-brimary {
   background-color: #94bd2c;
 }
+
+.border-dark {
+  border-color: #739816!important;
+}

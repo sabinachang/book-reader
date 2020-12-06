@@ -30,9 +30,9 @@ class Profile extends Component {
           handleClose={() => this.closeSettingsModal()}>
         </PrivacyModal>
         <Nav1 />
-        <div className="d-flex row justify-content-center mt-4">
+        <div className="d-flex row justify-content-center mt-4 mb-6">
           <div className="col-9">
-            <h4 className="my-4 ">User Profile</h4>
+            <h4 className="mb-3">User Profile</h4>
 
             <span className="manage-btn px-3 py-2 mb-3" onClick={() => this.redirectToFriends()} >
               <span className="custom-btn">
@@ -44,7 +44,7 @@ class Profile extends Component {
             <span onClick={this.openSettingsModal} className="manage-btn px-3 py-2 mb-3">
               <span className="custom-btn">
                 <FontAwesomeIcon icon={faUsers} className="my-2 custom-icon" />
-                <h6 className="mt-2 ml-3">Edit your profile</h6>
+                <h6 className="mt-2 ml-3">Edit Privacy Settings</h6>
               </span>
             </span>
 

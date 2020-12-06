@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css';
 import { getCookie } from '../../helper'
+import './wall.css';
 
 
 class Post extends Component {
@@ -18,7 +19,6 @@ class Post extends Component {
     componentDidMount = () => {
         axios.get(`http://localhost:5000/api/wall/${this.props.id}/comments`, { withCredentials: true })
             .then((comments) => {
-                console.log(comments.data)
                 this.setState({ comments: comments.data })
             })
 
@@ -135,7 +135,7 @@ class Post extends Component {
                 {this.state.comments.slice(this.state.comments.length - this.state.commentsLength, this.state.comments.length)
                     .map(comment => {
                         return (
-                            <div key={comment.timestamp} className="border-top border-black my-1">
+                            <div key={comment.timestamp} className="border-bottom border-black my-1">
                                 <div className="d-flex justify-content-between">
                                     <div>
                                         {comment.author}
@@ -200,16 +200,23 @@ class Post extends Component {
 
         return (
             <div className="card border-dark mb-4">
-                <div className="card-header">
-                    <a href={`/${this.props.owner}`}>{this.props.owner}</a> | {this.convertTime(this.props.timestamp)}
+                <div className="card-header d-flex justify-content-between">
+                    <div>
+                        <a href={`/${this.props.owner}`}>{this.props.owner}</a>
+                    </div>
+                    <div>
+                        {this.convertTime(this.props.timestamp)}
+                    </div>
 
                 </div>
-                <div className=" text-center">
-                    <p className="card-title">{this.props.title}</p>
-                    <div>
-                        <p className="card-text">{this.props.body}</p>
+                <div className="content">
+                    <div className="p-3">
+                        {this.displayImages()}
                     </div>
-                    {this.displayImages()}
+                    <div className="p-3">
+                        <h6>{this.props.title}</h6>
+                        <p>{this.props.body}</p>
+                    </div>
                 </div>
                 <div className='card-footer'>
                     {this.state.likeText}

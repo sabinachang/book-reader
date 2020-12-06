@@ -3,6 +3,7 @@ import Post from './post'
 import axios from 'axios'
 import { getCookie } from '../../helper'
 import Nav1 from '../Common/nav1/Nav1';
+import './wall.css';
 
 
 class Wall extends Component {
@@ -13,7 +14,6 @@ class Wall extends Component {
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id
-        console.log(name)
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
                 this.setState({ posts: posts.data })
@@ -42,23 +42,25 @@ class Wall extends Component {
 
     render() {
         return (
-            <div>
+            <div className="wall-bg">
                 <Nav1 />
-                <div className="container my-3">
-                    <h1 className="mb-4">{this.getWallName()}</h1>
-                    {this.state.posts.map((post) => (
-                        <Post
-                            match={this.props.match}
-                            key={post._id}
-                            body={post.bodytext}
-                            id={post._id}
-                            title={post.title}
-                            owner={post.owner}
-                            likes={post.likes}
-                            images={post.images}
-                            timestamp={post.timestamp}
-                        />
-                    ))}
+                <div className="d-flex row justify-content-center mt-4 mb-6">
+                    <div className="col-7">
+                        <h4 className="mb-4 mt-3">{this.getWallName()}</h4>
+                        {this.state.posts.map((post) => (
+                            <Post
+                                match={this.props.match}
+                                key={post._id}
+                                body={post.bodytext}
+                                id={post._id}
+                                title={post.title}
+                                owner={post.owner}
+                                likes={post.likes}
+                                images={post.images}
+                                timestamp={post.timestamp}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
 

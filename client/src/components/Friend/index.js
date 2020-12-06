@@ -28,54 +28,54 @@ class FriendHome extends Component {
     }
 
     getFriendshipInfo = () => {
-        axios.get(`/api/friendship/all`, {withCredentials: true})
-        .then((res) => {
-           if (res.status === 200) {
-               console.log(res)
-                this.setState({
-                    loading: false,
-                    loadingMsg: 'Loading...',
-                    friends: res.data.friends,
-                    invitations: res.data.invitations,
-                    invited: res.data.invited,
-                })
-           } else {
-               this.setState(prevState => ({
-                   ...prevState,
-                   loadingMsg:'something went wrong, please reload'
-               }))
-           }
-    
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        axios.get(`/api/friends/all`, { withCredentials: true })
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log(res)
+                    this.setState({
+                        loading: false,
+                        loadingMsg: 'Loading...',
+                        friends: res.data.friends,
+                        invitations: res.data.invitations,
+                        invited: res.data.invited,
+                    })
+                } else {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        loadingMsg: 'something went wrong, please reload'
+                    }))
+                }
+
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     getSearchResult = () => {
-        axios.get('/api/friendship/candidates', {
+        axios.get('/api/frineds/candidates', {
             params: {
                 username: this.state.search
             }
-        }, {withCredentials: true})
-        .then((res) => {
-            console.log(res)
-            if (res.status === 200) {
-                this.setState({
-                    loading: false,
-                    candidates: res.data.candidates,
-                    invited: res.data.invited,
-                })
-            } else {
-                this.setState(prevState => ({
-                    ...prevState,
-                    loadingMsg:'something went wrong, please reload'
-                }))
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        }, { withCredentials: true })
+            .then((res) => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.setState({
+                        loading: false,
+                        candidates: res.data.candidates,
+                        invited: res.data.invited,
+                    })
+                } else {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        loadingMsg: 'something went wrong, please reload'
+                    }))
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     handleInvite = (invitee) => {
@@ -106,7 +106,7 @@ class FriendHome extends Component {
     handelAction = (action, to) => {
         console.log(action)
         console.log(to)
-        axios.post(`/api/friendship/invitation/${action}`, {
+        axios.post(`/api/friends/invitation/${action}`, {
             to: to,
             request_type: "friendship-" + action
         }, {
@@ -150,7 +150,7 @@ class FriendHome extends Component {
 
     setCandidatesUI = () => {
         let candidatesUI;
-        if(this.state.candidates.length !== 0 ) {
+        if (this.state.candidates.length !== 0) {
             const friends = this.state.friends.map(f => {
                 return f.username
             })
@@ -160,22 +160,22 @@ class FriendHome extends Component {
 
             candidatesUI = this.state.candidates.map(c => {
                 if (friends.includes(c.username)) {
-                    return <Friend key={c._id} username={c.username}/>
+                    return <Friend key={c._id} username={c.username} />
                 } else {
                     if (invited.includes(c.username)) {
-                        return <Candidate key={c._id} invited={true} username={c.username} handleInvite={this.handleInvite}/>
+                        return <Candidate key={c._id} invited={true} username={c.username} handleInvite={this.handleInvite} />
                     } else {
-                        return <Candidate key={c._id} invited={false} username={c.username} handleInvite={this.handleInvite}/>
+                        return <Candidate key={c._id} invited={false} username={c.username} handleInvite={this.handleInvite} />
                     }
                 }
-                
+
             })
         } else {
-            if (this.state.searched === false ) {
+            if (this.state.searched === false) {
                 candidatesUI = null
             } else if (this.state.search) {
                 candidatesUI = (
-                <Friend key='-1' username='No match found'></Friend>
+                    <Friend key='-1' username='No match found'></Friend>
                 )
             }
         }
@@ -206,33 +206,33 @@ class FriendHome extends Component {
         e.preventDefault();
         this.setState({
             loading: true,
-            searched:true,
+            searched: true,
         })
         if (this.state.search) {
 
             this.getSearchResult()
 
-		} else {
-			this.setState({
+        } else {
+            this.setState({
                 loading: false,
                 candidates: [],
                 invited: [],
                 searched: false,
             })
-		}
+        }
     }
 
     handleInputChange = e => {
-		this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
     }
-    
-    handleKeyPress = e => {
-		if (e.key === 'Enter') {
-			this.handleFormSubmit(e);
-		}
-	}
 
-    render () {
+    handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            this.handleFormSubmit(e);
+        }
+    }
+
+    render() {
         const friendsUI = this.setFriendsUI();
 
         const candidatesUI = this.setCandidatesUI();
@@ -253,21 +253,21 @@ class FriendHome extends Component {
                                             friendsUI
                                         )}
                                 </Tab>
-                                <Tab className='my-4'eventKey="add" title="Add friends">
+                                <Tab className='my-4' eventKey="add" title="Add friends">
                                     <SearchInputForm
-					                        search={this.state.search}
-					                        handleInputChange={this.handleInputChange}
-                                            handleFormSubmit={this.handleFormSubmit}
-                                            handleKeyPress={this.handleKeyPress}
-                                            placeholder={'Search for usernames...'}
+                                        search={this.state.search}
+                                        handleInputChange={this.handleInputChange}
+                                        handleFormSubmit={this.handleFormSubmit}
+                                        handleKeyPress={this.handleKeyPress}
+                                        placeholder={'Search for usernames...'}
                                     />
                                     {this.state.loading ? (
-                                         <h5>{this.state.loadingMsg}</h5>
-                                    ): (
-                                        <>
-                                        {candidatesUI}
-                                        </>
-                                    )}
+                                        <h5>{this.state.loadingMsg}</h5>
+                                    ) : (
+                                            <>
+                                                {candidatesUI}
+                                            </>
+                                        )}
                                 </Tab>
                                 <Tab className='my-4' eventKey="invite" title="Invitations" >
                                     {this.state.loading ? (
