@@ -10,13 +10,14 @@ class Wall extends Component {
     state = {
         posts: [],
         isUserWall: false,
+        loading: true,
     }
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
-                this.setState({ posts: posts.data })
+                this.setState({ posts: posts.data, loading: false })
                 if (getCookie('username') === name) {
                     this.setState({ isUserWall: true })
                 }
@@ -27,6 +28,7 @@ class Wall extends Component {
                 } else if (response.message.includes("403")) {
                     alert(`${name}'s privacy settings prevents you from seeing their profile.`)
                 }
+                this.setState({ loading: false })
             })
 
     }
@@ -47,6 +49,7 @@ class Wall extends Component {
                 <div className="d-flex row justify-content-center mt-4 mb-6">
                     <div className="col-7">
                         <h4 className="mb-4 mt-3">{this.getWallName()}</h4>
+                        {this.state.loading && <div className="loader"></div>}
                         {this.state.posts.map((post) => (
                             <Post
                                 match={this.props.match}
