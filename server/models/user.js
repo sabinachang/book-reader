@@ -20,7 +20,6 @@ async function createNewUser(username, hash, salt) {
         hash: hash,
         salt: salt,
     });
-    console.log(newUser);
     return newUser.save();
 }
 

@@ -53,13 +53,14 @@ class FriendHome extends Component {
     }
 
     getSearchResult = () => {
-        axios.get('/api/frineds/candidates', {
+        axios.get('/api/friends/candidates', {
             params: {
                 username: this.state.search
             }
         }, { withCredentials: true })
             .then((res) => {
                 console.log(res)
+
                 if (res.status === 200) {
                     this.setState({
                         loading: false,
@@ -121,7 +122,7 @@ class FriendHome extends Component {
                     invitations: [],
                     invited: [],
                     search: '',
-                    search: false,
+                    searched: false,
                 })
                 this.getFriendshipInfo();
             } else {
@@ -149,6 +150,7 @@ class FriendHome extends Component {
     }
 
     setCandidatesUI = () => {
+        console.log(this.state)
         let candidatesUI;
         if (this.state.candidates.length !== 0) {
             const friends = this.state.friends.map(f => {

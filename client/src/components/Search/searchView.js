@@ -56,7 +56,7 @@ class SearchView extends Component {
 	}
 
 	handleInputChange = e => {
-		
+
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
@@ -171,6 +171,9 @@ class SearchView extends Component {
 							handleFormSubmit={this.handleFormSubmit}
 							placeholder={'Please search books here...'}
 						/>
+						<div>
+							{this.getPaginationUI()}
+						</div>
 
 						<div className="alert alert-warning mt-2" style={{ display: this.state.errMsg ? 'block' : 'none' }} role="alert">
 							{this.state.errMsg}
@@ -191,10 +194,10 @@ class SearchView extends Component {
 								showUserFeedback={false}
 							/>
 						))}
-						<div>
-							{this.getPaginationUI()}
-						</div>
-					</div>	
+					</div>
+					<div>
+						{this.getPaginationUI()}
+					</div>
 				</div>
 			</div>
 		)
