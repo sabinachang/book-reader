@@ -10,6 +10,7 @@ class SearchView extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			searchLoading: false,
 			search: '',
 			result: [],
 			searchOption: '',
@@ -32,12 +33,13 @@ class SearchView extends Component {
 						this.totalItems = res.data.result.totalItems
 						this.setState({
 							result: res.data.result.items,
-							errMsg: ''
+							errMsg: '',
+							searchLoading: false
 						});
 					}
 					else {
 						this.redirectToSearchBook();
-						this.setState({ errMsg: 'No book found!' });
+						this.setState({ errMsg: 'No book found!', searchLoading: false });
 						console.log('No book found!');
 					}
 				}
@@ -46,6 +48,7 @@ class SearchView extends Component {
 				}
 			})
 			.catch((err) => {
+				this.setState({ searchLoading: false });
 				console.log(err);
 			})
 	}
@@ -110,15 +113,17 @@ class SearchView extends Component {
 	}
 
 	handleFormSubmit = e => {
-		e.preventDefault();
-		this.updateCurrentPage(1)
-		this.updateTotalItems(0)
-		if (this.state.search) {
-			this.searchBook(this.state.searchOption + this.state.search);
-		} else {
-			this.redirectToSearchBook();
-			this.setState({ errMsg: 'Please enter book name or author name to search!' })
-		}
+		this.setState({ searchLoading: true }, () => {
+			e.preventDefault();
+			this.updateCurrentPage(1)
+			this.updateTotalItems(0)
+			if (this.state.search) {
+				this.searchBook(this.state.searchOption + this.state.search);
+			} else {
+				this.redirectToSearchBook();
+				this.setState({ errMsg: 'Please enter book name or author name to search!' })
+			}
+		})
 
 	}
 
@@ -179,7 +184,7 @@ class SearchView extends Component {
 							{this.state.errMsg}
 						</div>
 
-						{this.state.result.map(book => (
+						{this.state.searchLoading ? <div className="loader"></div> : this.state.result.map(book => (
 							<Book
 								key={book.id}
 								title={book.volumeInfo.title}
