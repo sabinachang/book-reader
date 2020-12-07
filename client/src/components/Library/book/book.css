@@ -15,6 +15,15 @@ h1 {
     text-align: left;
 }
 
+.book-not-selected {
+    border: 1px solid gainsboro;
+}
+
+.book-selected {
+    border: 2px solid #c8d8a1;
+    box-shadow: #c7c7b069 3px 3px 5px 1px;
+}
+
 .card-half {
     width: 48%;
     margin-right: 2%;

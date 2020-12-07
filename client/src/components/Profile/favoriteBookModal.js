@@ -35,12 +35,13 @@ class FavoriteBookModal extends React.Component {
         window.location.reload() 
     }
 
-    handleSelect = () => {
+    handleSelect = (e) => {
+        //TODO: Add books to selected array
         
     }
 
     submitSettings = () => {
-        //TODO: post favorite books to backend
+        //TODO: Post favorite books to backend
         console.log('submit');
     }
 
@@ -52,7 +53,6 @@ class FavoriteBookModal extends React.Component {
             <Modal
                 visible={visible}
                 handleClose={handleClose}
-                style="overflow-y: scroll; height: 50vh;"
                 heading="Select your favorite books">
                 <div>
                     <div className="d-flex justify-content-between">

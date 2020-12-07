@@ -150,7 +150,7 @@ class Book extends Component {
                 {this.getProcessUI()}
  
                 <Dropdown >
-                    <div className="book-info">
+                    <div className="book-info book-not-selected">
                         <div className={this.props.options}>
                             <div className="card-body">
                                 <span><div className="book" style={{ backgroundImage: this.state.img }}></div></span>
