@@ -12,7 +12,7 @@ module.exports = express
     .Router()
     .get('/library/:bookshelf', auth.authenticateUser, bookshelfController.getBooks)
     .post('/library/:bookshelf', auth.authenticateUser, wallObserver.readRequest, bookshelfController.addBookToBookshelf)
-    .put('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
+    .delete('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
     .post('/request/:type', auth.authenticateUser, interactionController.requestFactory)
     .get('/friends', auth.authenticateUser, interactionController.getFriends)
     .get('/friends/all', auth.authenticateUser, interactionController.getCompleteFrienshipInfo)
@@ -33,5 +33,5 @@ module.exports = express
     .delete('/wall/comments/:id', auth.authenticateUser, wallController.deleteComment)
     .get('/wall/:id/comments', auth.authenticateUser, wallController.getComments)
     .get('/privacy/:username/:privacyType', auth.authenticateUser, privacyController.getSettingsForPrivacyType)
-    .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings);
-
+    .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings)
+    .post('/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBooks);

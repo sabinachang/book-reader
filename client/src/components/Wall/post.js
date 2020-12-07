@@ -13,7 +13,8 @@ class Post extends Component {
         likeText: 'Be the first to like this post!',
         currentLikes: 0,
         comments: [],
-        commentsLength: 2
+        commentsLength: 2,
+        newCommentLoading: false
     }
 
     componentDidMount = () => {
@@ -50,31 +51,34 @@ class Post extends Component {
                 return <img key={image} style={{ width: "12rem" }} className="card-img" src={image} alt="Book Cover" />
             })}
         </div>
+    }
 
-
+    sendCommentToServer = () => {
+        axios.post(`http://localhost:5000/api/wall/${this.props.id}/comments`, { comment: this.state.commentValue }, { withCredentials: true })
+            .then((response) => {
+                if (response.data.msg === 'comment added') {
+                    console.log('comment added')
+                    this.setState({ commentValue: '' })
+                    const newComments = this.state.comments
+                    newComments.push(response.data.comment)
+                    this.displayAllComments()
+                    this.setState({ comments: newComments, newCommentLoading: false })
+                }
+            })
+            .catch((response) => {
+                const name = this.props.match.params.wall_id
+                if (response.message.includes("404")) {
+                    alert(`${name} is not a registered user.`)
+                } else if (response.message.includes("403")) {
+                    alert(`${name}'s privacy settings prevents you from commenting on their posts.`)
+                }
+                this.setState({ newCommentLoading: false })
+            })
     }
 
     postComment = (event) => {
         if (event.key === 'Enter') {
-            axios.post(`http://localhost:5000/api/wall/${this.props.id}/comments`, { comment: this.state.commentValue }, { withCredentials: true })
-                .then((response) => {
-                    if (response.data.msg === 'comment added') {
-                        console.log('comment added')
-                        this.setState({ commentValue: '' })
-                        const newComments = this.state.comments
-                        newComments.push(response.data.comment)
-                        this.displayAllComments()
-                        this.setState({ comments: newComments })
-                    }
-                })
-                .catch((response) => {
-                    const name = this.props.match.params.wall_id
-                    if (response.message.includes("404")) {
-                        alert(`${name} is not a registered user.`)
-                    } else if (response.message.includes("403")) {
-                        alert(`${name}'s privacy settings prevents you from commenting on their posts.`)
-                    }
-                })
+            this.setState({ newCommentLoading: true }, this.sendCommentToServer)
         }
     }
 
@@ -173,7 +177,7 @@ class Post extends Component {
         if (diff_in_seconds <= 60) {
             return "Less than one minute ago"
         } else if (diff_in_seconds <= 3600) {
-            return "Less than one hour ago"
+            return `${Math.trunc(diff_in_seconds / 60)} minutes ago`
         } else if (diff_in_seconds <= 86400) {
             const hrs = Math.trunc(diff_in_seconds / 3600)
             if (hrs === 1) {
@@ -236,8 +240,9 @@ class Post extends Component {
                 { this.state.showCommentBox && <div className="card-footer text-muted">
 
                     <div className="form-group">
-                        <input onKeyPress={this.postComment} onChange={this.handleCommentChange} style={{ borderRadius: "15px" }} type="text" value={this.state.commentValue} className="form-control" placeholder="Write a comment..." />
-
+                        {this.state.newCommentLoading ? "Posting comment..." :
+                            <input onKeyPress={this.postComment} onChange={this.handleCommentChange} style={{ borderRadius: "15px" }} type="text" value={this.state.commentValue} className="form-control" placeholder="Write a comment..." />
+                        }
                     </div>
 
                 </div>}

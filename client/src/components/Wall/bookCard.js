@@ -11,11 +11,12 @@ class FavoriteBook extends Component {
             img: img,
         }
     }
+    
     render() {
         return (
-        <div className="book-wrapper">
+        <div className="book-wrapper-special">
             <div className="book-card p-3 mb-4 mt-3">
-                <div className="book" style={{ backgroundImage: this.state.img }}></div>
+                <div className="special-card" style={{ backgroundImage: this.state.img }}></div>
                 <p className="text-center mt-2">{this.state.title}</p>
             </div>
         </div>

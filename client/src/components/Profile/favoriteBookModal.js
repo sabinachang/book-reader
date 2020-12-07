@@ -38,6 +38,9 @@ class FavoriteBookModal extends React.Component {
 
     onClickBook = () => {
         //TODO: Add books to selected array
+        console.log('click')
+        // add book.isbn to this.state selected
+
         
 
     }
@@ -45,6 +48,17 @@ class FavoriteBookModal extends React.Component {
     submitSettings = () => {
         //TODO: Post favorite books to backend
         console.log('submit');
+        axios.post(`/api/topfavorites`, {isbns: this.state.selected}, { withCredentials: true })
+        .then((res) => {
+            if (res.status === 201) {
+                console.log('finish selected');
+            } else {
+                console.log('error');
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     render() {
@@ -63,24 +77,24 @@ class FavoriteBookModal extends React.Component {
                             <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
                         </span>
                     </div>
-                    
-                        {this.state.favorites.map(book => (
-                            <Book
-                                key={book.isbn}
-                                title={book.title}
-                                author={book.author}
-                                description={book.description}
-                                img={book.thumbnail}
-                                isbn={book.isbn}
-                                options="card-full"
-                                page='profile'
-                                bookshelf={this.state.selectedShelf}
-                                pageCount={book.pageCount}
-                                showUserFeedback={true}
-                                onReload={this.onReload}
-                            />
-                        ))} 
-                    
+
+                    {this.state.favorites.map(book => (
+                        <Book
+                            key={book.isbn}
+                            title={book.title}
+                            author={book.author}
+                            description={book.description}
+                            img={book.thumbnail}
+                            isbn={book.isbn}
+                            options="card-full"
+                            page='profile'
+                            bookshelf='topfavorites'
+                            pageCount={book.pageCount}
+                            showUserFeedback={true}
+                            onReload={this.onReload}
+                            onClick={this.handleSelect}
+                        />
+                    ))} 
                 </div>
             </Modal>
         )

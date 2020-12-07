@@ -1,14 +1,15 @@
 
 
-.book-wrapper {
+.book-wrapper-special {
     width: 18%;
     margin-right: 2%;
     float: left;
 }
 
-.book{  
+.special-card{  
     background-size: cover;
     width: 100%;
+    height: 180px;
 }
 
 .book-card {

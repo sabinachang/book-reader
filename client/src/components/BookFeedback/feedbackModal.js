@@ -19,11 +19,11 @@ class FeedbackModal extends Component {
             dislikeCount: 0,
             reviews: [],
         }
-        
+
         this.callApi = false
         this.hasFavoriteUpdate = false
 
-     
+
     }
     closeModal = () => {
         if (this.hasFavoriteUpdate) {
@@ -38,31 +38,31 @@ class FeedbackModal extends Component {
     getFeedback = () => {
 
         axios.get(`/api/feedbacks/${this.props.book.isbn}`,
-            { withCredentials: true})
-        .then((res) => {
-            console.log(res)
-            if (res.status === 200 ) {
-                console.log('set success')
-                this.setState({
-                    loading: false,
-                    likeCount: res.data.likeCount,
-                    dislikeCount: res.data.dislikeCount,
-                    reviews: res.data.reviews,
-                    noBook: false,
-                })
-            } else if (res.status === 205) {
-                this.setState({
-                    loading: false,
-                    noBook: true,
-                    likeCount: 0,
-                    dislikeCount: 0,
-                    reviews: [],
-                })
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            { withCredentials: true })
+            .then((res) => {
+                console.log(res)
+                if (res.status === 200) {
+                    console.log('set success')
+                    this.setState({
+                        loading: false,
+                        likeCount: res.data.likeCount,
+                        dislikeCount: res.data.dislikeCount,
+                        reviews: res.data.reviews,
+                        noBook: false,
+                    })
+                } else if (res.status === 205) {
+                    this.setState({
+                        loading: false,
+                        noBook: true,
+                        likeCount: 0,
+                        dislikeCount: 0,
+                        reviews: [],
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     componentDidUpdate = () => {
@@ -70,7 +70,7 @@ class FeedbackModal extends Component {
         if (this.props.visible && !this.callApi) {
             this.callApi = true
             console.log('call api')
-            this.setState ({
+            this.setState({
                 loading: true,
                 noBook: false,
                 likeCount: 0,
@@ -85,11 +85,11 @@ class FeedbackModal extends Component {
     getReviewList = () => {
         console.log('getting review list')
         let reviewsUI;
-        if(this.state.reviews.length !== 0 ) {
+        if (this.state.reviews.length !== 0) {
             reviewsUI = this.state.reviews.map((r) => {
                 return <Message
                     key={r._id}
-                    message= {r}
+                    message={r}
                 />
             })
         } else {
@@ -104,9 +104,9 @@ class FeedbackModal extends Component {
         console.log('getting feedback')
         if (this.props.showUserFeedback) {
             return (
-                <>  
+                <>
                     <h5> Your feedback</h5>
-                    <UserRating book={this.props.book} notifyUpdate={this.onNotifyUpdate}></UserRating>                
+                    <UserRating book={this.props.book} notifyUpdate={this.onNotifyUpdate}></UserRating>
                     <UserReview book={this.props.book} notifyUpdate={this.onNotifyUpdate}></UserReview>
                     <hr></hr>
                 </>
@@ -126,37 +126,37 @@ class FeedbackModal extends Component {
         this.getFeedback()
     }
 
-    render () {
+    render() {
         return (
             <Modal
                 visible={this.props.visible}
                 handleClose={() => this.closeModal()}
                 heading={this.props.book.title}>
                 <>
-            { this.state.loading ? (
-                <div className="d-flex">
-                    <Spinner animation="border" />
-                    <p>Loading...</p>
-                </div>
-            ): (
-             
-               <>
-                   { this.state.noBook ? (<div>
-                       <p>This book has not been added to BookReader yet</p>
-                       <p>No ratings and reviews to show</p>
-                   </div>) :(
-                    <>
-                    {this.getUserFeedback()}
-                    <h5> All Reviews</h5>
-                    <Rating likeCount={this.state.likeCount} 
-                            dislikeCount={this.state.dislikeCount}>
-                    </Rating>
-                    {this.getReviewList()}
-                    </>
-                   )}
-                   </>
-            )}
-        </>   
+                    { this.state.loading ? (
+                        <div className="d-flex">
+                            <Spinner animation="border" />
+                            <div className="loader"></div>
+                        </div>
+                    ) : (
+
+                            <>
+                                { this.state.noBook ? (<div>
+                                    <p>This book has not been added to BookReader yet</p>
+                                    <p>No ratings and reviews to show</p>
+                                </div>) : (
+                                        <>
+                                            {this.getUserFeedback()}
+                                            <h5> All Reviews</h5>
+                                            <Rating likeCount={this.state.likeCount}
+                                                dislikeCount={this.state.dislikeCount}>
+                                            </Rating>
+                                            {this.getReviewList()}
+                                        </>
+                                    )}
+                            </>
+                        )}
+                </>
             </Modal>
         )
     }

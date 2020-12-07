@@ -129,12 +129,37 @@ const getFeedbacks = async (req, res) => {
         res.sendStatus(500)
     }
 
-
 }
+
+const addTopFavoriteBooks = async (req, res) => {
+    const username = req.cookies.username;
+
+    const owner = await User.findOne({ username: username });
+    const books_isbn = req.body.isbns;
+   
+    if (books_isbn===[]) res.status(400);
+
+    try {
+        let i;
+        for (i = 0; i < books_isbn.length; i++) {
+            var flyweight = await BookFlyweight.get(books_isbn[i]);
+            var book = await Book.findOne({ flyweight: flyweight, owner: owner });
+            // if (!book) { book = await Book.createBook(flyweight, owner) }
+            await Bookshelves.addBookToBookshelf(owner, 'topFavorites', book);
+        }
+        res.status(201);
+
+    } catch(err) {
+        console.log(err);
+        res.status(500);
+    }
+}
+
 
 module.exports = {
     getBooks,
     addBookToBookshelf,
     getFeedbacks,
+    addTopFavoriteBooks,
     removeBookFromBookshelf
 }

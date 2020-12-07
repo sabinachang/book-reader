@@ -23,15 +23,15 @@ class Library extends Component {
         this.apiCount = 0
     }
 
-    checkLoadingDone =  () => {
+    checkLoadingDone = () => {
 
-        this.apiCount ++;
+        this.apiCount++;
         if (this.apiCount === 5) {
-            this.setState({loading: false})
+            this.setState({ loading: false })
             this.apiCount = 0
         }
     }
-    componentDidMount =  () => {
+    componentDidMount = () => {
         getBooksInBookshelf("wantToRead", (data) => {
             this.setState({ wantToRead: data })
             this.checkLoadingDone()
@@ -56,81 +56,77 @@ class Library extends Component {
             this.setState({ recommendations: data })
             this.checkLoadingDone()
         })
-        
+
     }
-    
+
 
     handleReading = () => {
-        this.setState({booksDisplay: this.state.reading, selectedShelf:'Reading'})
+        this.setState({ booksDisplay: this.state.reading, selectedShelf: 'Reading' })
     }
 
     handleWantToRead = () => {
-        this.setState({booksDisplay: this.state.wantToRead, selectedShelf:'WantToRead'})
+        this.setState({ booksDisplay: this.state.wantToRead, selectedShelf: 'WantToRead' })
     }
 
     handleRead = () => {
-        this.setState({booksDisplay: this.state.read, selectedShelf:'Read'})
+        this.setState({ booksDisplay: this.state.read, selectedShelf: 'Read' })
     }
 
     handleRecommendation = () => {
-        this.setState({booksDisplay: this.state.recommendations, selectedShelf:'Recommendations'})
+        this.setState({ booksDisplay: this.state.recommendations, selectedShelf: 'Recommendations' })
     }
 
     handleFavroite = () => {
-        this.setState({booksDisplay: this.state.favorites, selectedShelf:'Favorites'})
+        this.setState({ booksDisplay: this.state.favorites, selectedShelf: 'Favorites' })
     }
 
     onReload = () => {
-        window.location.reload() 
+        window.location.reload()
     }
 
 
     render() {
         return (
             <div>
-                <Nav1/>
+                <Nav1 />
                 <div className="d-flex row justify-content-center mt-4 mb-6">
 
                     <div className="col-9">
                         <h4>Your Books</h4>
-                        {this.state.loading ? (
-                            <div>
-                                <p> Loading...</p>
-                            </div>
-                        ) : (
+                        {this.state.loading ? <div className="loader"></div> : (
                             <>
-                        <div className="mt-3">
-                            <span onClick={this.handleReading} className="bookshelf-library px-3 py-2 mr-2 mb-3">
-                                <FontAwesomeIcon icon={faBookmark} className="mr-2"/>Reading</span>
-                            <span onClick={this.handleWantToRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
-                                <FontAwesomeIcon icon={faStream} className="mr-2"/>Want to Read</span>
-                            <span onClick={this.handleRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
-                                <FontAwesomeIcon icon={faBookReader} className="mr-2"/>Read</span>
-                            <span onClick={this.handleRecommendation} className="bookshelf-library px-3 py-2 mr-2 mb-3">
-                                <FontAwesomeIcon icon={faUserFriends} className="mr-2"/>Recommendations</span>
-                            <span onClick={this.handleFavroite} className="bookshelf-library px-3 py-2 mr-2 mb-3">
-                                <FontAwesomeIcon icon={faHeart} className="mr-2"/>Favorites</span>
-                        </div>
+                                <div className="mt-3">
+                                    <span onClick={this.handleReading} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                                        <FontAwesomeIcon icon={faBookmark} className="mr-2" />Reading</span>
+                                    <span onClick={this.handleWantToRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                                        <FontAwesomeIcon icon={faStream} className="mr-2" />Want to Read</span>
+                                    <span onClick={this.handleRead} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                                        <FontAwesomeIcon icon={faBookReader} className="mr-2" />Read</span>
+                                    <span onClick={this.handleRecommendation} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                                        <FontAwesomeIcon icon={faUserFriends} className="mr-2" />Recommendations</span>
+                                    <span onClick={this.handleFavroite} className="bookshelf-library px-3 py-2 mr-2 mb-3">
+                                        <FontAwesomeIcon icon={faHeart} className="mr-2" />Favorites</span>
+                                </div>
 
-                        <div>
-                            {this.state.booksDisplay.map(book => (
-                                <Book
-                                    key={book.isbn}
-                                    title={book.title}
-                                    author={book.author}
-                                    description={book.description}
-                                    img={book.thumbnail}
-                                    isbn={book.isbn}
-                                    options="card-half"
-                                    page='library'
-                                    bookshelf={this.state.selectedShelf}
-                                    pageCount={book.pageCount}
-                                    showUserFeedback={true}
-                                    onReload={this.onReload}
-                                />
-                            ))}  
-                        </div>
-                      
+                                <div>
+                                    {this.state.booksDisplay.map(book => (
+                                        <Book
+                                            key={book.isbn}
+                                            title={book.title}
+                                            author={book.author}
+                                            description={book.description}
+                                            img={book.thumbnail}
+                                            isbn={book.isbn}
+                                            options="card-half"
+                                            page='library'
+                                            bookshelf={this.state.selectedShelf}
+                                            pageCount={book.pageCount}
+                                            showUserFeedback={true}
+                                            onReload={this.onReload}
+                                        />
+                                    ))}
+                                </div>
+
                             </>
                         )}
                     </div>
