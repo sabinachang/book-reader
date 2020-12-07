@@ -1,0 +1,22 @@
+
+
+.book-wrapper {
+    width: 18%;
+    margin-right: 2%;
+    float: left;
+}
+
+.book{  
+    background-size: cover;
+    width: 100%;
+}
+
+.book-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 7px #e4e6dc;
+}
+
+.book-card:hover {
+    background-color: rgb(240, 240, 240);
+}

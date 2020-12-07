@@ -143,4 +143,5 @@ code {
 
 .border-dark {
   border-color: #739816!important;
+  box-shadow: 3px 3px 7px 0px #e8ecdf;
 }

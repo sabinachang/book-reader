@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.card {
+    width: 100%;
+}
+
 .wall-bg {
     background: #f7f7f7;
 }
@@ -12,4 +16,16 @@
 
 .card-footer {
     background-color: rgb(243 245 240);
+}
+
+h6 {
+    color: #739816;
+}
+
+.public-wall {
+    display: none;
+}
+
+.private-wall {
+    display: block;
 }

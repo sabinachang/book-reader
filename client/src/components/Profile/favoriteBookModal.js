@@ -13,7 +13,7 @@ class FavoriteBookModal extends React.Component {
             favorites: [],
             selected: [],
         }
-        this.apiCount = 0
+        this.apiCount = 0;
     }
 
     checkLoadingDone =  () => {
@@ -27,6 +27,7 @@ class FavoriteBookModal extends React.Component {
     retreiveFavoriteBooks = () => {
         getBooksInBookshelf("favorites", (data) => {
             this.setState({ favorites: data })
+            this.setState({active: false});
             this.checkLoadingDone()
         })
     }
@@ -35,9 +36,10 @@ class FavoriteBookModal extends React.Component {
         window.location.reload() 
     }
 
-    handleSelect = (e) => {
+    onClickBook = () => {
         //TODO: Add books to selected array
         
+
     }
 
     submitSettings = () => {
@@ -61,24 +63,24 @@ class FavoriteBookModal extends React.Component {
                             <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
                         </span>
                     </div>
-
-                    {this.state.favorites.map(book => (
-                        <Book
-                            key={book.isbn}
-                            title={book.title}
-                            author={book.author}
-                            description={book.description}
-                            img={book.thumbnail}
-                            isbn={book.isbn}
-                            options="card-full"
-                            page='profile'
-                            bookshelf={this.state.selectedShelf}
-                            pageCount={book.pageCount}
-                            showUserFeedback={true}
-                            onReload={this.onReload}
-                            onClick={this.handleSelect}
-                        />
-                    ))} 
+                    
+                        {this.state.favorites.map(book => (
+                            <Book
+                                key={book.isbn}
+                                title={book.title}
+                                author={book.author}
+                                description={book.description}
+                                img={book.thumbnail}
+                                isbn={book.isbn}
+                                options="card-full"
+                                page='profile'
+                                bookshelf={this.state.selectedShelf}
+                                pageCount={book.pageCount}
+                                showUserFeedback={true}
+                                onReload={this.onReload}
+                            />
+                        ))} 
+                    
                 </div>
             </Modal>
         )

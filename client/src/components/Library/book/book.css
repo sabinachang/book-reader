@@ -16,7 +16,7 @@ h1 {
 }
 
 .book-not-selected {
-    border: 1px solid gainsboro;
+    border: 0px solid gainsboro;
 }
 
 .book-selected {
