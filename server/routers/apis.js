@@ -34,5 +34,4 @@ module.exports = express
     .get('/wall/:id/comments', auth.authenticateUser, wallController.getComments)
     .get('/privacy/:username/:privacyType', auth.authenticateUser, privacyController.getSettingsForPrivacyType)
     .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings)
-    // .get('/library/favorites', auth.authenticateUser, bookshelfController.getBooks)
-    .post('/library/topfavorites', authenticateUser, bookshelfController.addTopFavoriteBooks);
+    .post('/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBooks);

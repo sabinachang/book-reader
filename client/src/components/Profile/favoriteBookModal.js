@@ -37,12 +37,26 @@ class FavoriteBookModal extends React.Component {
 
     handleSelect = (e) => {
         //TODO: Add books to selected array
+        console.log('click')
+        // add book.isbn to this.state selected
+
         
     }
 
     submitSettings = () => {
         //TODO: Post favorite books to backend
         console.log('submit');
+        axios.post(`/api/topfavorites`, {isbns: this.state.selected}, { withCredentials: true })
+        .then((res) => {
+            if (res.status === 201) {
+                console.log('finish selected');
+            } else {
+                console.log('error');
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     render() {
@@ -72,13 +86,15 @@ class FavoriteBookModal extends React.Component {
                             isbn={book.isbn}
                             options="card-full"
                             page='profile'
-                            bookshelf={this.state.selectedShelf}
+                            bookshelf='topfavorites'
                             pageCount={book.pageCount}
                             showUserFeedback={true}
                             onReload={this.onReload}
                             onClick={this.handleSelect}
                         />
                     ))} 
+     
+
                 </div>
             </Modal>
         )
