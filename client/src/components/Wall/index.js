@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Post from './post'
+import NoPost from './nopost'
 import axios from 'axios'
 import { getCookie } from '../../helper'
 import Nav1 from '../Common/nav1/Nav1';
@@ -9,26 +10,30 @@ import './wall.css';
 class Wall extends Component {
     state = {
         posts: [],
-        isUserWall: false,
-        loading: true,
+        loading: "",
+        noPostsFound: "",
+        isLoggedIn: true
     }
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
-                this.setState({ posts: posts.data, loading: false })
-                if (getCookie('username') === name) {
-                    this.setState({ isUserWall: true })
+                if (posts.data.length > 0) {
+                    this.setState({ posts: posts.data, loading: false })
+                } else {
+                    this.setState({ noPostsFound: "No Posts Found", loading: false })
                 }
             })
             .catch((response) => {
-                if (response.message.includes("404")) {
-                    alert(`${name} is not a registered user.`)
+                if (response.message.includes("401") || name === 'null') {
+                    this.setState({ loading: false, noPostsFound: `You are not currently signed in. Please click to login or register.`, isLoggedIn: false })
                 } else if (response.message.includes("403")) {
-                    alert(`${name}'s privacy settings prevents you from seeing their profile.`)
+                    this.setState({ loading: false, noPostsFound: `${name}'s privacy settings prevents you from seeing their profile.` })
+                } else if (response.message.includes("404")) {
+                    this.setState({ loading: false, noPostsFound: `${name} is not a registered user.` })
+
                 }
-                this.setState({ loading: false })
             })
 
     }
@@ -63,6 +68,7 @@ class Wall extends Component {
                                 timestamp={post.timestamp}
                             />
                         ))}
+                        {this.state.noPostsFound && <NoPost text={this.state.noPostsFound} isLoggedIn={this.state.isLoggedIn} />}
                     </div>
                 </div>
             </div>

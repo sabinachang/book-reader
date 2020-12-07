@@ -48,8 +48,12 @@ class SearchView extends Component {
 				}
 			})
 			.catch((err) => {
-				this.setState({ searchLoading: false });
 				console.log(err);
+				if (err.message.includes("401")) {
+					this.setState({ searchLoading: false });
+				} else {
+					this.setState({ searchLoading: false });
+				}
 			})
 	}
 
@@ -59,7 +63,6 @@ class SearchView extends Component {
 	}
 
 	handleInputChange = e => {
-
 		this.setState({ [e.target.name]: e.target.value });
 	}
 

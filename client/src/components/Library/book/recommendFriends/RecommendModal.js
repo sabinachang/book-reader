@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '../../../Common/modal/Modal'
 import FriendList from './friendList';
+import NoPost from '../../../Wall/nopost';
 import axios from 'axios';
 
 class RecommendModal extends React.Component {
@@ -11,11 +12,20 @@ class RecommendModal extends React.Component {
             showResult: false,
             result: {},
             loading: false,
+            isAuthenticated: true
         }
     }
 
+    componentDidMount = () => {
+        axios.get('http://localhost:5000/api/users/authenticate', {
+            withCredentials: true
+        })
+            .then()
+            .catch(() => this.setState({ isAuthenticated: false }))
+    }
+
     closeModal = () => {
-        this.setState ({
+        this.setState({
             showResult: false,
             result: {},
             loading: false,
@@ -37,13 +47,13 @@ class RecommendModal extends React.Component {
             isbn: this.props.bookInfo.isbn,
             pageCount: this.props.bookInfo.pageCount,
             to: data.friendId,
-        }).then ((res) => {
+        }).then((res) => {
             this.setState({
                 showResult: true,
                 result: res.data,
                 loading: false,
             })
-        }).catch ((err) => {
+        }).catch((err) => {
             console.log(err);
         });
     }
@@ -52,24 +62,27 @@ class RecommendModal extends React.Component {
         if (this.state.loading) {
             return <p>Processing recommendation...</p>
         }
+        if (!this.state.isAuthenticated) {
+            return <NoPost isLoggedIn={false} text="You must login to add a book to recommend a book to a friend." />
+        }
 
         if (this.state.showResult === true) {
             return <p>{this.state.result.message}</p>
         } else {
             return <FriendList
-            bookTitle={this.props.bookInfo.title}
-            recommendBook={this.recommendBook}/>
+                bookTitle={this.props.bookInfo.title}
+                recommendBook={this.recommendBook} />
         }
     }
 
     render() {
-            const heading = (this.state.showResult) ? this.state.result.status: "Which friend are you sending this book to?"
-            const contentUI = this.getContentUI();
-            return (<Modal
+        const heading = (this.state.showResult) ? this.state.result.status : "Which friend are you sending this book to?"
+        const contentUI = this.getContentUI();
+        return (<Modal
             visible={this.props.visible}
             handleClose={() => this.closeModal()}
             heading={heading}>
-            { contentUI}    
+            { contentUI}
         </Modal>)
     }
 }

@@ -23,7 +23,7 @@ const getBooksInBookshelf = (bookshelf_name, callback) => {
             callback(res.data)
         })
         .catch((err) => {
-            console.log(err);
+            callback(err);
         })
 }
 

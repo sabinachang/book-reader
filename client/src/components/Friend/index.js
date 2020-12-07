@@ -6,6 +6,7 @@ import Friend from './friendship/friend';
 import Candidate from './friendship/candidate';
 import Invitation from './friendship/invititation';
 import SearchInputForm from '../Common/searchBar/SearchInputForm';
+import NoPost from '../Wall/nopost';
 import Nav1 from '../Common/nav1/Nav1';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltLeft, faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +17,7 @@ class FriendHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isAuthenticated: true,
             search: '',
             loading: true,
             loadingMsg: 'Loading...',
@@ -49,6 +51,9 @@ class FriendHome extends Component {
             })
             .catch((err) => {
                 console.log(err);
+                if (err.message.includes('401')) {
+                    this.setState({ isAuthenticated: false, loading: false })
+                }
             })
     }
 
@@ -105,8 +110,6 @@ class FriendHome extends Component {
     }
 
     handelAction = (action, to) => {
-        console.log(action)
-        console.log(to)
         axios.post(`/api/friends/invitation/${action}`, {
             to: to,
             request_type: "friendship-" + action
@@ -181,7 +184,17 @@ class FriendHome extends Component {
                 )
             }
         }
-        return candidatesUI;
+        return <div>
+            <SearchInputForm
+                search={this.state.search}
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
+                handleKeyPress={this.handleKeyPress}
+                placeholder={'Search for usernames...'}
+            /> {candidatesUI}
+        </div>
+
+            ;
     }
 
     setInvitationsUI = () => {
@@ -234,11 +247,14 @@ class FriendHome extends Component {
         }
     }
 
-    render() {
-        const friendsUI = this.setFriendsUI();
+    getNoPost = () => {
+        return <NoPost isLoggedIn={false} text={"Please login to manage your friendships. Click here to login or register."} />
+    }
 
-        const candidatesUI = this.setCandidatesUI();
-        const invitationsUI = this.setInvitationsUI();
+    render() {
+        const friendsUI = !this.state.isAuthenticated ? this.getNoPost() : this.setFriendsUI();
+        const candidatesUI = !this.state.isAuthenticated ? this.getNoPost() : this.setCandidatesUI();
+        const invitationsUI = !this.state.isAuthenticated ? this.getNoPost() : this.setInvitationsUI();
         return (
             <div>
                 <Nav1 />
@@ -256,13 +272,6 @@ class FriendHome extends Component {
                                         )}
                                 </Tab>
                                 <Tab className='my-4' eventKey="add" title="Add friends">
-                                    <SearchInputForm
-                                        search={this.state.search}
-                                        handleInputChange={this.handleInputChange}
-                                        handleFormSubmit={this.handleFormSubmit}
-                                        handleKeyPress={this.handleKeyPress}
-                                        placeholder={'Search for usernames...'}
-                                    />
                                     {this.state.loading ? (
                                         <h5>{this.state.loadingMsg}</h5>
                                     ) : (

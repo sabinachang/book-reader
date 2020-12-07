@@ -66,10 +66,12 @@ class Post extends Component {
                 }
             })
             .catch((response) => {
-                const name = this.props.match.params.wall_id
+                var name = this.props.match.params.wall_id;
+                name = name === "home" ? "This user" : name;
                 if (response.message.includes("404")) {
                     alert(`${name} is not a registered user.`)
                 } else if (response.message.includes("403")) {
+                    console.log(JSON.stringify(response))
                     alert(`${name}'s privacy settings prevents you from commenting on their posts.`)
                 }
                 this.setState({ newCommentLoading: false })
@@ -103,7 +105,8 @@ class Post extends Component {
                 }
             })
             .catch((response) => {
-                const name = this.props.match.params.wall_id
+                var name = this.props.match.params.wall_id;
+                name = name === "home" ? "This user" : name;
                 if (response.message.includes("404")) {
                     alert(`${name} is not a registered user.`)
                 } else if (response.message.includes("403")) {
