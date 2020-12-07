@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '../Common/modal/Modal'
 import { getBooksInBookshelf } from '../Library/helper/utils'
 import Book from '../Library/book/book'
+import SimpleBook from '../Library/book/simpleBook'
 import axios from 'axios'
 
 
@@ -69,7 +70,7 @@ class FavoriteBookModal extends React.Component {
             <Modal
                 visible={visible}
                 handleClose={handleClose}
-                heading="Select your favorite books">
+                heading="Select your top books">
                 <div>
                     <div className="d-flex justify-content-between">
                         <p>Select up to 5 books</p>
@@ -79,20 +80,10 @@ class FavoriteBookModal extends React.Component {
                     </div>
 
                     {this.state.favorites.map(book => (
-                        <Book
-                            key={book.isbn}
+                        <SimpleBook
                             title={book.title}
-                            author={book.author}
-                            description={book.description}
                             img={book.thumbnail}
-                            isbn={book.isbn}
-                            options="card-full"
-                            page='profile'
-                            bookshelf='topfavorites'
-                            pageCount={book.pageCount}
-                            showUserFeedback={true}
-                            onReload={this.onReload}
-                            onClick={this.handleSelect}
+                            onClick={this.onClickBook}
                         />
                     ))} 
                 </div>

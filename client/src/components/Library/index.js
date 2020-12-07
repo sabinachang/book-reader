@@ -12,7 +12,7 @@ class Library extends Component {
         super(props)
         this.state = {
             loading: true,
-            selectedShelf: '',
+            selectedShelf: 'Reading',
             wantToRead: [],
             reading: [],
             read: [],
@@ -108,7 +108,7 @@ class Library extends Component {
                                         <FontAwesomeIcon icon={faHeart} className="mr-2" />Favorites</span>
                                 </div>
 
-                                <div>
+                                <div className="mb-4">
                                     {this.state.booksDisplay.map(book => (
                                         <Book
                                             key={book.isbn}

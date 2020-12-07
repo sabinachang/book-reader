@@ -3,7 +3,6 @@ import Post from './post'
 import axios from 'axios'
 import { getCookie } from '../../helper'
 import Nav1 from '../Common/nav1/Nav1';
-import Modal from '../Common/modal/Modal'
 import BookCard from './bookCard';
 import './wall.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,7 +65,7 @@ class Wall extends Component {
                             <div className="mb-4 pb-2">
                                 <div className="d-flex justify-content-between">
                                     <span><h6><FontAwesomeIcon icon={faBookReader} className="mr-2"/>{this.getFavoriteName()}</h6></span>
-                                    <span onClick={this.handleReading} className="bookshelf-library px-3 py-2">
+                                    <span className="bookshelf-library px-3 py-2">
                                         <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>About</span>
                                 </div>
                                 

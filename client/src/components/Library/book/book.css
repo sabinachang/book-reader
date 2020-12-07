@@ -47,6 +47,29 @@ h1 {
     height: 225px;
 }
 
+.simple-card-body {
+    width: 48%;
+    margin-right: 2%;
+    float: left;
+    height: 281px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.selected-card-body {
+    width: 48%;
+    margin-right: 2%;
+    float: left;
+    height: 281px;
+    background: #edefe9;
+    border: 2px solid #a3ad88;
+    border-radius: 10px;
+}
+
+.simple-card-title {
+    text-align: center;
+}
+
 .card-title {
     max-height: 20%;
     overflow-y: hidden;

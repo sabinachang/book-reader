@@ -66,7 +66,7 @@ class Profile extends Component {
             <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
               <span className="custom-btn">
                 <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
-                <h6 className="mt-2 ml-3">Edit Favorite Books</h6>
+                <h6 className="mt-2 ml-3">Your Top Books</h6>
               </span>
             </span>
 
