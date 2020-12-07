@@ -152,7 +152,7 @@ class Book extends Component {
                 <Dropdown >
                     <div className="book-info">
                         <div className={this.props.options}>
-                            <div className="card-body">
+                            <div className="card-body book-not-selected">
                                 <span><div className="book" style={{ backgroundImage: this.state.img }}></div></span>
                                 <span className="ml-3">
                                     <h6 className="card-title">{this.state.title}</h6>

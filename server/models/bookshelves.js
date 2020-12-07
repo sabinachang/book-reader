@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
     wantToRead: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
     read: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
-    recommendations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+    recommendations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    topFavorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
 schema.statics.getBooks = async function (u, bookshelf) {
@@ -17,7 +18,7 @@ schema.statics.getBooks = async function (u, bookshelf) {
     let bookshelfObj = await this.findOne({ _id: bookshelfId })
 
     if (!bookshelfObj) {
-        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [] });
+        bookshelfObj = await this.create({ reading: [], wantToRead: [], read: [], favorites: [], topFavorites: [] });
         user.bookshelves = bookshelfObj;
         await user.save()
     }
@@ -37,6 +38,9 @@ schema.statics.getBooks = async function (u, bookshelf) {
             break;
         case "recommendations":
             result = bookshelfObj.recommendations
+            break;
+        case "topFavorites":
+            result = bookshelfObj.topFavorites
             break;
         default:
             throw "Non Existent Bookshelf"
@@ -94,6 +98,9 @@ schema.statics.addBook = function (bookshelf, book, bookshelfObj) {
             break
         case "recommendations":
             this.addBookHelper(bookshelfObj.recommendations, book)
+            break;
+        case "topFavorites":
+            this.addBookHelper(bookshelfObj.topFavorites, book)
             break;
         default:
             throw "Non Existent Bookshelf"
@@ -154,26 +161,5 @@ schema.statics.removeBook = async function (u, bookshelf, book) {
 
 }
 
-    
-//     const bookshelfId = user.bookshelves;
-//     var bookshelfObj = await this.findOne({ _id: bookshelfId })
-
-//     switch (bookshelf.toLowerCase()) {
-//         case "reading":
-//             break;
-//         case "wanttoread":
-//             break;
-//         case "read":
-//             break;
-//         case "favorites":
-//             this.removeFromBookshelf(bookshelfObj.favorites, book)
-//             break
-//         case "recommendations":
-//             break;
-
-//         default:
-//             throw "Non Existent Bookshelf"
-//     }
-//     await bookshelfObj.save()
 
 module.exports = mongoose.model('Bookshelves', schema);

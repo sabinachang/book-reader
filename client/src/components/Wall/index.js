@@ -4,7 +4,10 @@ import NoPost from './nopost'
 import axios from 'axios'
 import { getCookie } from '../../helper'
 import Nav1 from '../Common/nav1/Nav1';
+import BookCard from './bookCard';
 import './wall.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookReader, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 class Wall extends Component {
@@ -12,7 +15,8 @@ class Wall extends Component {
         posts: [],
         loading: "",
         noPostsFound: "",
-        isLoggedIn: true
+        isLoggedIn: true,
+        private: false
     }
 
     componentDidMount = () => {
@@ -47,6 +51,13 @@ class Wall extends Component {
         }
     }
 
+    getFavoriteName = () => {
+        const name = this.props.match.params.wall_id
+        if (name.toLowerCase() !== 'home') {
+            return name[0].toUpperCase() + name.substr(1).toLowerCase() + "'s Favorite Books"
+        }
+    }
+
     render() {
         return (
             <div className="wall-bg">
@@ -54,6 +65,29 @@ class Wall extends Component {
                 <div className="d-flex row justify-content-center mt-4 mb-6">
                     <div className="col-7">
                         <h4 className="mb-4 mt-3">{this.getWallName()}</h4>
+                        
+                        <div className={this.props.match.params.wall_id === 'home'? "public-wall" : "private-wall"}>
+                            <div className="mb-4 pb-2">
+                                <div className="d-flex justify-content-between">
+                                    <span><h6><FontAwesomeIcon icon={faBookReader} className="mr-2"/>{this.getFavoriteName()}</h6></span>
+                                    <span className="bookshelf-library px-3 py-2">
+                                        <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>About</span>
+                                </div>
+                                
+                                <div className="bookcard-wrapper">
+                                    <BookCard
+                                        title="Harry Potter And The Chamber Of Secrets"
+                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
+                                    />
+                                    <BookCard
+                                        title="Harry Potter And The Chamber Of Secrets"
+                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+
                         {this.state.loading && <div className="loader"></div>}
                         {this.state.posts.map((post) => (
                             <Post

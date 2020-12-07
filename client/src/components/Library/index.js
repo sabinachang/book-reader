@@ -12,8 +12,8 @@ class Library extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            loading: "loading",
-            selectedShelf: '',
+            loading: true,
+            selectedShelf: 'Reading',
             wantToRead: [],
             reading: [],
             read: [],

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     hash: String,
     salt: String,
     bookshelves: { type: mongoose.Schema.Types.ObjectId, ref: 'Bookshelves' },
-    privacySettings: { type: mongoose.Schema.Types.ObjectId, ref: 'PrivacySettings' }
+    privacySettings: { type: mongoose.Schema.Types.ObjectId, ref: 'PrivacySettings' },
 });
 
 const User = mongoose.model('User', userSchema);
