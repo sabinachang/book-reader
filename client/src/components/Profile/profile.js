@@ -13,11 +13,11 @@ import FavoriteBookModal from './favoriteBookModal'
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      modalVisible: false, 
-      isAuthenticated: true,
+    this.state = {
+      modalVisible: false,
+      isAuthenticated: null,
       privacyVisible: false,
-      favoriteBookVisible: false, 
+      favoriteBookVisible: false,
     }
   }
 
@@ -25,7 +25,7 @@ class Profile extends Component {
     axios.get('http://localhost:5000/api/users/authenticate', {
       withCredentials: true
     })
-      .then()
+      .then(() => this.setState({ isAuthenticated: true }))
       .catch(() => this.setState({ isAuthenticated: false }))
   }
 
@@ -85,12 +85,14 @@ class Profile extends Component {
           </PrivacyModal>
           <FavoriteBookModal
             visible={this.state.favoriteBookVisible}
+            isAuthenticated={this.state.isAuthenticated}
             handleClose={() => this.closeFavoriteBookModal()}>
           </FavoriteBookModal>
           <div className="d-flex row justify-content-center mt-4 mb-6">
             <div className="col-9">
               <h4 className="mb-3">User Profile</h4>
-              {this.state.isAuthenticated ? this.displayContent() : <NoPost isLoggedIn={false} text="Please login to view your profile. Click here to login or register." />}
+              {this.state.isAuthenticated === true ? this.displayContent() :
+                this.state.isAuthenticated === false ? <NoPost isLoggedIn={false} text="Please login to view your profile. Click here to login or register." /> : ""}
             </div>
           </div>
         </div>

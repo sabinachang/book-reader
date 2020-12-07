@@ -17,10 +17,10 @@ class FavoriteBookModal extends React.Component {
         this.apiCount = 0;
     }
 
-    checkLoadingDone =  () => {
-        this.apiCount ++;
+    checkLoadingDone = () => {
+        this.apiCount++;
         if (this.apiCount === 5) {
-            this.setState({loading: false})
+            this.setState({ loading: false })
             this.apiCount = 0
         }
     }
@@ -28,13 +28,13 @@ class FavoriteBookModal extends React.Component {
     retreiveFavoriteBooks = () => {
         getBooksInBookshelf("favorites", (data) => {
             this.setState({ favorites: data })
-            this.setState({active: false});
+            this.setState({ active: false });
             this.checkLoadingDone()
         })
     }
 
     onReload = () => {
-        window.location.reload() 
+        window.location.reload()
     }
 
     onClickBook = () => {
@@ -42,24 +42,24 @@ class FavoriteBookModal extends React.Component {
         console.log('click')
         // add book.isbn to this.state selected
 
-        
+
 
     }
 
     submitSettings = () => {
         //TODO: Post favorite books to backend
         console.log('submit');
-        axios.post(`/api/topfavorites`, {isbns: this.state.selected}, { withCredentials: true })
-        .then((res) => {
-            if (res.status === 201) {
-                console.log('finish selected');
-            } else {
-                console.log('error');
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        axios.post(`/api/topfavorites`, { isbns: this.state.selected }, { withCredentials: true })
+            .then((res) => {
+                if (res.status === 201) {
+                    console.log('finish selected');
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     render() {
@@ -79,13 +79,13 @@ class FavoriteBookModal extends React.Component {
                         </span>
                     </div>
 
-                    {this.state.favorites.map(book => (
+                    {this.props.isAuthenticated && this.state.favorites.map(book => (
                         <SimpleBook
                             title={book.title}
                             img={book.thumbnail}
                             onClick={this.onClickBook}
                         />
-                    ))} 
+                    ))}
                 </div>
             </Modal>
         )
