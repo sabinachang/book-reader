@@ -63,7 +63,7 @@ class Wall extends Component {
             <div className="wall-bg">
                 <Nav1 />
                 <div className="d-flex row justify-content-center mt-4 mb-6">
-                    <div className="col-7">
+                    <div className="col-8">
                         <h4 className="mb-4 mt-3">{this.getWallName()}</h4>
                         
                         <div className={this.props.match.params.wall_id === 'home'? "public-wall" : "private-wall"}>

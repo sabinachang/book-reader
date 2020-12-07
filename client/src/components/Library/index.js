@@ -97,7 +97,7 @@ class Library extends Component {
                 <Nav1 />
                 <div className="d-flex row justify-content-center mt-4 mb-6">
 
-                    <div className="col-9">
+                    <div className="col-9 mb-5">
                         <h4>Your Books</h4>
                         {this.state.loading === "loading" ? <div className="loader"></div> :
                             this.state.loading === "unauthenticated" ? <NoPost isLoggedIn={false} text={"Please login to see your library. Click here to login or register."} /> :
