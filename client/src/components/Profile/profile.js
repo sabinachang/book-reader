@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import axios from 'axios';
 import NoPost from '../Wall/nopost';
-import { faUsers, faKey, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faKey, faBook, faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import './profile.css';
 import PrivacyModal from './privacyModal'
 import FavoriteBookModal from './favoriteBookModal'
-
+import AboutModal from '../Wall/aboutModal'
+import { getCookie } from '../../helper'
 
 class Profile extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class Profile extends Component {
       isAuthenticated: null,
       privacyVisible: false,
       favoriteBookVisible: false,
-      favoriteBookVisibleDelete: false
+      favoriteBookVisibleDelete: false,
+      aboutModalVisible: false,
     }
   }
 
@@ -51,6 +53,13 @@ class Profile extends Component {
   closeDeleteFavoriteBookModal = () => {
     this.setState({ favoriteBookVisibleDelete: false })
   }
+  openAboutModal = () => {
+    this.setState({ aboutModalVisible: true })
+  }
+closeAboutModal = () => {
+    this.setState({ aboutModalVisible: false })
+  }
+
 
 
   displayContent = () => {
@@ -71,8 +80,31 @@ class Profile extends Component {
               <h6 className="mt-2 ml-3">Edit Privacy Settings</h6>
             </span>
           </span>
+
+          <span onClick={this.openAboutModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faUserCircle} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Edit Personal Description</h6>
+            </span>
+          </span>
         </div>
 
+        <div className="profile-group mb-3">
+          <h6 className="mb-3">Book Settings</h6>
+          <span onClick={this.openDeleteFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Your Current Top Books</h6>
+            </span>
+          </span>
+
+          <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Add Your Top Books</h6>
+            </span>
+          </span>
+        </div>
         <div className="profile-group mb-3">
           <h6 className="mb-3">Book Settings</h6>
           <span onClick={this.openDeleteFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
@@ -111,7 +143,14 @@ class Profile extends Component {
             isAuthenticated={this.state.isAuthenticated}
             handleClose={() => this.closeFavoriteBookModal()}>
           </FavoriteBookModal>
-
+          <AboutModal
+                    visible={this.state.aboutModalVisible}
+                    handleClose={() => this.closeAboutModal()}
+                    inProfile={true}
+                    viewable={true}
+                    targetUser={getCookie('username')}>
+                    
+                </AboutModal>
           <FavoriteBookModal
             func="delete"
             visible={this.state.favoriteBookVisibleDelete}

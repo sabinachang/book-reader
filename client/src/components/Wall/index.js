@@ -11,6 +11,7 @@ import './wall.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { getBooksInBookshelf } from '../Library/helper/utils'
+import AboutModal from './aboutModal';
 
 
 // const MenuItem = this.state.favorites.map(book => {
@@ -32,8 +33,17 @@ class Wall extends Component {
         noPostsFound: "",
         isLoggedIn: true,
         private: false,
-        favorites: []
+        favorites: [],
+        aboutModalVisible: false,
+        isAuthenticated:true,
     }
+
+    openAboutModal = () => {
+        this.setState({ aboutModalVisible: true })
+      }
+    closeAboutModal = () => {
+        this.setState({ aboutModalVisible: false })
+      }
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id
@@ -49,7 +59,7 @@ class Wall extends Component {
                 if (response.message.includes("401") || name === 'null') {
                     this.setState({ loading: false, noPostsFound: `You are not currently signed in. Please click to login or register.`, isLoggedIn: false })
                 } else if (response.message.includes("403")) {
-                    this.setState({ loading: false, noPostsFound: `${name}'s privacy settings prevents you from seeing their profile.` })
+                    this.setState({ loading: false, noPostsFound: `${name}'s privacy settings prevents you from seeing their profile.`, isAuthenticated:false })
                 } else if (response.message.includes("404")) {
                     this.setState({ loading: false, noPostsFound: `${name} is not a registered user.` })
 
@@ -86,6 +96,14 @@ class Wall extends Component {
         return (
             <div className="wall-bg">
                 <Nav1 />
+                <AboutModal
+                    visible={this.state.aboutModalVisible}
+                    handleClose={() => this.closeAboutModal()}
+                    inProfile={false}
+                    viewable={this.state.isAuthenticated}
+                    targetUser={this.props.match.params.wall_id}>
+                    
+                </AboutModal>
                 <div className="d-flex row justify-content-center mt-4 mb-6">
                     <div className="col-8">
                         <h4 className="mb-4 mt-3">{this.getWallName()}</h4>
@@ -94,7 +112,7 @@ class Wall extends Component {
                             <div className="mb-4 pb-2">
                                 <div className="d-flex justify-content-between">
                                     <span><h6><FontAwesomeIcon icon={faBookReader} className="mr-2"/>{this.getFavoriteName()}</h6></span>
-                                    <span className="bookshelf-library px-3 py-2">
+                                    <span className="bookshelf-library px-3 py-2" onClick={this.openAboutModal}>
                                         <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>About</span>
                                 </div>
                                 

@@ -7,6 +7,7 @@ const progressController = require('../controllers/progressController');
 const wallController = require('../controllers/wallController');
 const wallObserver = require('../middleware/wallObserver');
 const auth = require('../middleware/authentication');
+const UserController = require('../controllers/userController');
 
 module.exports = express
     .Router()
@@ -34,4 +35,6 @@ module.exports = express
     .get('/wall/:id/comments', wallController.getComments)
     .get('/privacy/:username/:privacyType', auth.authenticateUser, privacyController.getSettingsForPrivacyType)
     .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings)
-    .post('/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBook);
+    .post('/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBook)
+    .get('/users/description/:username', auth.authenticateUser, UserController.getDescription)
+    .post('/users/description/:username', auth.authenticateUser, UserController.updateDescription);
