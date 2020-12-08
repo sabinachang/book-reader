@@ -12,55 +12,67 @@ class SimpleBook extends Component {
         this.state = {
             isbn: props.isbn,
             title: props.title,
-            img: img
+            img: img,
+            func: props.func
         }
         this.style = 'simple-card-body p-3 mt-3'
     }
 
     handleOnclick = () => {
-        if(this.style === 'simple-card-body p-3 mt-3') {
-            this.style = 'selected-card-body p-3 mt-3'
-            console.log('post')
-            axios.post(`/api/topfavorites`, { isbn: this.state.isbn }, { withCredentials: true })
-                .then((res) => {
-                    console.log(res);
-                    if (res.status === 200) {
-                        console.log('finish selected');
-                    } else {
-                        console.log('error');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+        console.log(this.state.func)
+        if (this.state.func === 'add') {
+            if (this.style === 'simple-card-body p-3 mt-3') {
+                this.style = 'selected-card-body p-3 mt-3';
+                this.handleAddBook();
 
+            } else {
+                this.style = 'simple-card-body p-3 mt-3';
+                this.handleRemoveBook();
+            }  
         } else {
-            this.style = 'simple-card-body p-3 mt-3'
-            console.log('remove')
+            if (this.style === 'simple-card-body p-3 mt-3') {
+                this.style = 'selected-card-body p-3 mt-3';
+                this.handleRemoveBook();
+            }
         }
 
     }
-    getTopFavoriteBooks = () => {
-        getBooksInBookshelf("topfavorites", (data) => {
-            this.setState({ favorites: data })
+
+    handleAddBook = () => {
+        axios.post(`/api/topfavorites`, 
+            { isbn: this.state.isbn }, 
+            { withCredentials: true })
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log('finish selected');
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    handleRemoveBook = () => {
+        console.log('remove', this.state.isbn);
+        axios.put('/api/library/topfavorites',
+            {isbn: this.state.isbn},
+            {withCredentials: true
+        }).then((res) => {
+            if (res.status === 201) {
+                console.log('success delete')
+            } else {
+                console.log('remove err');
+            }
+        }).catch((err) => {
+            console.log(err);
         })
     }
 
-    handleStyle = () => {
-        getBooksInBookshelf("topfavorites", (data) => {
-            console.log('er', data)
-            let i;
-            for (i=0; i<data.length; i++){
-                if (data[i].isbn === this.state.isbn) {
-                    this.style = 'selected-card-body p-3 mt-3'
-                    break
-                }
-            }
-        })
-    }
 
     render() {
-        // this.handleStyle();
         return(
             <div>
                 <div className={this.style} onClick={this.handleOnclick}>

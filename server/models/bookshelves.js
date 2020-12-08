@@ -151,9 +151,13 @@ schema.statics.removeBook = async function (u, bookshelf, book) {
             break;
         case "favorites":
             this.removeFromBookshelf(bookshelfObj.favorites, book);
+            this.removeFromBookshelf(bookshelfObj.topFavorites, book);
             break;
         case "recommendations":
             this.removeFromBookshelf(bookshelfObj.recommendations, book);
+            break;
+        case "topfavorites":
+            this.removeFromBookshelf(bookshelfObj.topFavorites, book);
             break;
         default:
             throw "Non Existent Bookshelf"

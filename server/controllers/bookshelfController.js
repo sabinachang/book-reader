@@ -60,6 +60,7 @@ const addBookToBookshelf = async (req, res) => {
 }
 
 const removeBookFromBookshelf = async (req, res) => {
+    console.log('ddd', req.params.bookshelf, req.body.isbn, req.cookies.username)
     if (req.cookies.username && req.params.bookshelf && req.body.isbn) {
         const username = req.cookies.username;
         const owner = await User.findOne({ username: username });
@@ -94,6 +95,7 @@ const removeBookFromBookshelf = async (req, res) => {
             res.sendStatus(500);
         }
     } else {
+        console.log('sdfads')
         res.sendStatus(500)
     }
 

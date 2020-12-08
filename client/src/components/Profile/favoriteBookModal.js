@@ -13,6 +13,7 @@ class FavoriteBookModal extends React.Component {
             loading: true,
             favorites: [],
             selected: [],
+            head: ''
         }
         this.apiCount = 0;
     }
@@ -26,38 +27,56 @@ class FavoriteBookModal extends React.Component {
     }
 
     retreiveFavoriteBooks = () => {
-        getBooksInBookshelf("favorites", (data) => {
-            this.setState({ favorites: data })
-            this.setState({ active: false });
-            this.checkLoadingDone()
-        })
+        if (this.props.func === "add") {
+            getBooksInBookshelf("favorites", (data) => {
+                this.setState({ favorites: data })
+                this.setState({ active: false });
+                this.checkLoadingDone()
+            })
+        } else if (this.props.func === "delete") {
+            getBooksInBookshelf("topFavorites", (data) => {
+                this.setState({ favorites: data })
+                this.setState({ active: false });
+                this.checkLoadingDone()
+            })        
+        }
+
     }
 
     onReload = () => {
         window.location.reload()
     }
 
-    onClickBook = (e) => {
-        e.preventDefault();
-        console.log('click!!!');
+    onClickBook = () => {
+        console.log('click');
     }
 
     submitSettings = () => {
         this.props.handleClose();
     }
 
+    getHead = () => {
+        if (this.props.func === "add"){
+            this.head = "Add your top books";
+        } else {
+            this.head = "Delete your top books";
+        }
+        
+    }
+
     render() {
         const visible = this.props.visible;
         const handleClose = this.props.handleClose;
         this.retreiveFavoriteBooks();
+        this.getHead();
         return (
             <Modal
                 visible={visible}
                 handleClose={handleClose}
-                heading="Select your top books">
+                heading={this.head}>
                 <div>
                     <div className="d-flex justify-content-between">
-                        <p>Select up to 5 books</p>
+                        <p>Click to Select</p>
                         <span>
                             <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
                         </span>
@@ -70,6 +89,7 @@ class FavoriteBookModal extends React.Component {
                             isbn={book.isbn}
                             title={book.title}
                             img={book.thumbnail}
+                            func={this.props.func}
                             onClick={this.onClickBook}
                         />
   

@@ -18,6 +18,7 @@ class Profile extends Component {
       isAuthenticated: null,
       privacyVisible: false,
       favoriteBookVisible: false,
+      favoriteBookVisibleDelete: false
     }
   }
 
@@ -44,6 +45,13 @@ class Profile extends Component {
   closeFavoriteBookModal = () => {
     this.setState({ favoriteBookVisible: false })
   }
+  openDeleteFavoriteBookModal = () => {
+    this.setState({ favoriteBookVisibleDelete: true })
+  }
+  closeDeleteFavoriteBookModal = () => {
+    this.setState({ favoriteBookVisibleDelete: false })
+  }
+
 
   displayContent = () => {
     return (
@@ -65,7 +73,14 @@ class Profile extends Component {
         <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
           <span className="custom-btn">
             <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
-            <h6 className="mt-2 ml-3">Your Top Books</h6>
+            <h6 className="mt-2 ml-3">Add Top Favorite Books</h6>
+          </span>
+        </span>
+
+        <span onClick={this.openDeleteFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
+          <span className="custom-btn">
+            <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
+            <h6 className="mt-2 ml-3">Delete Top Favorite Books</h6>
           </span>
         </span>
       </div>
@@ -84,10 +99,19 @@ class Profile extends Component {
             handleClose={() => this.closePrivacyModal()}>
           </PrivacyModal>
           <FavoriteBookModal
+            func="add"
             visible={this.state.favoriteBookVisible}
             isAuthenticated={this.state.isAuthenticated}
             handleClose={() => this.closeFavoriteBookModal()}>
           </FavoriteBookModal>
+
+          <FavoriteBookModal
+            func="delete"
+            visible={this.state.favoriteBookVisibleDelete}
+            isAuthenticated={this.state.isAuthenticated}
+            handleClose={() => this.closeDeleteFavoriteBookModal()}>
+          </FavoriteBookModal>
+
           <div className="d-flex row justify-content-center mt-4 mb-6">
             <div className="col-9">
               <h4 className="mb-3">User Profile</h4>
