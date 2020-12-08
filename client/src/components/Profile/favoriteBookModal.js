@@ -76,7 +76,7 @@ class FavoriteBookModal extends React.Component {
                 heading={this.head}>
                 <div>
                     <div className="d-flex justify-content-between">
-                        <p>Click to Select</p>
+                        <p>Click the book to Select</p>
                         <span>
                             <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
                         </span>
