@@ -1,4 +1,4 @@
-const { createNewUser, findUserByUsername } = require('../models/user');
+const { createNewUser, findUserByUsername, updateUserDescription } = require('../models/user');
 const { validatePassword } = require('../lib/password');
 const { genHashAndSalt } = require('../lib/password');
 const { createToken, verifyToken } = require('../lib/jwt');
@@ -89,11 +89,36 @@ const checkAuth = function (req, res) {
   }
 
 }
+const getDescription = async function (req, res) {
+  try {
+    const username = req.params.username
+    const user = await findUserByUsername(username)
+
+    res.status(200).json({user})
+  } catch (err) {
+    res.sendStatus(500)
+  }
+}
+
+const updateDescription = async function (req, res) {
+  try {
+    const username = req.params.username
+    const description = req.body.description
+
+     await updateUserDescription(username, description)
+    res.sendStatus(200)
+
+  } catch (err) {
+    res.sendStatus(500)
+  }
+}
 
 module.exports = {
   createUser,
   login,
   logout,
-  checkAuth
+  checkAuth,
+  getDescription,
+  updateDescription
 };
 
