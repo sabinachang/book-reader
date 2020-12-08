@@ -80,7 +80,7 @@ class Wall extends Component {
     getFavoriteName = () => {
         const name = this.props.match.params.wall_id
         if (name.toLowerCase() !== 'home') {
-            return name[0].toUpperCase() + name.substr(1).toLowerCase() + "'s Favorite Books"
+            return name[0].toUpperCase() + name.substr(1).toLowerCase() + "'s Top Books"
         }
     }
 
