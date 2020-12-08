@@ -1,9 +1,8 @@
 import React from 'react';
 import Modal from '../Common/modal/Modal'
 import { getBooksInBookshelf } from '../Library/helper/utils'
-import Book from '../Library/book/book'
 import SimpleBook from '../Library/book/simpleBook'
-import axios from 'axios'
+import { getCookie } from '../../helper'
 
 
 class FavoriteBookModal extends React.Component {
@@ -17,6 +16,11 @@ class FavoriteBookModal extends React.Component {
             instruction: ''
         }
         this.apiCount = 0;
+    }
+
+    componentDidMount = () => {
+        this.retreiveFavoriteBooks();
+        this.getHead();
     }
 
     checkLoadingDone = () => {
@@ -39,17 +43,12 @@ class FavoriteBookModal extends React.Component {
                 this.setState({ favorites: data })
                 this.setState({ active: false });
                 this.checkLoadingDone()
-            })        
+            }, getCookie("username"))
         }
 
     }
-
-    onReload = () => {
-        window.location.reload()
-    }
-
-    onClickBook = () => {
-        console.log('click');
+    onClickBook = (book) => {
+        console.log(book)
     }
 
     submitSettings = () => {
@@ -57,21 +56,19 @@ class FavoriteBookModal extends React.Component {
     }
 
     getHead = () => {
-        if (this.props.func === "add"){
+        if (this.props.func === "add") {
             this.head = "Add your top books";
             this.instruction = "Click the book to add to your top books";
         } else {
             this.head = "Your current top books";
             this.instruction = "Click the book to remove from your top books";
         }
-        
+
     }
 
     render() {
         const visible = this.props.visible;
         const handleClose = this.props.handleClose;
-        this.retreiveFavoriteBooks();
-        this.getHead();
         return (
             <Modal
                 visible={visible}
@@ -81,12 +78,12 @@ class FavoriteBookModal extends React.Component {
                     <div className="d-flex justify-content-between">
                         <p>{this.instruction}</p>
                         <span>
-                            <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
+                            <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
                         </span>
                     </div>
 
-                    {this.props.isAuthenticated && this.state.favorites.map(book => (
-         
+                    {this.state.favorites.map(book => (
+
                         <SimpleBook
                             key={book.isbn}
                             isbn={book.isbn}
@@ -95,7 +92,7 @@ class FavoriteBookModal extends React.Component {
                             func={this.props.func}
                             onClick={this.onClickBook}
                         />
-  
+
                     ))}
                 </div>
             </Modal>
