@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import Post from './post'
 import NoPost from './nopost'
 import axios from 'axios'
@@ -10,6 +12,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { getBooksInBookshelf } from '../Library/helper/utils'
 
+
+// const MenuItem = this.state.favorites.map(book => {
+//     return <BookCard
+//         title={book.title}
+//         img={book.thumbnail}
+//     />;
+// })
+
+// export const Menu = this.state.favorites.map(book => {
+//     const {name} = book;
+//     return <MenuItem key={name}/>;
+// })
 
 class Wall extends Component {
     state = {
@@ -68,6 +82,7 @@ class Wall extends Component {
 
     render() {
         this.getTopFavoriteBooks();
+
         return (
             <div className="wall-bg">
                 <Nav1 />
@@ -84,13 +99,68 @@ class Wall extends Component {
                                 </div>
                                 
                                 <div className="bookcard-wrapper">
-                                {this.state.favorites.map(book => (
-                                    <BookCard
-                                        title={book.title}
-                                        img={book.thumbnail}
-                                    />
-              
-                                ))}
+                                <Carousel
+                                additionalTransfrom={0}
+                                arrows
+                                autoPlay
+                                autoPlaySpeed={3000}
+                                centerMode={false}
+                                className=""
+                                containerClass="container-with-dots"
+                                dotListClass=""
+                                draggable
+                                focusOnSelect={false}
+                                infinite
+                                itemClass=""
+                                keyBoardControl
+                                minimumTouchDrag={80}
+                                renderButtonGroupOutside={false}
+                                renderDotsOutside={false}
+                                responsive={{
+                                    desktop: {
+                                    breakpoint: {
+                                        max: 3000,
+                                        min: 1024
+                                    },
+                                    items: 4,
+                                    partialVisibilityGutter: 40
+                                    },
+                                    mobile: {
+                                    breakpoint: {
+                                        max: 464,
+                                        min: 0
+                                    },
+                                    items: 2,
+                                    partialVisibilityGutter: 30
+                                    },
+                                    tablet: {
+                                    breakpoint: {
+                                        max: 1024,
+                                        min: 464
+                                    },
+                                    items: 2,
+                                    partialVisibilityGutter: 30
+                                    }
+                                }}
+                                showDots={false}
+                                sliderClass=""
+                                slidesToSlide={4}
+                                swipeable
+                                >
+                                    {this.state.favorites.map(book => (
+                                        <BookCard
+                                            title={book.title}
+                                            img={book.thumbnail}
+                                        />
+        
+                                    ))}
+
+                                </Carousel>
+                                {/* <ScrollMenu
+                                    data={Menu}
+                                    arrowLeft={<div style={{ fontSize: "30px" }}>{" < "}</div>}
+                                    arrowRight={<div style={{ fontSize: "30px" }}>{" > "}</div>}
+                                /> */}
                                 </div>
                             </div>
                         </div>

@@ -1,8 +1,8 @@
 
 
 .book-wrapper-special {
-    width: 18%;
-    margin-right: 2%;
+    width: 200px;
+    margin-right: 10px;
     float: left;
 }
 
@@ -16,6 +16,7 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 4px 4px 7px #e4e6dc;
+    height: 260px;
 }
 
 .book-card:hover {
