@@ -120,7 +120,7 @@ class Wall extends Component {
                                         additionalTransfrom={0}
                                         arrows
                                         autoPlay
-                                        autoPlaySpeed={3000}
+                                        autoPlaySpeed={4000}
                                         centerMode={false}
                                         className=""
                                         containerClass="container-with-dots"
