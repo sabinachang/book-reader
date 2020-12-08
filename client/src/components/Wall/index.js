@@ -34,6 +34,7 @@ class Wall extends Component {
         favorites: [],
         aboutModalVisible: false,
         isAuthenticated: null,
+        displayFavorites: false
     }
 
     openAboutModal = () => {
@@ -51,9 +52,9 @@ class Wall extends Component {
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
                 if (posts.data.length > 0) {
-                    this.setState({ posts: posts.data, loading: false, isAuthenticated: true })
+                    this.setState({ displayFavorites: true, posts: posts.data, loading: false, isAuthenticated: true })
                 } else {
-                    this.setState({ noPostsFound: "No Posts Found", loading: false, isAuthenticated: true })
+                    this.setState({ displayFavorites: true, noPostsFound: "No Posts Found", loading: false, isAuthenticated: true })
                 }
             })
             .catch((response) => {
@@ -63,7 +64,6 @@ class Wall extends Component {
                     this.setState({ loading: false, noPostsFound: `${name}'s privacy settings prevents you from seeing their profile.`, isAuthenticated: false })
                 } else if (response.message.includes("404")) {
                     this.setState({ loading: false, noPostsFound: `${name} is not a registered user.` })
-
                 }
             })
 
@@ -116,7 +116,7 @@ class Wall extends Component {
                                 </div>
 
                                 <div className="bookcard-wrapper">
-                                    {<Carousel
+                                    {this.state.displayFavorites && <Carousel
                                         additionalTransfrom={0}
                                         arrows
                                         autoPlay

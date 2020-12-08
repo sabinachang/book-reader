@@ -117,7 +117,7 @@ class FavoriteBookModal extends React.Component {
                         />
                     ))}
                 </div>
-\                <div>
+                <div>
                     <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
                 </div>
             </Modal>

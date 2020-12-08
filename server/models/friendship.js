@@ -34,16 +34,16 @@ schema.statics.list = async function list(me) {
 
 // List all users who aren't friends with me yet
 schema.statics.listCandidates = async function listCandidates(me, regex) {
-    const m = await User.findOne({username: me});
+    const m = await User.findOne({ username: me });
     return await User.aggregate([
-        { 
+        {
             // Dont list myself
             $match: {
-                    $and: [
-                    { _id: { $ne: m._id} },
-                    { username: {$regex: regex}},
-                    ]
-                }, 
+                $and: [
+                    { _id: { $ne: m._id } },
+                    { username: { $regex: regex } },
+                ]
+            },
         },
         {
             $project: {
@@ -112,6 +112,30 @@ schema.statics.add = async function add(me, friend) {
 
     otherFriendship.friends.push(m._id);
     myFrienship.friends.push(f._id);
+    await otherFriendship.save();
+    await myFrienship.save();
+}
+
+
+// deny friend request
+schema.statics.deny = async function add(me, friend) {
+
+    const myFrienship = await this.findOrCreateFriendship(me);
+    const otherFriendship = await this.findOrCreateFriendship(friend);
+
+    const m = await User.findOne({ username: me });
+    const f = await User.findOne({ username: friend });
+
+
+    // remove each other from each other's invitatioin
+    let found = myFrienship.invitations.indexOf(f._id);
+    if (found != -1) {
+        myFrienship.invitations.splice(found, 1)
+    }
+    found = otherFriendship.invited.indexOf(m._id);
+    if (found != -1) {
+        otherFriendship.invited.splice(found, 1)
+    }
     await otherFriendship.save();
     await myFrienship.save();
 }

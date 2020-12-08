@@ -37,5 +37,5 @@ module.exports = express
     .get('/wall/:id/comments', wallController.getComments)
     .get('/privacy/:username/:privacyType', auth.authenticateUser, privacyController.getSettingsForPrivacyType)
     .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings)
-    .get('/users/description/:username', auth.authenticateUser, UserController.getDescription)
+    .get('/users/description/:username', UserController.getDescription)
     .post('/users/description/:username', auth.authenticateUser, UserController.updateDescription);

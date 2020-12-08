@@ -48,7 +48,8 @@ const handleInvitations = async function (req, res, next) {
     }
 
     if (action === 'deny') {
-      // TODO add deny
+      await Friendship.deny(req.cookies.username, req.body.to)
+      res.status(200).send('accept invitation ok');
     }
   } catch (e) {
     console.log(e);
