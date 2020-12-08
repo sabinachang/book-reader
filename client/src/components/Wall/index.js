@@ -45,7 +45,9 @@ class Wall extends Component {
 
     componentDidMount = () => {
         const name = this.props.match.params.wall_id;
-        this.getTopFavoriteBooks(name);
+        if (name !== "home") {
+            this.getTopFavoriteBooks(name);
+        }
         axios.get(`http://localhost:5000/api/wall/${name === "home" ? "public" : name}`, { withCredentials: true })
             .then((posts) => {
                 if (posts.data.length > 0) {
@@ -85,7 +87,6 @@ class Wall extends Component {
 
     getTopFavoriteBooks = (name) => {
         getBooksInBookshelf("topfavorites", (data) => {
-            console.log(data)
             this.setState({ favorites: data })
         }, name)
     }
