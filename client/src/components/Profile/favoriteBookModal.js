@@ -13,7 +13,8 @@ class FavoriteBookModal extends React.Component {
             loading: true,
             favorites: [],
             selected: [],
-            head: ''
+            head: '',
+            instruction: ''
         }
         this.apiCount = 0;
     }
@@ -58,8 +59,10 @@ class FavoriteBookModal extends React.Component {
     getHead = () => {
         if (this.props.func === "add"){
             this.head = "Add your top books";
+            this.instruction = "Click the book to add to your top books";
         } else {
-            this.head = "Delete your top books";
+            this.head = "Your current top books";
+            this.instruction = "Click the book to remove from your top books";
         }
         
     }
@@ -76,7 +79,7 @@ class FavoriteBookModal extends React.Component {
                 heading={this.head}>
                 <div>
                     <div className="d-flex justify-content-between">
-                        <p>Click the book to Select</p>
+                        <p>{this.instruction}</p>
                         <span>
                             <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
                         </span>
