@@ -1,81 +1,37 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import "./book.css";
-import { getBooksInBookshelf } from '../helper/utils'
 
 
 
 class SimpleBook extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         const img = "url('" + props.img + "')"
         this.state = {
             isbn: props.isbn,
             title: props.title,
             img: img,
-            func: props.func
+            func: props.func,
+            style: 'simple-card-body p-3 mt-3'
         }
-        this.style = 'simple-card-body p-3 mt-3'
     }
 
-    handleOnclick = () => {
-        console.log(this.state.func)
-        if (this.state.func === 'add') {
-            if (this.style === 'simple-card-body p-3 mt-3') {
-                this.style = 'selected-card-body p-3 mt-3';
-                this.handleAddBook();
-
-            } else {
-                this.style = 'simple-card-body p-3 mt-3';
-                this.handleRemoveBook();
-            }  
+    onClick = () => {
+        if (this.state.style === 'simple-card-body p-3 mt-3') {
+            this.setState({ style: 'selected-card-body p-3 mt-3' })
         } else {
-            if (this.style === 'simple-card-body p-3 mt-3') {
-                this.style = 'selected-card-body p-3 mt-3';
-                this.handleRemoveBook();
-            }
+            this.setState({ style: 'simple-card-body p-3 mt-3' })
         }
+        this.props.onClick(this.state.isbn)
 
-    }
-
-    handleAddBook = () => {
-        axios.post(`/api/topfavorites`, 
-            { isbn: this.state.isbn }, 
-            { withCredentials: true })
-            .then((res) => {
-                console.log(res);
-                if (res.status === 200) {
-                    console.log('finish selected');
-                } else {
-                    console.log('error');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-
-    handleRemoveBook = () => {
-        console.log('remove', this.state.isbn);
-        axios.put('/api/library/topfavorites',
-            {isbn: this.state.isbn},
-            {withCredentials: true
-        }).then((res) => {
-            if (res.status === 201) {
-                console.log('success delete')
-            } else {
-                console.log('remove err');
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
     }
 
 
     render() {
-        return(
+        return (
             <div>
-                <div className={this.style} onClick={this.handleOnclick}>
+                <div className={this.state.style} onClick={this.onClick}>
                     <span><div className="book" style={{ backgroundImage: this.state.img }}></div></span>
                     <span>
                         <p className="simple-card-title mt-2">{this.state.title}</p>
@@ -83,7 +39,7 @@ class SimpleBook extends Component {
                 </div>
             </div>
         )
-    }    
+    }
 }
 
 export default SimpleBook;

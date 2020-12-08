@@ -12,6 +12,7 @@ const UserController = require('../controllers/userController');
 module.exports = express
     .Router()
     .get('/library/topfavorites/:username', bookshelfController.getTopFavorites)
+    .post('/library/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBook)
     .get('/library/:bookshelf', auth.authenticateUser, bookshelfController.getBooks)
     .post('/library/:bookshelf', auth.authenticateUser, wallObserver.readRequest, bookshelfController.addBookToBookshelf)
     .put('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
@@ -36,6 +37,5 @@ module.exports = express
     .get('/wall/:id/comments', wallController.getComments)
     .get('/privacy/:username/:privacyType', auth.authenticateUser, privacyController.getSettingsForPrivacyType)
     .post('/privacy/:username', auth.authenticateUser, privacyController.changeSettings)
-    .post('/topfavorites', auth.authenticateUser, bookshelfController.addTopFavoriteBook)
-    .get('/users/description/:username', auth.authenticateUser, UserController.getDescription)
+    .get('/users/description/:username', UserController.getDescription)
     .post('/users/description/:username', auth.authenticateUser, UserController.updateDescription);
