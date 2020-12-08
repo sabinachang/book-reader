@@ -12,7 +12,7 @@ module.exports = express
     .Router()
     .get('/library/:bookshelf', auth.authenticateUser, bookshelfController.getBooks)
     .post('/library/:bookshelf', auth.authenticateUser, wallObserver.readRequest, bookshelfController.addBookToBookshelf)
-    .delete('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
+    .put('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
     .post('/request/:type', auth.authenticateUser, interactionController.requestFactory)
     .get('/friends', auth.authenticateUser, interactionController.getFriends)
     .get('/friends/all', auth.authenticateUser, interactionController.getCompleteFrienshipInfo)

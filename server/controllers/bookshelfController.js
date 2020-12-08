@@ -60,6 +60,8 @@ const addBookToBookshelf = async (req, res) => {
 }
 
 const removeBookFromBookshelf = async (req, res) => {
+    console.log(req.cookies.username, req.params.bookshelf, req.body.isbn)
+
     if (req.cookies.username && req.params.bookshelf && req.body.isbn) {
         const username = req.cookies.username;
         const owner = await User.findOne({ username: username });
@@ -73,7 +75,6 @@ const removeBookFromBookshelf = async (req, res) => {
         if (!book) {
             res.sendStatus(400)
         }
-
         try {
             // Update rating when removing from favorites shelf
             if (req.params.bookshelf.toLowerCase() === 'favorites') {
@@ -85,7 +86,6 @@ const removeBookFromBookshelf = async (req, res) => {
 
                 await book.updateRating('none')
             }
-
             await Bookshelves.removeBook(owner, req.params.bookshelf, book);
             res.status(201).json({ message: "DELETE BOOK" });
         }
