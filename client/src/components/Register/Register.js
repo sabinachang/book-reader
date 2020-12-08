@@ -38,13 +38,20 @@ function Register(props) {
                 }
             })
             .catch((e) => {
-                //Alert
-                console.log('err!!!',e)
-                setState(prevState => ({
-                    ...prevState,
-                    errMsg: e.response.data.error
-                }));
+                if (e.response && e.response.data && e.response.data.error) {
+                    setState(prevState => ({
+                        ...prevState,
+                        errMsg: e.response.data.error
+                    }));
+                } else {
+                    setState(prevState => ({
+                        ...prevState,
+                        errMsg: "An error occured while registering"
+                    }));
+                }
                 redirectToRegister();
+
+
             })
     }
 
@@ -62,12 +69,12 @@ function Register(props) {
 
     const handleSubmitClick = (e) => {
         e.preventDefault();
-        if(state.password !== state.confirmPassword){
+        if (state.password !== state.confirmPassword) {
             setState(prevState => ({
                 ...prevState,
                 errMsg: "Passwords do not match"
             }));
-        } else if (state.password.length < 6){
+        } else if (state.password.length < 6) {
             setState(prevState => ({
                 ...prevState,
                 errMsg: "Password should be at least 6 characters"

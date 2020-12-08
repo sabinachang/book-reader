@@ -41,12 +41,17 @@ function Login(props) {
                 }
             })
             .catch((e) => {
-                //Alert
-                console.log(e.response.data.error);
-                setState(prevState => ({
-                    ...prevState,
-                    errMsg: e.response.data.error
-                }));
+                if (e.response && e.response.data && e.response.data.error) {
+                    setState(prevState => ({
+                        ...prevState,
+                        errMsg: e.response.data.error
+                    }));
+                } else {
+                    setState(prevState => ({
+                        ...prevState,
+                        errMsg: "An error occured while logging in"
+                    }));
+                }
             })
     }
 

@@ -20,6 +20,20 @@ const getBooks = async (req, res) => {
     res.send(result)
 }
 
+const getTopFavorites = async (req, res) => {
+    const username = req.params.username
+    const user = await User.findOne({ username: username })
+    const books = await Bookshelves.getBooks(user, "topfavorites")
+    const result = []
+    let i;
+    for (i = 0; i < books.length; i++) {
+        var foundBook = await Book.findById(books[i])
+        var foundFlyweight = await BookFlyweight.findById(foundBook.flyweight)
+        result.push(foundFlyweight)
+    }
+    res.send(result)
+}
+
 const addBookToBookshelf = async (req, res) => {
     const username = req.cookies.username
     const owner = await User.findOne({ username: username })
@@ -156,6 +170,7 @@ const addTopFavoriteBook = async (req, res) => {
 
 module.exports = {
     getBooks,
+    getTopFavorites,
     addBookToBookshelf,
     getFeedbacks,
     addTopFavoriteBook,
