@@ -1,8 +1,9 @@
 import React from 'react';
-import Modal from '../Common/modal/Modal'
-import { getBooksInBookshelf } from '../Library/helper/utils'
-import SimpleBook from '../Library/book/simpleBook'
-import { getCookie } from '../../helper'
+import axios from 'axios';
+import Modal from '../Common/modal/Modal';
+import { getBooksInBookshelf } from '../Library/helper/utils';
+import SimpleBook from '../Library/book/simpleBook';
+import { getCookie } from '../../helper';
 
 
 class FavoriteBookModal extends React.Component {
@@ -13,9 +14,9 @@ class FavoriteBookModal extends React.Component {
             favorites: [],
             selected: [],
             head: '',
-            instruction: ''
+            instruction: '',
+            apiCount: 0
         }
-        this.apiCount = 0;
     }
 
     componentDidMount = () => {
@@ -23,36 +24,69 @@ class FavoriteBookModal extends React.Component {
         this.getHead();
     }
 
-    checkLoadingDone = () => {
-        this.apiCount++;
-        if (this.apiCount === 5) {
-            this.setState({ loading: false })
-            this.apiCount = 0
-        }
-    }
 
     retreiveFavoriteBooks = () => {
         if (this.props.func === "add") {
             getBooksInBookshelf("favorites", (data) => {
-                this.setState({ favorites: data })
-                this.setState({ active: false });
-                this.checkLoadingDone()
-            })
+                this.setState({ favorites: data, active: false })
+            }, getCookie("username"))
         } else if (this.props.func === "delete") {
             getBooksInBookshelf("topFavorites", (data) => {
-                this.setState({ favorites: data })
-                this.setState({ active: false });
-                this.checkLoadingDone()
+                this.setState({ favorites: data, active: false })
             }, getCookie("username"))
         }
 
     }
     onClickBook = (book) => {
-        console.log(book)
+        let index = this.state.selected.indexOf(book)
+        if (index !== -1) {
+            // take it out
+            this.setState({ selected: this.state.selected.filter(b => b !== book) })
+        } else {
+            // put it in
+            this.setState({ selected: [...this.state.selected, book] })
+        }
     }
 
-    submitSettings = () => {
+    handleClose = () => {
+        this.setState({ selected: [] })
+        this.props.handleClose()
+    }
+
+    submitSettings = async () => {
+        console.log('submitting', this.state.selected, this.props.func)
+        for (var i = 0; i < this.state.selected.length; i++) {
+            if (this.props.func === 'add') {
+                await this.handleAddBook(this.state.selected[i])
+            } else {
+                await this.handleRemoveBook(this.state.selected[i])
+            }
+        }
         this.props.handleClose();
+        window.location.reload()
+    }
+
+    handleAddBook = async (isbn) => {
+        try {
+            await axios.post(`/api/library/topfavorites`,
+                { isbn: isbn },
+                { withCredentials: true })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    handleRemoveBook = async (isbn) => {
+        console.log(isbn)
+        try {
+            await axios.put('/api/library/topfavorites',
+                { isbn: isbn },
+                {
+                    withCredentials: true
+                })
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     getHead = () => {
@@ -67,12 +101,10 @@ class FavoriteBookModal extends React.Component {
     }
 
     render() {
-        const visible = this.props.visible;
-        const handleClose = this.props.handleClose;
         return (
             <Modal
-                visible={visible}
-                handleClose={handleClose}
+                visible={this.props.visible}
+                handleClose={this.handleClose}
                 heading={this.head}>
                 <div>
                     <div className="d-flex justify-content-between">
@@ -83,7 +115,6 @@ class FavoriteBookModal extends React.Component {
                     </div>
 
                     {this.state.favorites.map(book => (
-
                         <SimpleBook
                             key={book.isbn}
                             isbn={book.isbn}
@@ -92,7 +123,6 @@ class FavoriteBookModal extends React.Component {
                             func={this.props.func}
                             onClick={this.onClickBook}
                         />
-
                     ))}
                 </div>
             </Modal>
