@@ -13,6 +13,8 @@ class FavoriteBookModal extends React.Component {
             loading: true,
             favorites: [],
             selected: [],
+            head: '',
+            instruction: ''
         }
         this.apiCount = 0;
     }
@@ -26,11 +28,20 @@ class FavoriteBookModal extends React.Component {
     }
 
     retreiveFavoriteBooks = () => {
-        getBooksInBookshelf("favorites", (data) => {
-            this.setState({ favorites: data })
-            this.setState({ active: false });
-            this.checkLoadingDone()
-        })
+        if (this.props.func === "add") {
+            getBooksInBookshelf("favorites", (data) => {
+                this.setState({ favorites: data })
+                this.setState({ active: false });
+                this.checkLoadingDone()
+            })
+        } else if (this.props.func === "delete") {
+            getBooksInBookshelf("topFavorites", (data) => {
+                this.setState({ favorites: data })
+                this.setState({ active: false });
+                this.checkLoadingDone()
+            })        
+        }
+
     }
 
     onReload = () => {
@@ -38,53 +49,53 @@ class FavoriteBookModal extends React.Component {
     }
 
     onClickBook = () => {
-        //TODO: Add books to selected array
-        console.log('click')
-        // add book.isbn to this.state selected
-
-
-
+        console.log('click');
     }
 
     submitSettings = () => {
-        //TODO: Post favorite books to backend
-        console.log('submit');
-        axios.post(`/api/topfavorites`, { isbns: this.state.selected }, { withCredentials: true })
-            .then((res) => {
-                if (res.status === 201) {
-                    console.log('finish selected');
-                } else {
-                    console.log('error');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        this.props.handleClose();
+    }
+
+    getHead = () => {
+        if (this.props.func === "add"){
+            this.head = "Add your top books";
+            this.instruction = "Click the book to add to your top books";
+        } else {
+            this.head = "Your current top books";
+            this.instruction = "Click the book to remove from your top books";
+        }
+        
     }
 
     render() {
         const visible = this.props.visible;
         const handleClose = this.props.handleClose;
         this.retreiveFavoriteBooks();
+        this.getHead();
         return (
             <Modal
                 visible={visible}
                 handleClose={handleClose}
-                heading="Select your top books">
+                heading={this.head}>
                 <div>
                     <div className="d-flex justify-content-between">
-                        <p>Select up to 5 books</p>
+                        <p>{this.instruction}</p>
                         <span>
-                            <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
+                            <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
                         </span>
                     </div>
 
                     {this.props.isAuthenticated && this.state.favorites.map(book => (
+         
                         <SimpleBook
+                            key={book.isbn}
+                            isbn={book.isbn}
                             title={book.title}
                             img={book.thumbnail}
+                            func={this.props.func}
                             onClick={this.onClickBook}
                         />
+  
                     ))}
                 </div>
             </Modal>

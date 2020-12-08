@@ -18,6 +18,7 @@ class Profile extends Component {
       isAuthenticated: null,
       privacyVisible: false,
       favoriteBookVisible: false,
+      favoriteBookVisibleDelete: false
     }
   }
 
@@ -44,30 +45,51 @@ class Profile extends Component {
   closeFavoriteBookModal = () => {
     this.setState({ favoriteBookVisible: false })
   }
+  openDeleteFavoriteBookModal = () => {
+    this.setState({ favoriteBookVisibleDelete: true })
+  }
+  closeDeleteFavoriteBookModal = () => {
+    this.setState({ favoriteBookVisibleDelete: false })
+  }
+
 
   displayContent = () => {
     return (
       <div>
-        <span className="manage-btn px-3 py-2 mb-3" onClick={() => this.redirectToFriends()} >
-          <span className="custom-btn">
-            <FontAwesomeIcon icon={faUsers} className="my-2 custom-icon" />
-            <h6 className="mt-2 ml-3">Manage Friendships</h6>
+        <div className="profile-group mb-3">
+          <h6 className="mb-3">Personal Settings</h6>
+          <span className="manage-btn px-3 py-2 mb-3" onClick={() => this.redirectToFriends()} >
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faUsers} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Manage Friendships</h6>
+            </span>
           </span>
-        </span>
 
-        <span onClick={this.openPrivacyModal} className="manage-btn px-3 py-2 mb-3">
-          <span className="custom-btn">
-            <FontAwesomeIcon icon={faKey} className="my-2 custom-icon" />
-            <h6 className="mt-2 ml-3">Edit Privacy Settings</h6>
+          <span onClick={this.openPrivacyModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faKey} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Edit Privacy Settings</h6>
+            </span>
           </span>
-        </span>
+        </div>
 
-        <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
-          <span className="custom-btn">
-            <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
-            <h6 className="mt-2 ml-3">Your Top Books</h6>
+        <div className="profile-group mb-3">
+          <h6 className="mb-3">Book Settings</h6>
+          <span onClick={this.openDeleteFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Your Current Top Books</h6>
+            </span>
           </span>
-        </span>
+
+          <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
+            <span className="custom-btn">
+              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
+              <h6 className="mt-2 ml-3">Add Your Top Books</h6>
+            </span>
+          </span>
+        </div>
+        
       </div>
     )
 
@@ -84,10 +106,19 @@ class Profile extends Component {
             handleClose={() => this.closePrivacyModal()}>
           </PrivacyModal>
           <FavoriteBookModal
+            func="add"
             visible={this.state.favoriteBookVisible}
             isAuthenticated={this.state.isAuthenticated}
             handleClose={() => this.closeFavoriteBookModal()}>
           </FavoriteBookModal>
+
+          <FavoriteBookModal
+            func="delete"
+            visible={this.state.favoriteBookVisibleDelete}
+            isAuthenticated={this.state.isAuthenticated}
+            handleClose={() => this.closeDeleteFavoriteBookModal()}>
+          </FavoriteBookModal>
+
           <div className="d-flex row justify-content-center mt-4 mb-6">
             <div className="col-9">
               <h4 className="mb-3">User Profile</h4>

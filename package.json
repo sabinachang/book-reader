@@ -21,6 +21,8 @@
     "mongoose": "^5.10.11",
     "path": "^0.12.7",
     "proxy": "^1.0.2",
+    "react-horizontal-scrolling-menu": "^0.7.8",
+    "react-multi-carousel": "^2.5.5",
     "socket.io": "^3.0.3",
     "socket.io-client": "^3.0.3",
     "superagent": "^6.1.0"

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import Post from './post'
 import NoPost from './nopost'
 import axios from 'axios'
@@ -8,7 +10,20 @@ import BookCard from './bookCard';
 import './wall.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { getBooksInBookshelf } from '../Library/helper/utils'
 
+
+// const MenuItem = this.state.favorites.map(book => {
+//     return <BookCard
+//         title={book.title}
+//         img={book.thumbnail}
+//     />;
+// })
+
+// export const Menu = this.state.favorites.map(book => {
+//     const {name} = book;
+//     return <MenuItem key={name}/>;
+// })
 
 class Wall extends Component {
     state = {
@@ -16,7 +31,8 @@ class Wall extends Component {
         loading: "",
         noPostsFound: "",
         isLoggedIn: true,
-        private: false
+        private: false,
+        favorites: []
     }
 
     componentDidMount = () => {
@@ -58,7 +74,15 @@ class Wall extends Component {
         }
     }
 
+    getTopFavoriteBooks = () => {
+        getBooksInBookshelf("topfavorites", (data) => {
+            this.setState({ favorites: data })
+        })
+    }
+
     render() {
+        this.getTopFavoriteBooks();
+
         return (
             <div className="wall-bg">
                 <Nav1 />
@@ -75,14 +99,68 @@ class Wall extends Component {
                                 </div>
                                 
                                 <div className="bookcard-wrapper">
-                                    <BookCard
-                                        title="Harry Potter And The Chamber Of Secrets"
-                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
-                                    />
-                                    <BookCard
-                                        title="Harry Potter And The Chamber Of Secrets"
-                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
-                                    />
+                                <Carousel
+                                additionalTransfrom={0}
+                                arrows
+                                autoPlay
+                                autoPlaySpeed={3000}
+                                centerMode={false}
+                                className=""
+                                containerClass="container-with-dots"
+                                dotListClass=""
+                                draggable
+                                focusOnSelect={false}
+                                infinite
+                                itemClass=""
+                                keyBoardControl
+                                minimumTouchDrag={80}
+                                renderButtonGroupOutside={false}
+                                renderDotsOutside={false}
+                                responsive={{
+                                    desktop: {
+                                    breakpoint: {
+                                        max: 3000,
+                                        min: 1024
+                                    },
+                                    items: 4,
+                                    partialVisibilityGutter: 40
+                                    },
+                                    mobile: {
+                                    breakpoint: {
+                                        max: 464,
+                                        min: 0
+                                    },
+                                    items: 2,
+                                    partialVisibilityGutter: 30
+                                    },
+                                    tablet: {
+                                    breakpoint: {
+                                        max: 1024,
+                                        min: 464
+                                    },
+                                    items: 2,
+                                    partialVisibilityGutter: 30
+                                    }
+                                }}
+                                showDots={false}
+                                sliderClass=""
+                                slidesToSlide={4}
+                                swipeable
+                                >
+                                    {this.state.favorites.map(book => (
+                                        <BookCard
+                                            title={book.title}
+                                            img={book.thumbnail}
+                                        />
+        
+                                    ))}
+
+                                </Carousel>
+                                {/* <ScrollMenu
+                                    data={Menu}
+                                    arrowLeft={<div style={{ fontSize: "30px" }}>{" < "}</div>}
+                                    arrowRight={<div style={{ fontSize: "30px" }}>{" > "}</div>}
+                                /> */}
                                 </div>
                             </div>
                         </div>
