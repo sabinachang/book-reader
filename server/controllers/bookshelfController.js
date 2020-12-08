@@ -60,8 +60,6 @@ const addBookToBookshelf = async (req, res) => {
 }
 
 const removeBookFromBookshelf = async (req, res) => {
-    console.log(req.cookies.username, req.params.bookshelf, req.body.isbn)
-
     if (req.cookies.username && req.params.bookshelf && req.body.isbn) {
         const username = req.cookies.username;
         const owner = await User.findOne({ username: username });
@@ -94,6 +92,7 @@ const removeBookFromBookshelf = async (req, res) => {
             res.sendStatus(500);
         }
     } else {
+        console.log('sdfads')
         res.sendStatus(500)
     }
 
@@ -131,35 +130,34 @@ const getFeedbacks = async (req, res) => {
 
 }
 
-const addTopFavoriteBooks = async (req, res) => {
-    const username = req.cookies.username;
 
-    const owner = await User.findOne({ username: username });
-    const books_isbn = req.body.isbns;
-   
-    if (books_isbn===[]) res.status(400);
+const addTopFavoriteBook = async (req, res) => {
+    if (req.cookies.username && req.body.isbn) {
+        const username = req.cookies.username;
 
-    try {
-        let i;
-        for (i = 0; i < books_isbn.length; i++) {
-            var flyweight = await BookFlyweight.get(books_isbn[i]);
-            var book = await Book.findOne({ flyweight: flyweight, owner: owner });
-            // if (!book) { book = await Book.createBook(flyweight, owner) }
+        const owner = await User.findOne({ username: username });
+
+        var flyweight = await BookFlyweight.get(req.body.isbn);
+        var book = await Book.findOne({ flyweight: flyweight, owner: owner });
+
+        try {
             await Bookshelves.addBookToBookshelf(owner, 'topFavorites', book);
+            res.sendStatus(200)
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(500);
         }
-        res.status(201);
-
-    } catch(err) {
-        console.log(err);
-        res.status(500);
+    } else {
+        console.log("Missing request params");
+        res.sendStatus(500);
     }
-}
 
+}
 
 module.exports = {
     getBooks,
     addBookToBookshelf,
     getFeedbacks,
-    addTopFavoriteBooks,
+    addTopFavoriteBook,
     removeBookFromBookshelf
 }

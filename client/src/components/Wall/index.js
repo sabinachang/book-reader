@@ -8,6 +8,7 @@ import BookCard from './bookCard';
 import './wall.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { getBooksInBookshelf } from '../Library/helper/utils'
 
 
 class Wall extends Component {
@@ -16,7 +17,8 @@ class Wall extends Component {
         loading: "",
         noPostsFound: "",
         isLoggedIn: true,
-        private: false
+        private: false,
+        favorites: []
     }
 
     componentDidMount = () => {
@@ -58,7 +60,14 @@ class Wall extends Component {
         }
     }
 
+    getTopFavoriteBooks = () => {
+        getBooksInBookshelf("topfavorites", (data) => {
+            this.setState({ favorites: data })
+        })
+    }
+
     render() {
+        this.getTopFavoriteBooks();
         return (
             <div className="wall-bg">
                 <Nav1 />
@@ -75,14 +84,13 @@ class Wall extends Component {
                                 </div>
                                 
                                 <div className="bookcard-wrapper">
+                                {this.state.favorites.map(book => (
                                     <BookCard
-                                        title="Harry Potter And The Chamber Of Secrets"
-                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
+                                        title={book.title}
+                                        img={book.thumbnail}
                                     />
-                                    <BookCard
-                                        title="Harry Potter And The Chamber Of Secrets"
-                                        img="https://imagesvc.meredithcorp.io/v3/mm/image?q=85&c=sc&poi=face&w=405&h=540&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2016%2F09%2Fhpchamber.jpg"
-                                    />
+              
+                                ))}
                                 </div>
                             </div>
                         </div>

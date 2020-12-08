@@ -21,3 +21,9 @@
     font-size: 2rem;
     color: #c5d0ad;
 }
+
+.profile-group {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #aaba83;
+}

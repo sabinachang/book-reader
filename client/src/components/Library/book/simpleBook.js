@@ -1,24 +1,76 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import "./book.css";
+import { getBooksInBookshelf } from '../helper/utils'
+
+
 
 class SimpleBook extends Component {
     constructor(props){
         super(props);
         const img = "url('" + props.img + "')"
         this.state = {
+            isbn: props.isbn,
             title: props.title,
-            img: img
+            img: img,
+            func: props.func
         }
         this.style = 'simple-card-body p-3 mt-3'
     }
 
     handleOnclick = () => {
-        if(this.style === 'simple-card-body p-3 mt-3') {
-            this.style = 'selected-card-body p-3 mt-3'
+        console.log(this.state.func)
+        if (this.state.func === 'add') {
+            if (this.style === 'simple-card-body p-3 mt-3') {
+                this.style = 'selected-card-body p-3 mt-3';
+                this.handleAddBook();
+
+            } else {
+                this.style = 'simple-card-body p-3 mt-3';
+                this.handleRemoveBook();
+            }  
         } else {
-            this.style = 'simple-card-body p-3 mt-3'
+            if (this.style === 'simple-card-body p-3 mt-3') {
+                this.style = 'selected-card-body p-3 mt-3';
+                this.handleRemoveBook();
+            }
         }
+
     }
+
+    handleAddBook = () => {
+        axios.post(`/api/topfavorites`, 
+            { isbn: this.state.isbn }, 
+            { withCredentials: true })
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log('finish selected');
+                } else {
+                    console.log('error');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    handleRemoveBook = () => {
+        console.log('remove', this.state.isbn);
+        axios.put('/api/library/topfavorites',
+            {isbn: this.state.isbn},
+            {withCredentials: true
+        }).then((res) => {
+            if (res.status === 201) {
+                console.log('success delete')
+            } else {
+                console.log('remove err');
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
 
     render() {
         return(
