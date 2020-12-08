@@ -17,14 +17,16 @@ const mapBookshelfToUrl = (bookshelfName) => {
     }
 }
 
-const getBooksInBookshelf = (bookshelf_name, callback) => {
-    axios.get(`http://localhost:5000/api/library/${bookshelf_name}`, { withCredentials: true })
-        .then((res) => {
-            callback(res.data)
-        })
-        .catch((err) => {
-            callback(err);
-        })
+const getBooksInBookshelf = (bookshelf_name, callback, username = null) => {
+    if (bookshelf_name === "topfavorites") {
+        axios.get(`http://localhost:5000/api/library/topfavorites/${username}`, { withCredentials: true })
+            .then((res) => { callback(res.data) })
+            .catch((err) => { callback(err); })
+    } else {
+        axios.get(`http://localhost:5000/api/library/${bookshelf_name}`, { withCredentials: true })
+            .then((res) => { callback(res.data) })
+            .catch((err) => { callback(err); })
+    }
 }
 
 export { getBooksInBookshelf, mapBookshelfToUrl }

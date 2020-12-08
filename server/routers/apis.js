@@ -11,6 +11,7 @@ const UserController = require('../controllers/userController');
 
 module.exports = express
     .Router()
+    .get('/library/topfavorites/:username', bookshelfController.getTopFavorites)
     .get('/library/:bookshelf', auth.authenticateUser, bookshelfController.getBooks)
     .post('/library/:bookshelf', auth.authenticateUser, wallObserver.readRequest, bookshelfController.addBookToBookshelf)
     .put('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
