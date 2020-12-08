@@ -9,19 +9,25 @@ import { getCookie } from '../../helper';
 class FavoriteBookModal extends React.Component {
     constructor(props) {
         super(props);
+        if (props.func === "add") {
+            var head = "Add your top books";
+            var instruction = "Click on books from your favorites bookshelf, and click 'submit' to display them on your profile!";
+        } else {
+            var head = "Your current top books";
+            var instruction = "Click on books from your profile display page, and click 'submit' to remove them from your profile!";
+        }
         this.state = {
             loading: true,
             favorites: [],
             selected: [],
-            head: '',
-            instruction: '',
+            head: head,
+            instruction: instruction,
             apiCount: 0
         }
     }
 
     componentDidMount = () => {
         this.retreiveFavoriteBooks();
-        this.getHead();
     }
 
 
@@ -89,29 +95,15 @@ class FavoriteBookModal extends React.Component {
         }
     }
 
-    getHead = () => {
-        if (this.props.func === "add") {
-            this.head = "Add your top books";
-            this.instruction = "Click the book to add to your top books";
-        } else {
-            this.head = "Your current top books";
-            this.instruction = "Click the book to remove from your top books";
-        }
-
-    }
-
     render() {
         return (
             <Modal
                 visible={this.props.visible}
                 handleClose={this.handleClose}
-                heading={this.head}>
+                heading={this.state.head}>
                 <div>
-                    <div className="d-flex justify-content-between">
-                        <p>{this.instruction}</p>
-                        <span>
-                            <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
-                        </span>
+                    <div className="d-flex justify-content-center">
+                        <h6>{this.state.instruction}</h6>
                     </div>
 
                     {this.state.favorites.map(book => (
@@ -124,6 +116,9 @@ class FavoriteBookModal extends React.Component {
                             onClick={this.onClickBook}
                         />
                     ))}
+                </div>
+\                <div>
+                    <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
                 </div>
             </Modal>
         )
