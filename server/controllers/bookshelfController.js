@@ -155,11 +155,46 @@ const addTopFavoriteBooks = async (req, res) => {
     }
 }
 
+const addTopFavoriteBook = async (req, res) => {
+    const username = req.cookies.username;
+
+    const owner = await User.findOne({ username: username });
+    console.log(req.body.isbn);
+
+    var flyweight = await BookFlyweight.get(req.body.isbn);
+    var book = await Book.findOne({ flyweight: flyweight, owner: owner });
+
+    try {
+        await Bookshelves.addBookToBookshelf(owner, 'topFavorites', book);
+        console.log('success')
+        res.sendStatus(200)
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+    
+
+
+    // try {
+    //     let i;
+    //     for (i = 0; i < books_isbn.length; i++) {
+    //         var flyweight = await BookFlyweight.get(req.body.isbn);
+    //         var book = await Book.findOne({ flyweight: flyweight, owner: owner });
+    //         // if (!book) { book = await Book.createBook(flyweight, owner) }
+    //         await Bookshelves.addBookToBookshelf(owner, 'topFavorites', book);
+    //     }
+    //     res.status(201);
+
+    // } catch(err) {
+    //     console.log(err);
+    //     res.status(500);
+    // }
+}
 
 module.exports = {
     getBooks,
     addBookToBookshelf,
     getFeedbacks,
-    addTopFavoriteBooks,
+    addTopFavoriteBook,
     removeBookFromBookshelf
 }

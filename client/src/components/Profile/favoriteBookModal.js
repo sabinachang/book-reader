@@ -37,29 +37,13 @@ class FavoriteBookModal extends React.Component {
         window.location.reload()
     }
 
-    onClickBook = () => {
-        //TODO: Add books to selected array
-        console.log('click')
-        // add book.isbn to this.state selected
-
-
-
+    onClickBook = (e) => {
+        e.preventDefault();
+        console.log('click!!!');
     }
 
     submitSettings = () => {
-        //TODO: Post favorite books to backend
-        console.log('submit');
-        axios.post(`/api/topfavorites`, { isbns: this.state.selected }, { withCredentials: true })
-            .then((res) => {
-                if (res.status === 201) {
-                    console.log('finish selected');
-                } else {
-                    console.log('error');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        this.props.handleClose();
     }
 
     render() {
@@ -75,16 +59,20 @@ class FavoriteBookModal extends React.Component {
                     <div className="d-flex justify-content-between">
                         <p>Select up to 5 books</p>
                         <span>
-                            <button onClick={this.submitSettings} className="btn btn-primary">Submit</button>
+                            <button onClick={this.submitSettings} className="btn btn-primary">Finish</button>
                         </span>
                     </div>
 
                     {this.props.isAuthenticated && this.state.favorites.map(book => (
+         
                         <SimpleBook
+                            key={book.isbn}
+                            isbn={book.isbn}
                             title={book.title}
                             img={book.thumbnail}
                             onClick={this.onClickBook}
                         />
+  
                     ))}
                 </div>
             </Modal>

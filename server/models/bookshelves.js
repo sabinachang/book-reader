@@ -39,7 +39,7 @@ schema.statics.getBooks = async function (u, bookshelf) {
         case "recommendations":
             result = bookshelfObj.recommendations
             break;
-        case "topFavorites":
+        case "topfavorites":
             result = bookshelfObj.topFavorites
             break;
         default:
@@ -75,7 +75,8 @@ schema.statics.removeFromOtherBookshelves = function (bookshelf, book, bookshelf
             break
         case "recommendations":
             break;
-
+        case "topfavorites":
+            break;
         default:
             throw "Non Existent Bookshelf"
     }
@@ -99,7 +100,7 @@ schema.statics.addBook = function (bookshelf, book, bookshelfObj) {
         case "recommendations":
             this.addBookHelper(bookshelfObj.recommendations, book)
             break;
-        case "topFavorites":
+        case "topfavorites":
             this.addBookHelper(bookshelfObj.topFavorites, book)
             break;
         default:
