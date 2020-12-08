@@ -41,7 +41,7 @@ const login = async function (req, res) {
     const user = await findUserByUsername(username);
     // username does not exists
     if (!user) {
-      res.status(400).json({
+      res.status(404).json({
         error: 'Username does not exist',
       });
     } else {
