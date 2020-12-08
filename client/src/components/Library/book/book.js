@@ -73,6 +73,8 @@ class Book extends Component {
     }
 
     handleRemoveBook = () => {
+        console.log(this.state.bookshelf, 'bookshelf')
+        console.log(this.state.isbn, 'isbn')
         axios.put(`/api/library/${this.state.bookshelf}`,
             {isbn: this.state.isbn},
             {withCredentials: true
