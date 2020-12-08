@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import "./book.css";
+import { getBooksInBookshelf } from '../helper/utils'
 
 
 
@@ -39,8 +40,27 @@ class SimpleBook extends Component {
         }
 
     }
+    getTopFavoriteBooks = () => {
+        getBooksInBookshelf("topfavorites", (data) => {
+            this.setState({ favorites: data })
+        })
+    }
+
+    handleStyle = () => {
+        getBooksInBookshelf("topfavorites", (data) => {
+            console.log('er', data)
+            let i;
+            for (i=0; i<data.length; i++){
+                if (data[i].isbn === this.state.isbn) {
+                    this.style = 'selected-card-body p-3 mt-3'
+                    break
+                }
+            }
+        })
+    }
 
     render() {
+        // this.handleStyle();
         return(
             <div>
                 <div className={this.style} onClick={this.handleOnclick}>
