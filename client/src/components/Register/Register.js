@@ -39,6 +39,7 @@ function Register(props) {
             })
             .catch((e) => {
                 //Alert
+                console.log('err!!!',e)
                 setState(prevState => ({
                     ...prevState,
                     errMsg: e.response.data.error

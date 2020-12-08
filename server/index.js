@@ -1,7 +1,7 @@
 const app = require('./app')
 const Db = require('./services/db');
 const db = new Db();
-db.connect()
+db.connect('local')
 // start express server on port 5000
 app.listen(process.env.dev || 5000, () => {
   console.log("server started on port 5000");
