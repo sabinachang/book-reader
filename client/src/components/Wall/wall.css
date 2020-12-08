@@ -29,3 +29,9 @@ h6 {
 .private-wall {
     display: block;
 }
+
+@media only screen and (max-width: 600px) {
+    .content {
+        flex-direction: column;
+    }
+}

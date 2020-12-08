@@ -197,7 +197,7 @@ class Post extends Component {
     render() {
         let button;
         if (this.state.userLiked) {
-            button = <i style={{ cursor: 'pointer', color: '#66ff00' }} onClick={this.toggleLike} className="fa fa-lg fa-thumbs-up" />
+            button = <i style={{ cursor: 'pointer', color: '#a6d138' }} onClick={this.toggleLike} className="fa fa-lg fa-thumbs-up" />
 
         } else {
             button = <i style={{ cursor: 'pointer' }} onClick={this.toggleLike} className="fa fa-lg fa-thumbs-up" />

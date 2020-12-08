@@ -105,23 +105,6 @@ closeAboutModal = () => {
             </span>
           </span>
         </div>
-        <div className="profile-group mb-3">
-          <h6 className="mb-3">Book Settings</h6>
-          <span onClick={this.openDeleteFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
-            <span className="custom-btn">
-              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
-              <h6 className="mt-2 ml-3">Your Current Top Books</h6>
-            </span>
-          </span>
-
-          <span onClick={this.openFavoriteBookModal} className="manage-btn px-3 py-2 mb-3">
-            <span className="custom-btn">
-              <FontAwesomeIcon icon={faBook} className="my-2 custom-icon" />
-              <h6 className="mt-2 ml-3">Add Your Top Books</h6>
-            </span>
-          </span>
-        </div>
-        
       </div>
     )
 
