@@ -7,16 +7,15 @@ const bookSearch = getBookSearch()
 const getBookResult = async function (req, res, next) {
 	if (req.params.query) {
 		const query = req.params.query;
+		const startIndex = req.query.startIndex;
+
 		let bookResult = null;
-		const startIndex = req.query.startIndex
-		const url = bookSearch.getURL(query, startIndex);
-		await axios.get(url)
-			.then((res) => {
-				bookResult = res.data;
-			})
-			.catch((err) => {
-				console.log(err);
-			})
+		await bookSearch.searchBook(query, startIndex).then((res) => {
+			bookResult = res.data;
+		}).catch((err) => {
+			console.log(err);
+		})
+
 		res.status(200);
 		res.json({ 'result': bookResult });
 	} else {
