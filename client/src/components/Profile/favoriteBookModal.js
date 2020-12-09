@@ -9,12 +9,14 @@ import { getCookie } from '../../helper';
 class FavoriteBookModal extends React.Component {
     constructor(props) {
         super(props);
+        var head = ""
+        var instruction = ""
         if (props.func === "add") {
-            var head = "Add your top books";
-            var instruction = "Click on books from your favorites bookshelf, and click 'submit' to display them on your profile!";
+            head = "Add your top books";
+            instruction = "Click on books from your favorites bookshelf, and click 'submit' to display them on your profile!";
         } else {
-            var head = "Your current top books";
-            var instruction = "Click on books from your profile display page, and click 'submit' to remove them from your profile!";
+            head = "Your current top books";
+            instruction = "Click on books from your profile display page, and click 'submit' to remove them from your profile!";
         }
         this.state = {
             loading: true,

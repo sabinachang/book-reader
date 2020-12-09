@@ -203,9 +203,6 @@ class SearchView extends Component {
 							/>
 						))}
 					</div>
-					<div>
-						{this.getPaginationUI()}
-					</div>
 				</div>
 			</div>
 		)
