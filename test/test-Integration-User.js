@@ -1,4 +1,4 @@
-const Db = require('../server/services/db');
+const Db = require('../server/services/test_db');
 const dbHandler = new Db()
 
 let superagent = require('superagent');
@@ -10,7 +10,7 @@ var server;
 
 describe("Testing registration, login, and user functions", function () {
 	beforeAll(async () => {
-		await dbHandler.connect("test");
+		await dbHandler.connect();
 		server = app.listen(PORT);
 	});
 
