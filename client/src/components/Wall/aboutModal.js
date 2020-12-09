@@ -15,7 +15,7 @@ class AboutModal extends React.Component {
 
     getDescription = () => {
         console.log(this.props.targetUser)
-        axios.get(`/api//users/description/${this.props.targetUser}`, {
+        axios.get(`/api/users/description/${this.props.targetUser}`, {
             withCredentials: true,
         }).then((res) => {
             console.log(res.data.user)
@@ -25,13 +25,13 @@ class AboutModal extends React.Component {
             } else {
                 description = "No description added yet"
             }
-            this.setState({loading: false, description })
+            this.setState({ loading: false, description })
         }).catch(() => {
-            this.setState({loading: false, description: "Error. Something went wrong"})
+            this.setState({ loading: false, description: "Error. Something went wrong" })
         })
     }
     componentDidMount = () => {
-       this.getDescription()
+        this.getDescription()
     }
 
     onPostClick = (e) => {
@@ -47,7 +47,7 @@ class AboutModal extends React.Component {
         }, { withCredentials: true })
             .then((res) => {
                 if (res.status === 200) {
-                   this.getDescription()
+                    this.getDescription()
                 } else {
                     console.log('something went wrong')
                 }
@@ -65,47 +65,47 @@ class AboutModal extends React.Component {
                 handleClose={handleClose}
                 heading="About">
                 <div>
-                    
-                { this.props.viewable? (
-                    <div className="my-3 d-flex justify-content-between">
-                        <h6>{this.state.description}</h6>
-                    </div>
-                ) : (
-                    <p>Sorry, you are not allowed to view the content</p>
-                )}                
-                   
-                
-                { this.props.inProfile && (
-                    <>
-                        <hr ></hr>
 
-                        <Form onSubmit={this.onPostClick}>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label className="mt-2">Tell people about you</Form.Label>
-                                <Form.Control ref={this.textInput} as="textarea" className="custom-textarea"/>
+                    {this.props.viewable ? (
+                        <div className="my-3 d-flex justify-content-between">
+                            <h6>{this.state.description}</h6>
+                        </div>
+                    ) : (
+                            <p>Sorry, you are not allowed to view the content</p>
+                        )}
 
-                            </Form.Group>
-                            { this.state.loading ? (
-                                <Button variant="secondary" disabled>
-                                    <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                    />
+
+                    {this.props.inProfile && (
+                        <>
+                            <hr ></hr>
+
+                            <Form onSubmit={this.onPostClick}>
+                                <Form.Group controlId="formBasicEmail">
+                                    <Form.Label className="mt-2">Tell people about you</Form.Label>
+                                    <Form.Control ref={this.textInput} as="textarea" className="custom-textarea" />
+
+                                </Form.Group>
+                                {this.state.loading ? (
+                                    <Button variant="secondary" disabled>
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
                        Loading
-                                </Button>
-                            ) : (
-                                    <Button variant="primary" type="submit">
-                                        Post
                                     </Button>
-                                )}
-                        </Form>
-                    </>
-                )}
-                
-        
+                                ) : (
+                                        <Button variant="primary" type="submit">
+                                            Post
+                                        </Button>
+                                    )}
+                            </Form>
+                        </>
+                    )}
+
+
                 </div>
             </Modal>
         )
