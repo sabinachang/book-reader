@@ -14,7 +14,8 @@ class Nav extends Component {
         };
     }
 
-    logout = () => {
+    logout = (e) => {
+        e.preventDefault()
         axios.post('http://localhost:5000/api/users/logout', {}, {
             withCredentials: true,
         })
@@ -31,10 +32,10 @@ class Nav extends Component {
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav navbar-custom">
                             <a className="nav-item nav-link mr-3" href="/home">Home <span className="sr-only">(current)</span></a>
-                            <a className="nav-item nav-link mr-3" href={`/${getCookie('username')}`}>My Wall</a>
+                            <a className="nav-item nav-link mr-3" href={`/${getCookie('username') || 'home'}`}>My Wall</a>
                             <a className="nav-item nav-link mr-3" href="/library">Library</a>
                             <a className="nav-item nav-link mr-3" href="/profile">Profile</a>
-                            <a onClick={this.logout} className="nav-item nav-link" href="#">Logout</a>
+                            <a onClick={this.logout} className="nav-item nav-link" href="/logout">Logout</a>
                         </div>
                     </div>
                     <a className="nav-item nav-link" href="/search"><FontAwesomeIcon icon={faSearch} className="mr-2" />Search</a>
