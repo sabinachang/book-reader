@@ -16,7 +16,7 @@ module.exports = express
     .get('/library/:bookshelf', auth.authenticateUser, bookshelfController.getBooks)
     .post('/library/:bookshelf', auth.authenticateUser, wallObserver.readRequest, bookshelfController.addBookToBookshelf)
     .put('/library/:bookshelf', auth.authenticateUser, bookshelfController.removeBookFromBookshelf)
-    .post('/request/:type', auth.authenticateUser, interactionController.requestFactory)
+    .post('/request/:type', auth.authenticateUser, interactionController.requestFacade)
     .get('/friends', auth.authenticateUser, interactionController.getFriends)
     .get('/friends/all', auth.authenticateUser, interactionController.getCompleteFrienshipInfo)
     .get('/friends/candidates', auth.authenticateUser, interactionController.getCandidates)

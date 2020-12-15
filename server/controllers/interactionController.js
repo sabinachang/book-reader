@@ -12,8 +12,8 @@ const getFriends = async function (req, res, next) {
   }
 }
 
-// A factory that generates request for friendship or book recommendation
-const requestFactory = async function (req, res, next) {
+// A Facade that generates request for friendship or book recommendation
+const requestFacade = async function (req, res, next) {
   const type = req.params.type;
   try {
     if (type === 'recommendBook') {
@@ -100,7 +100,7 @@ const getCandidates = async function (req, res, next) {
 
 module.exports = {
   getFriends,
-  requestFactory,
+  requestFacade,
   handleInvitations,
   getCompleteFrienshipInfo,
   getCandidates
